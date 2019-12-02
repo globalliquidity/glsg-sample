@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <title>Global Liquidity SceneGraph Hello World!</title>
+    <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.main.css %>">
+  </head>
+  <body>
+    <h1 class="center">Hello, world! It works!</h1>
+    <h2 class="center">Hello world project for GLSG!!!</h2>
+    <div id="root">
+      <div id="leftNavbar"></div>
+      <div id="canvasArea" class="canvas-area">
+        <div id="exampleTitle" style="display: none; flex-direction:column; justify-content: center; align-items: center;">
+          <img id="logoImage" />
+          <h3>Please, choose an example scene in the list</h3>
+        </div>
+        <canvas id="renderCanvas"></canvas>
+      </div>
+    </div>
+    <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
+  </body>
+</html>
