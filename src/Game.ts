@@ -7,6 +7,9 @@ import { ViewportPosition } from "./glsg/lib/Enums";
 //import { ViewportPosition } from "dev-glsg/build/main/lib/Enums";
 import SimpleSceneAssetManager from './SimpleScene/AssetManager';
 import DataDrivenSceneAssetManager from './DataDrivenScene/AssetManager';
+import PieMenuSceneAssetManager from './PieMenuScene/AssetManager';
+import { PieMenuScene } from "./PieMenuScene";
+
 
 export default class Game
 {
@@ -30,6 +33,10 @@ export default class Game
                 break;
             case '/DataDrivenScene':
                 this.scene = new DataDrivenScene('DataDrivenScene', this.canvas, DataDrivenSceneAssetManager.ddsGc256SpecularHDR);
+                SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
+                break;
+            case '/PieMenuScene':
+                this.scene = new PieMenuScene('PieMenuScene', this.canvas, PieMenuSceneAssetManager.ddsGc256SpecularHDR);
                 SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
                 break;
             default:

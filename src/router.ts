@@ -10,9 +10,10 @@ const leftMenuGenerator = () => {
     myDiv.innerHTML = "<div class='navbar-title'>Example Scenes</div>";
     const simpleSceneLink: HTMLAnchorElement = createLinkElement('SimpleScene', 'Go to SimpleScene', '#/SimpleScene');
     const dataDrivenSceneLink: HTMLAnchorElement = createLinkElement('DataDrivenScene', 'Go to DataDrivenScene', '#/DataDrivenScene');
+    const pieMenuSceneLink: HTMLAnchorElement = createLinkElement('PieMenuScene', 'Go to PieMenuScene', '#/PieMenuScene');
     myDiv.appendChild(simpleSceneLink);
-
-    return myDiv.appendChild(dataDrivenSceneLink);
+    myDiv.appendChild(dataDrivenSceneLink);
+    return myDiv.appendChild(pieMenuSceneLink);
 }
 
 // Generate DOM tree from a string
@@ -60,6 +61,7 @@ export const route = (path: string, template: any): void => {
 route('/', 'template-MainView');
 route('/SimpleScene', 'template-SimpleScene');
 route('/DataDrivenScene', 'template-DataDrivenScene');
+route('/PieMenuScene', 'template-PieMenuScene');
 
 // Give the correspondent route (template) or fail
 export const resolveRoute = (route: string) => {
