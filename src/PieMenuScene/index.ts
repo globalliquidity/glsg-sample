@@ -1,28 +1,19 @@
-import { Scene } from '../glsg';
+import { Scene, SceneManager } from '../glsg';
 import * as bjs from 'babylonjs';
 import { PieMenuElement } from './Elements/PieMenuElement';
 import { Vector3 } from 'babylonjs';
+import * as bjsgui from 'babylonjs-gui';
+import { Experience } from '../glsg/lib/Experience';
+import PieMenuSceneAssetManager from './AssetManager';
+import { ViewportPosition } from '../glsg/lib/Enums';
+import { PieMenuScene } from './Scenes/PieMenuScene';
 
-export class PieMenuScene extends Scene
+export class PieMenuExperience extends Experience
 {
-    itemCount : number = 5;
-    menu:PieMenuElement
-    menuPosition : Vector3 = new Vector3(0,0,0);
-    
-    protected async createScene()
+    protected onLoad()
     {
-        
-        this.menu = new PieMenuElement("menu",
-                                        this.menuPosition.x,
-                                        this.menuPosition.y,
-                                        this.menuPosition.z,
-                                        this,
-                                        this.itemCount);  
-        this.AddSceneElement(this.menu);                                                            
-    }
-
-    protected onRender()
-    { 
-
+        let scene:Scene = new PieMenuScene('PieMenuScene', this.canvas, PieMenuSceneAssetManager.ddsGc256SpecularHDR);
+        this.AddScene(scene);
+        SceneManager.Instance.LoadScene(scene, this.canvas, ViewportPosition.Full);
     }
 }

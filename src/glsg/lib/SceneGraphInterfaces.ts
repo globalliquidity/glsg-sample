@@ -1,11 +1,20 @@
 import * as bjs from 'babylonjs';
 import { VectorField } from './VectorField';
 
+export interface IExperience
+{
+    title: string;
+    canvas : any;
+    scenes : Array<IScene>;
+
+    load(): void;
+    unload(): void;
+}
+
 export interface IScene
 {
     title: string;
     canvas : any;
-    //engine : bjs.Engine;
     bjsScene : bjs.Scene | undefined;
     camera : bjs.ArcRotateCamera | undefined;
     light : bjs.PointLight | undefined;
