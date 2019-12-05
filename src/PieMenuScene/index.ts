@@ -1,8 +1,4 @@
 import { Scene, SceneManager } from '../glsg';
-import * as bjs from 'babylonjs';
-import { PieMenuElement } from './Elements/PieMenuElement';
-import { Vector3 } from 'babylonjs';
-import * as bjsgui from 'babylonjs-gui';
 import { Experience } from '../glsg/lib/Experience';
 import PieMenuSceneAssetManager from './AssetManager';
 import { ViewportPosition } from '../glsg/lib/Enums';

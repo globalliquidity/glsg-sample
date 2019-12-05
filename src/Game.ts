@@ -1,10 +1,8 @@
-//import { SceneManager, Scene } from 'dev-glsg';
 import { SimpleScene } from "./SimpleScene";
 import { DataDrivenScene } from "./DataDrivenScene";
 import * as bjs from "babylonjs";
 import { SceneManager, Scene } from "./glsg";
 import { ViewportPosition } from "./glsg/lib/Enums";
-//import { ViewportPosition } from "dev-glsg/build/main/lib/Enums";
 import SimpleSceneAssetManager from './SimpleScene/AssetManager';
 import DataDrivenSceneAssetManager from './DataDrivenScene/AssetManager';
 import PieMenuSceneAssetManager from './PieMenuScene/AssetManager';
