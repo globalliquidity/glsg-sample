@@ -56,10 +56,13 @@ export class Scene implements IScene
 
             if (this.hdrSkyboxTexture) {
                 this.hdrTexture = bjs.CubeTexture.CreateFromPrefilteredData(this.hdrSkyboxTexture, this.bjsScene);
+
             }
 
+            this.bjsScene.environmentTexture = this.hdrTexture;
+            this.bjsScene.createDefaultSkybox(this.hdrTexture, true, 1000, 0.7);
             // Skybox
-            this.hdrSkybox = generateSkybox(1000.0, this.hdrTexture, this.bjsScene);
+            //this.hdrSkybox = generateSkybox(1000.0, this.hdrTexture, this.bjsScene);
         }
 
         if (this.camera && this.bjsScene) {

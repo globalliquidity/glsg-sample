@@ -60,6 +60,17 @@ module.exports = {
         ]
       },
       {
+        test: /\.(babylon|obj|glb)$/,
+        use: [
+          {
+            loader: 'babylon-file-loader',
+            options: {
+              name: '[name].[ext]'
+            }
+          }
+        ]
+      },
+      {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac|dds|hdr|png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {

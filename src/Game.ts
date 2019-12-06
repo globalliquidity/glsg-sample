@@ -1,20 +1,20 @@
-//import { SceneManager, Scene } from 'dev-glsg';
 import { SimpleScene } from "./SimpleScene";
 import { DataDrivenScene } from "./DataDrivenScene";
 import * as bjs from "babylonjs";
 import { SceneManager, Scene } from "./glsg";
 import { ViewportPosition } from "./glsg/lib/Enums";
-//import { ViewportPosition } from "dev-glsg/build/main/lib/Enums";
 import SimpleSceneAssetManager from './SimpleScene/AssetManager';
 import DataDrivenSceneAssetManager from './DataDrivenScene/AssetManager';
 import PieMenuSceneAssetManager from './PieMenuScene/AssetManager';
-import { PieMenuScene } from "./PieMenuScene";
+import { Experience } from "./glsg/lib/Experience";
+import { PieMenuExperience } from "./PieMenuScene";
 
 
 export default class Game
 {
     private canvas: HTMLCanvasElement;
     private scene: Scene;
+    private experience: Experience
 
     constructor(canvasElement: string, path: string)
     {
@@ -36,8 +36,8 @@ export default class Game
                 SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
                 break;
             case '/PieMenuScene':
-                this.scene = new PieMenuScene('PieMenuScene', this.canvas, PieMenuSceneAssetManager.ddsGc256SpecularHDR);
-                SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
+                this.experience = new PieMenuExperience('PieMenuScene', this.canvas);
+                this.experience.load();
                 break;
             default:
                 break;

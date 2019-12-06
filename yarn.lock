@@ -982,6 +982,13 @@ babylonjs-gltf2interface@4.0.3:
   resolved "https://registry.yarnpkg.com/babylonjs-gltf2interface/-/babylonjs-gltf2interface-4.0.3.tgz#e81cc65fac93b723feef4980b7497fa4643a8c4c"
   integrity sha512-ys8cEhlkYmBCJ3F/aBemVNKPkaV5fPghR4wgQfvUTNCF9pFlwYZpJ1KXEPj4+z6OohXN14AQMcaiafL+bmVLlg==
 
+babylonjs-gui@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/babylonjs-gui/-/babylonjs-gui-4.0.3.tgz#a3e15dd8b4c494dbaf9bc23d554f5ac4c37e64e9"
+  integrity sha512-6SvWXKd1xsKTuYDKG/OGXXc3EfPrMt3vykYdqqTngxA1smwj0LGLc2WGj3b6IXDSq9/lxQjhYlr+TlhQ6kuUqg==
+  dependencies:
+    babylonjs "4.0.3"
+
 babylonjs-loaders@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/babylonjs-loaders/-/babylonjs-loaders-4.0.3.tgz#aab7fbc695eed29ebe7971e4d9797a385bd365dc"
@@ -989,6 +996,13 @@ babylonjs-loaders@^4.0.3:
   dependencies:
     babylonjs "4.0.3"
     babylonjs-gltf2interface "4.0.3"
+
+babylonjs-materials@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/babylonjs-materials/-/babylonjs-materials-4.0.3.tgz#b6bf7bc332e1d14c72258ed7bd14ddc3cb3957de"
+  integrity sha512-Vy5FDAxLXXlN0EnnUlmTG2aBwfh1rQZbGxU04S3CZRPpqHXi/rsrPvr3R6R08N8E9D/o5AWTIpoTVj6yGazqkg==
+  dependencies:
+    babylonjs "4.0.3"
 
 babylonjs@4.0.3, babylonjs@^4.0.3:
   version "4.0.3"
