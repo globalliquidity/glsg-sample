@@ -4,6 +4,7 @@ import { Scene, SceneElement } from '../../glsg';
 import { PieMenuItemElement } from './PieMenuItemElement';
 import PieMenuSceneAssetManager from '../AssetManager';
 
+
 export enum MenuState
 {
     Closed,
@@ -19,6 +20,9 @@ export class PieMenuElement extends SceneElement
     itemModel : bjs.Mesh;
     menuItems : Array<PieMenuItemElement> = new Array<PieMenuItemElement>();
     controlContainer : bjsgui.Container3D;
+
+    axle : bjs.Mesh;
+    axleImposter : bjs.PhysicsImpostor;
 
     
 
@@ -51,7 +55,7 @@ export class PieMenuElement extends SceneElement
     
         manager.addControl(this.controlContainer);
         this.controlContainer.linkToTransformNode(this);
-        this.controlContainer.position.z = 5.5;
+        //this.controlContainer.position.z = 5.5;
 
         const model = await bjs.SceneLoader.ImportMeshAsync(null, '', PieMenuSceneAssetManager.discModel, this.scene.bjsScene);
 
@@ -70,6 +74,10 @@ export class PieMenuElement extends SceneElement
     protected buildMenu()
     {
         this.buildCenterButton();
+
+        this.axle = bjs.MeshBuilder.CreateBox("holder", { width: .2, height: .2, depth: 0.5}, this.scene.bjsScene);
+        this.axle.setParent(this);
+        this.axle.physicsImpostor = new bjs.PhysicsImpostor(this.axle, bjs.PhysicsImpostor.BoxImpostor, { mass: 1 });
         this.buildItems();
     }
 
@@ -120,6 +128,7 @@ export class PieMenuElement extends SceneElement
             this.controlContainer.addControl(item.button);                                                     
             this.menuItems.push(item);
             this.addChild(item);
+            item.button.linkToTransformNode(this.axle);
         }
     }
 
@@ -140,6 +149,16 @@ export class PieMenuElement extends SceneElement
         this.menuState = MenuState.Closing; 
     }
 
+    protected onPreRender()
+    {
+        if (this.axle != null)
+        {
+            //this.axle.rotate(bjs.Axis.Z, -0.05);
+            if (this.axle.physicsImpostor != null)
+                this.axle.physicsImpostor.setAngularVelocity(new bjs.Vector3(0,0,-1));
+        }     
+    }
+
     protected onRender()
     {
         if (this.menuState === MenuState.Opening)
@@ -151,7 +170,6 @@ export class PieMenuElement extends SceneElement
                 this.radiusMultiplier = 1;
                 this.menuState = MenuState.Open;
             }
-
             this.positionMenuItems();    
         }
         else if (this.menuState === MenuState.Closing)
@@ -163,7 +181,6 @@ export class PieMenuElement extends SceneElement
                 this.radiusMultiplier = 0;
                 this.menuState = MenuState.Closed;
             }
-
             this.positionMenuItems();
         }     
     }
@@ -174,9 +191,15 @@ export class PieMenuElement extends SceneElement
         for( var i = 0; i < this.itemCount; i++)
         {
             let item :PieMenuItemElement = this.menuItems[i];
+           
 
-            item.button.position.x = Math.sin(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier;
-            item.button.position.y = Math.cos(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier;
+            let translationVector : bjs.Vector3 = new bjs.Vector3(Math.sin(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
+            Math.cos(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
+            0);
+
+            
+            item.button.position.x = translationVector.x;
+            item.button.position.y = translationVector.y;
 
         }     
     }
