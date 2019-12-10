@@ -153,9 +153,9 @@ export class PieMenuElement extends SceneElement
     {
         if (this.axle != null)
         {
-            //this.axle.rotate(bjs.Axis.Z, -0.05);
-            if (this.axle.physicsImpostor != null)
-                this.axle.physicsImpostor.setAngularVelocity(new bjs.Vector3(0,0,-1));
+            this.axle.rotate(bjs.Axis.Z, -0.05);
+            //if (this.axle.physicsImpostor != null)
+            //    this.axle.physicsImpostor.setAngularVelocity(new bjs.Vector3(0,0,-1));
         }     
     }
 
