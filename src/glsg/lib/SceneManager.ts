@@ -2,6 +2,7 @@ import * as bjs from 'babylonjs';
 import { Scene } from './Scene';
 import Logger from './Logger';
 import { ViewportPosition } from "./Enums";
+import { ModelAssetManager } from './ModelAssetManager';
 
 export class SceneManager 
 {
@@ -12,6 +13,12 @@ export class SceneManager
     
     private constructor()
     {
+    }
+
+    public async LoadAssets(canvas: HTMLCanvasElement) {
+        const loadingScene = new Scene("loadingScene", canvas, null);
+        this.LoadScene(loadingScene, canvas, ViewportPosition.Top);
+        await ModelAssetManager.Instance.LoadModel();
     }
 
     public LoadScene(scene: Scene, canvas : HTMLCanvasElement, position : ViewportPosition)

@@ -2,6 +2,7 @@ import * as bjs from 'babylonjs';
 import { Scene } from './Scene'
 import { ITextMeshStringGenerator } from './SceneGraphInterfaces';
 import { SceneElement } from './SceneElement';
+import { ModelAssetManager } from "./ModelAssetManager";
 import { TextMeshCharacterGenerator } from './TextMeshCharacterGenerator';
 
 export class TextMeshStringGenerator extends SceneElement implements ITextMeshStringGenerator
@@ -76,23 +77,50 @@ export class TextMeshStringGenerator extends SceneElement implements ITextMeshSt
 
     async loadModel()
     {
-        const characterMeshes = await bjs.SceneLoader.ImportMeshAsync(null, '/', '3DNumbers.babylon', this.scene.bjsScene);
+        // const characterMeshes = await bjs.SceneLoader.ImportMeshAsync(null, '/', '3DNumbers.babylon', this.scene.bjsScene);
+
+        // //Logger.log('TextMeshCharacterGenerator :  Characters Model Imported ');
+        // characterMeshes.meshes[0].parent = this;
+        // characterMeshes.meshes[0].material = this.material;
+        // characterMeshes.meshes[0].rotation.x = -Math.PI/2;
+        // characterMeshes.meshes[0].isVisible = false;
+
+        // this.characterMeshes.set(".", characterMeshes.meshes[0] as bjs.Mesh);
+        // //Logger.log('TextMeshCaracterGenerator :  Added period model to charactermeshes');
+        // for (var i = 1; i < 11; i++)
+        // {
+        //     characterMeshes.meshes[i].parent = this;
+        //     characterMeshes.meshes[i].material = this.material;
+        //     characterMeshes.meshes[i].rotation.x = -Math.PI/2;
+        //     characterMeshes.meshes[i].isVisible = false;
+        //     this.characterMeshes.set((10-i).toString(), characterMeshes.meshes[i] as bjs.Mesh);
+        // }
+
+        const characterMeshes = ModelAssetManager.Instance.models["numberMeshes"];
 
         //Logger.log('TextMeshCharacterGenerator :  Characters Model Imported ');
-        characterMeshes.meshes[0].parent = this;
-        characterMeshes.meshes[0].material = this.material;
-        characterMeshes.meshes[0].rotation.x = -Math.PI/2;
-        characterMeshes.meshes[0].isVisible = false;
+        // const pointCharacter: bjs.Mesh = new bjs.Mesh("point", this.scene.bjsScene, this, characterMeshes.meshes[0] as bjs.Mesh, true);
+        const pointCharacter: bjs.Mesh = characterMeshes.meshes[0] as bjs.Mesh;
+        pointCharacter.parent = this;
+        pointCharacter.material = this.material;
+        pointCharacter.rotation.x = -Math.PI/2;
+        pointCharacter.isVisible = false;
+        pointCharacter._scene = this.scene.bjsScene;
+        // this.scene.bjsScene.addMesh(characterMeshes.meshes[0], true);
 
-        this.characterMeshes.set(".", characterMeshes.meshes[0] as bjs.Mesh);
+        this.characterMeshes.set(".", pointCharacter);
         //Logger.log('TextMeshCaracterGenerator :  Added period model to charactermeshes');
-        for (var i = 1; i < 11; i++)
+        for (let i = 1; i < 11; i++)
         {
-            characterMeshes.meshes[i].parent = this;
-            characterMeshes.meshes[i].material = this.material;
-            characterMeshes.meshes[i].rotation.x = -Math.PI/2;
-            characterMeshes.meshes[i].isVisible = false;
-            this.characterMeshes.set((10-i).toString(), characterMeshes.meshes[i] as bjs.Mesh);
+            // const characterMesh: bjs.Mesh = new bjs.Mesh(`character${i}`, this.scene.bjsScene, this, characterMeshes.meshes[i] as bjs.Mesh, true);
+            const characterMesh: bjs.Mesh = characterMeshes.meshes[i] as bjs.Mesh;
+            characterMesh.parent = this;
+            characterMesh.material = this.material;
+            characterMesh.rotation.x = -Math.PI/2;
+            characterMesh.isVisible = false;
+            characterMesh._scene = this.scene.bjsScene;
+            this.characterMeshes.set((10-i).toString(), characterMesh);
+            // this.scene.bjsScene.addMesh(characterMeshes.meshes[i], true);
         }
     }
 

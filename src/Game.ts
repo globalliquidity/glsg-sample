@@ -22,6 +22,7 @@ export default class Game
 
         // Clear all existing scenes
         SceneManager.Instance.clear();
+        SceneManager.Instance.LoadAssets(this.canvas);
 
         switch (path) {
             case '/':

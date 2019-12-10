@@ -36,7 +36,7 @@ export class PieMenuElement extends SceneElement
         panel.linkToTransformNode(this);
         panel.position.z = -1.5;
 
-        bjs.SceneLoader.ImportMesh("", "../Assets/models/", "pushButton.glb", this.scene.bjsScene, function (newMeshes) {
+        bjs.SceneLoader.ImportMesh("", "/", "pushButton.glb", this.scene.bjsScene, function (newMeshes) {
             this.itemModel = newMeshes[0];
         });
 

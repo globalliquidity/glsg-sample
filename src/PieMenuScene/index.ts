@@ -8,7 +8,7 @@ export class PieMenuExperience extends Experience
 {
     protected onLoad()
     {
-        let scene:Scene = new PieMenuScene('PieMenuScene', this.canvas, PieMenuSceneAssetManager.ddsGc256SpecularHDR);
+        let scene: Scene = new PieMenuScene('PieMenuScene', this.canvas, PieMenuSceneAssetManager.ddsGc256SpecularHDR);
         this.AddScene(scene);
         SceneManager.Instance.LoadScene(scene, this.canvas, ViewportPosition.Full);
     }
