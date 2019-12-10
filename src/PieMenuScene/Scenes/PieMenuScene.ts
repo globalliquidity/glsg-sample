@@ -1,13 +1,13 @@
 
 import * as bjs from 'babylonjs';
 import { Vector3 } from 'babylonjs';
-import * as bjsgui from 'babylonjs-gui';
 import { Scene } from '../../glsg';
 import { PieMenuElement } from '../Elements/PieMenuElement';
+const CANNON = require('cannon');
 
 export class PieMenuScene extends Scene
 {
-    itemCount : number = 5;
+    itemCount : number = 8;
     menu:PieMenuElement
     menuPosition : Vector3 = new Vector3(0,0,0);
 
@@ -17,7 +17,13 @@ export class PieMenuScene extends Scene
     
     protected async createScene()
     {
-        var manager = new bjsgui.GUI3DManager(this.bjsScene);
+        //this.camera = new bjs.ArcRotateCamera("Camera", 0, 0, 15, new bjs.Vector3(0.0, 0, 100), this.bjsScene);
+        this.camera.radius = 20;
+
+        this.bjsScene.gravity = new bjs.Vector3(0, 0, 0);
+        this.bjsScene.enablePhysics(this.bjsScene.gravity, new bjs.CannonJSPlugin(true, undefined, CANNON));
+
+        var light = new bjs.HemisphericLight("sun", new bjs.Vector3(0,1,0), this.bjsScene);
 
         this.menu = new PieMenuElement("menu",
                                         this.menuPosition.x,

@@ -36,7 +36,7 @@ export class PhysicsSystemElement extends SceneElement
     }
     
 
-    protected create()
+    protected onCreate()
     {
         this.mesh = bjs.Mesh.CreateSphere(
             "sphere",

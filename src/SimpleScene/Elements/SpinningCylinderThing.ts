@@ -25,7 +25,7 @@ export class SpinningCylinderThing extends SolidParticleSystemElement
     }
     
 
-    protected create()
+    protected onCreate()
     {
         this.material.reflectionTexture = this.scene.hdrTexture;
         this.material.roughness = 0.3;
