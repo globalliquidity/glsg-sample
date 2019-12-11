@@ -63,10 +63,12 @@ export class PieMenuElement extends SceneElement
         this.buildMenu();
         this.itemModel.setEnabled(false);
 
-        bjs.SceneLoader.ImportMesh("", "/", "pushButton.glb", this.scene.bjsScene, function (newMeshes) {
+        const newMeshes = await bjs.SceneLoader.ImportMeshAsync(null, "", PieMenuSceneAssetManager.glbPushButton, this.scene.bjsScene);
         // bjs.SceneLoader.ImportMesh("", "../Assets/models/", "pushButton.glb", this.scene.bjsScene, function (newMeshes) {
-            this.itemModel = newMeshes[0];
-        });
+        
+        if (newMeshes.meshes.length > 0) {
+            this.itemModel = newMeshes.meshes[0] as bjs.Mesh;
+        }
     }
 
     protected buildMenu()
@@ -94,7 +96,7 @@ export class PieMenuElement extends SceneElement
         var centerButton = new bjsgui.MeshButton3D(centerMesh, "centerButton");
         centerButton.position = new bjs.Vector3(0,0,0);
 
-        centerButton.pointerDownAnimation = () => {
+        centerButton.onPointerClickObservable.add(() => {
             this.scaling = new bjs.Vector3(0.8,0.8,0.8);
 
             if (this.menuState === MenuState.Closed)
@@ -113,8 +115,30 @@ export class PieMenuElement extends SceneElement
                 else
                     console.log("imposter is null");
             }
-                //this.close();
-        }
+        });
+
+        // centerButton.pointerDownAnimation = () => {
+        //     this.scaling = new bjs.Vector3(0.8,0.8,0.8);
+
+        //     if (this.menuState === MenuState.Closed)
+        //         this.open();
+        //     else if (this.menuState === MenuState.Open)
+        //     {
+        //         var impulseDirection = new bjs.Vector3(1, 0, 0);
+        //         var impulseMagnitude = 5;
+        //         var contactLocalRefPoint = new bjs.Vector3(0, 1.5, 0);
+                
+        //         if (this.axle.physicsImpostor)
+        //         {
+        //             console.log('physicsImpostor', this.axle.physicsImpostor.applyImpulse);
+        //             this.axle.physicsImpostor.applyImpulse(impulseDirection.scale(impulseMagnitude), this.axle.getAbsolutePosition().add(contactLocalRefPoint));
+        //         }
+        //         else
+        //             console.log("imposter is null");
+        //     }
+        //         //this.close();
+        // }
+
         centerButton.pointerUpAnimation = () => {
             this.scaling = new bjs.Vector3(1.0,1.0,1.0);
         }
