@@ -31,6 +31,7 @@
     "webpack-md5-hash": "0.0.6"
   },
   "dependencies": {
+    "ammo": "^3.0.3",
     "babylon-file-loader": "^0.2.1",
     "babylonjs": "^4.0.3",
     "babylonjs-gui": "^4.0.3",

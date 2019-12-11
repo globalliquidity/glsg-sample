@@ -4,6 +4,8 @@ import { Vector3 } from 'babylonjs';
 import { Scene } from '../../glsg';
 import { PieMenuElement } from '../Elements/PieMenuElement';
 const CANNON = require('cannon');
+const OIMO = require('oimo');
+const AMMO = require('ammo');
 
 export class PieMenuScene extends Scene
 {
@@ -21,7 +23,9 @@ export class PieMenuScene extends Scene
         this.camera.radius = 20;
 
         this.bjsScene.gravity = new bjs.Vector3(0, 0, 0);
-        this.bjsScene.enablePhysics(this.bjsScene.gravity, new bjs.CannonJSPlugin(true, undefined, CANNON));
+        this.bjsScene.enablePhysics(null, new bjs.CannonJSPlugin(true, undefined, CANNON));
+        this.bjsScene.enablePhysics(null, new bjs.OimoJSPlugin(undefined, OIMO));
+        // this.bjsScene.enablePhysics(null, new bjs.AmmoJSPlugin(true, AMMO));
 
         var light = new bjs.HemisphericLight("sun", new bjs.Vector3(0,1,0), this.bjsScene);
 

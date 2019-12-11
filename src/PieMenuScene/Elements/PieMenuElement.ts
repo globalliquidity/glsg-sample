@@ -100,15 +100,29 @@ export class PieMenuElement extends SceneElement
             if (this.menuState === MenuState.Closed)
                 this.open();
             else if (this.menuState === MenuState.Open)
-                this.close();
+            {
+                var impulseDirection = new bjs.Vector3(1, 0, 0);
+                var impulseMagnitude = 5;
+                var contactLocalRefPoint = new bjs.Vector3(0, 1.5, 0);
+                
+                if (this.axle.physicsImpostor)
+                {
+                    console.log('physicsImpostor', this.axle.physicsImpostor.applyImpulse);
+                    this.axle.physicsImpostor.applyImpulse(impulseDirection.scale(impulseMagnitude), this.axle.getAbsolutePosition().add(contactLocalRefPoint));
+                }
+                else
+                    console.log("imposter is null");
+            }
+                //this.close();
         }
         centerButton.pointerUpAnimation = () => {
             this.scaling = new bjs.Vector3(1.0,1.0,1.0);
-            
         }
+
         centerButton.onPointerDownObservable.add(() => {
             console.log(centerButton.name + " pushed.");
         });
+
         this.controlContainer.addControl(centerButton);
     }
 
