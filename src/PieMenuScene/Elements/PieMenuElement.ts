@@ -3,6 +3,7 @@ import * as bjsgui from 'babylonjs-gui';
 import { Scene, SceneElement } from '../../glsg';
 import { PieMenuItemElement } from './PieMenuItemElement';
 import PieMenuSceneAssetManager from '../AssetManager';
+import { CannonJSPlugin } from 'babylonjs';
 
 
 export enum MenuState
@@ -28,6 +29,8 @@ export class PieMenuElement extends SceneElement
 
     itemRadius : number = 1.8;
     radiusMultiplier : number = 0;
+
+    rotationAmplifier : number = 0;
 
     constructor(name: string,
                 public x: number,
@@ -75,12 +78,14 @@ export class PieMenuElement extends SceneElement
     {
         this.buildCenterButton();
         this.pivot = bjs.MeshBuilder.CreateSphere("sphere", {diameter:0.1}, this.scene.bjsScene);
+        this.pivot.position = this.position;
         this.axle = bjs.MeshBuilder.CreateBox("holder", { width: .2, height: .2, depth: 0.5}, this.scene.bjsScene);
-        this.axle.setParent(this);
+        this.axle.position = this.position;
+        this.axle.isVisible = false;
 
         this.pivot.physicsImpostor = new bjs.PhysicsImpostor(this.axle, bjs.PhysicsImpostor.SphereImpostor, { mass: 0 });      
         this.axle.physicsImpostor =  new bjs.PhysicsImpostor(this.axle, bjs.PhysicsImpostor.BoxImpostor, { mass: 1 });
-        
+
         //Add Joint
         this.joint = new bjs.HingeJoint({  
             mainPivot: new bjs.Vector3(0, 0, 0),
@@ -91,9 +96,7 @@ export class PieMenuElement extends SceneElement
             }
             }); 
 
-        this.pivot.physicsImpostor.addJoint(this.axle.physicsImpostor, this.joint); 
-    
-        
+        this.pivot.physicsImpostor.addJoint(this.axle.physicsImpostor, this.joint);         
         this.buildItems();
         this.open();
     }
@@ -114,25 +117,25 @@ export class PieMenuElement extends SceneElement
         centerButton.position = new bjs.Vector3(0,0,0);
 
         centerButton.pointerDownAnimation = () => {
-            //this.scaling = new bjs.Vector3(0.8,0.8,0.8);
-
+            
             if (this.menuState === MenuState.Closed)
                 this.open();
             else if (this.menuState === MenuState.Open)
-            {
+            {  
                 var impulseDirection = new bjs.Vector3(1, 0, 0);
-                var impulseMagnitude = 5;
+                var impulseMagnitude = .02;
                 var contactLocalRefPoint = new bjs.Vector3(0, 1.5, 0);
                 
                 if (this.axle.physicsImpostor != null)
                 {
-                    console.log(this.axle.physicsImpostor);
-                    this.axle.physicsImpostor.applyImpulse(impulseDirection.scale(impulseMagnitude), this.axle.getAbsolutePosition().add(contactLocalRefPoint));
+                    this.axle.physicsImpostor.applyImpulse(impulseDirection
+                                                            .scale(impulseMagnitude),
+                                                            this.axle.getAbsolutePosition()
+                                                            .add(contactLocalRefPoint));
                 }
                 else
-                    console.log("imposter is null");
+                    console.log("imposter is null");         
             }
-                //this.close();
         }
         centerButton.pointerUpAnimation = () => {
             this.scaling = new bjs.Vector3(1.0,1.0,1.0);
@@ -183,8 +186,10 @@ export class PieMenuElement extends SceneElement
     {
         if (this.axle != null)
         {
-           //Impulse Settings
-        
+            //Rotation Brake
+            this.axle.physicsImpostor.setAngularVelocity(bjs.Vector3.Lerp(this.axle.physicsImpostor.getAngularVelocity(),
+                                                                        new bjs.Vector3(0,0,0)
+                                                                        ,0.04));  
         }     
     }
 

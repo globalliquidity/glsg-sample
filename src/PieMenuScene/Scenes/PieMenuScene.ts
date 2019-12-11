@@ -4,12 +4,13 @@ import { Vector3 } from 'babylonjs';
 import { Scene } from '../../glsg';
 import { PieMenuElement } from '../Elements/PieMenuElement';
 const CANNON = require('cannon');
+const OIMO = require('oimo');
 
 export class PieMenuScene extends Scene
 {
     itemCount : number = 8;
     menu:PieMenuElement
-    menuPosition : Vector3 = new Vector3(0,0,0);
+    menuPosition : Vector3 = new Vector3(-4,3.15,0);
 
     constructor(public title: string, public canvas: HTMLElement, hdrSkyboxTexture: string) {
         super(title,canvas,hdrSkyboxTexture);
@@ -18,10 +19,14 @@ export class PieMenuScene extends Scene
     protected async createScene()
     {
         //this.camera = new bjs.ArcRotateCamera("Camera", 0, 0, 15, new bjs.Vector3(0.0, 0, 100), this.bjsScene);
-        this.camera.radius = 20;
+        this.camera.radius = 10;
 
         this.bjsScene.gravity = new bjs.Vector3(0, 0, 0);
         this.bjsScene.enablePhysics(this.bjsScene.gravity, new bjs.CannonJSPlugin(true, undefined, CANNON));
+        //this.bjsScene.enablePhysics(this.bjsScene.gravity, new bjs.OimoJSPlugin());
+        this.bjsScene.collisionsEnabled = true;
+		//this.bjsScene.workerCollisions = true;
+
 
         var light = new bjs.HemisphericLight("sun", new bjs.Vector3(0,1,0), this.bjsScene);
 
