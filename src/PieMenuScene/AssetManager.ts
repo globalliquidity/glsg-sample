@@ -4,8 +4,6 @@ export const glbPushButton = require('./Assets/models/pushButton.babylon');
 export const ledModel = require('./Assets/models/led.babylon');
 export const discModel = require('./Assets/models/disc.babylon');
 
-
-
 export default {
     ddsGc256SpecularHDR,
     ddsNeutral,
