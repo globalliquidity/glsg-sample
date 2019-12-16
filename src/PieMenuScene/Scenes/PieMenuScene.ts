@@ -8,9 +8,11 @@ const OIMO = require('oimo');
 
 export class PieMenuScene extends Scene
 {
-    itemCount : number = 8;
+    itemCount : number = 9;
     menu:PieMenuElement
-    menuPosition : Vector3 = new Vector3(-4,3.15,0);
+    //menuPosition : Vector3 = new Vector3(-4,3.15,0);
+    menuPosition : Vector3 = new Vector3(-4.25,4.25,10);
+
 
     constructor(public title: string, public canvas: HTMLElement, hdrSkyboxTexture: string) {
         super(title,canvas,hdrSkyboxTexture);
@@ -19,7 +21,19 @@ export class PieMenuScene extends Scene
     protected async createScene()
     {
         //this.camera = new bjs.ArcRotateCamera("Camera", 0, 0, 15, new bjs.Vector3(0.0, 0, 100), this.bjsScene);
+
+        //let canvasAspectRatio = (this.canvas.clientWidth/this.canvas.clientHeight);
+        let aspectRatio = ( this.canvas.clientHeight * this.camera.viewport.height) / ( this.canvas.clientWidth * this.camera.viewport.width);
+
         this.camera.radius = 10;
+       
+        this.camera.mode = bjs.Camera.ORTHOGRAPHIC_CAMERA;
+        this.camera.orthoTop = 5 * aspectRatio;
+        this.camera.orthoBottom = -5 * aspectRatio;
+        this.camera.orthoLeft = -5;
+        this.camera.orthoRight = 5;
+        this.camera.setTarget(bjs.Vector3.Zero());
+        
 
         this.bjsScene.gravity = new bjs.Vector3(0, 0, 0);
         this.bjsScene.enablePhysics(this.bjsScene.gravity, new bjs.CannonJSPlugin(true, undefined, CANNON));
@@ -41,6 +55,15 @@ export class PieMenuScene extends Scene
 
     protected onRender()
     { 
+        let aspectRatio = ( this.canvas.clientHeight * this.camera.viewport.height) / ( this.canvas.clientWidth * this.camera.viewport.width);
 
+        this.camera.radius = 10;
+       
+        this.camera.mode = bjs.Camera.ORTHOGRAPHIC_CAMERA;
+        this.camera.orthoTop = 5 * aspectRatio;
+        this.camera.orthoBottom = -5 * aspectRatio;
+        this.camera.orthoLeft = -5;
+        this.camera.orthoRight = 5;
+        this.camera.setTarget(bjs.Vector3.Zero());
     }
 }

@@ -27,7 +27,7 @@ export class PieMenuElement extends SceneElement
     joint : bjs.HingeJoint;
 
 
-    itemRadius : number = 1.8;
+    itemRadius : number = 2;
     radiusMultiplier : number = 0;
 
     rotationAmplifier : number = 0;
@@ -81,10 +81,10 @@ export class PieMenuElement extends SceneElement
         this.pivot.position = this.position;
         this.axle = bjs.MeshBuilder.CreateBox("holder", { width: .2, height: .2, depth: 0.5}, this.scene.bjsScene);
         this.axle.position = this.position;
-        this.axle.isVisible = false;
+        this.axle.isVisible = true;
 
         this.pivot.physicsImpostor = new bjs.PhysicsImpostor(this.axle, bjs.PhysicsImpostor.SphereImpostor, { mass: 0 });      
-        this.axle.physicsImpostor =  new bjs.PhysicsImpostor(this.axle, bjs.PhysicsImpostor.BoxImpostor, { mass: 1 });
+        this.axle.physicsImpostor =  new bjs.PhysicsImpostor(this.axle, bjs.PhysicsImpostor.BoxImpostor, { mass: 10 });
 
         //Add Joint
         this.joint = new bjs.HingeJoint({  
@@ -98,7 +98,7 @@ export class PieMenuElement extends SceneElement
 
         this.pivot.physicsImpostor.addJoint(this.axle.physicsImpostor, this.joint);         
         this.buildItems();
-        this.open();
+        //this.open();
     }
 
     protected buildCenterButton()
@@ -116,14 +116,15 @@ export class PieMenuElement extends SceneElement
         var centerButton = new bjsgui.MeshButton3D(centerMesh, "centerButton");
         centerButton.position = new bjs.Vector3(0,0,0);
 
-        centerButton.pointerDownAnimation = () => {
+        centerButton.pointerDownAnimation = () =>
+        {
             
             if (this.menuState === MenuState.Closed)
                 this.open();
             else if (this.menuState === MenuState.Open)
             {  
                 var impulseDirection = new bjs.Vector3(1, 0, 0);
-                var impulseMagnitude = .02;
+                var impulseMagnitude = .2;
                 var contactLocalRefPoint = new bjs.Vector3(0, 1.5, 0);
                 
                 if (this.axle.physicsImpostor != null)
@@ -186,10 +187,12 @@ export class PieMenuElement extends SceneElement
     {
         if (this.axle != null)
         {
+            
             //Rotation Brake
             this.axle.physicsImpostor.setAngularVelocity(bjs.Vector3.Lerp(this.axle.physicsImpostor.getAngularVelocity(),
                                                                         new bjs.Vector3(0,0,0)
-                                                                        ,0.04));  
+                                                                        ,0.05));  
+                                                                        
         }     
     }
 
