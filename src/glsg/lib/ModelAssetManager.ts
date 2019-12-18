@@ -12,10 +12,21 @@ export class ModelAssetManager
     public async LoadModel()
     {
         const numberMeshes = await bjs.SceneLoader.ImportMeshAsync(null, '/', '3DNumbers.babylon');
+        const simpleCubeMesh = await bjs.SceneLoader.ImportMeshAsync(null, '/', 'SimpleCube.babylon');
         numberMeshes.meshes.forEach(model => {
-            (model as bjs.Mesh).isVisible = false;
+            (model as bjs.Mesh).isVisible = true;
         });
         this.models["numberMeshes"] = numberMeshes;
+        this.models["simpleCube"] = simpleCubeMesh;
+    }
+
+    public async AddModel(meshName, modelPath)
+    {
+        const newMesh = await bjs.SceneLoader.ImportMeshAsync(null, "/", modelPath);
+        this.models[meshName] = newMesh;
+        console.log('meshname: ', meshName);
+        console.log('modelPath: ', modelPath);
+        console.log('newMesh: ', newMesh);
     }
 
     public clear() {

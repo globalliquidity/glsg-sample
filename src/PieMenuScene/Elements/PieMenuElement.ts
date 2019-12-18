@@ -1,6 +1,6 @@
 import * as bjs from 'babylonjs';
 import * as bjsgui from 'babylonjs-gui';
-import { Scene, SceneElement } from '../../glsg';
+import { Scene, SceneElement, ModelAssetManager } from '../../glsg';
 import { PieMenuItemElement } from './PieMenuItemElement';
 import PieMenuSceneAssetManager from '../AssetManager';
 
@@ -57,17 +57,23 @@ export class PieMenuElement extends SceneElement
         this.controlContainer.linkToTransformNode(this);
         //this.controlContainer.position.z = 5.5;
 
-        const model = await bjs.SceneLoader.ImportMeshAsync(null, '', PieMenuSceneAssetManager.discModel, this.scene.bjsScene);
+        // const model = await bjs.SceneLoader.ImportMeshAsync(null, '', PieMenuSceneAssetManager.discModel, this.scene.bjsScene);
+        const model = ModelAssetManager.Instance.models['discModel'];
 
         this.itemModel = model.meshes[0] as bjs.Mesh;
+        this.itemModel._scene = this.scene.bjsScene;
         this.buildMenu();
         this.itemModel.setEnabled(false);
 
-        const newMeshes = await bjs.SceneLoader.ImportMeshAsync(null, "", PieMenuSceneAssetManager.glbPushButton, this.scene.bjsScene);
+        // const newMeshes = await bjs.SceneLoader.ImportMeshAsync(null, "", PieMenuSceneAssetManager.glbPushButton, this.scene.bjsScene);
+        const newMeshes = ModelAssetManager.Instance.models['glbPushButton'];
+        console.log('new mesh_____: ', newMeshes);
         // bjs.SceneLoader.ImportMesh("", "../Assets/models/", "pushButton.glb", this.scene.bjsScene, function (newMeshes) {
         
         if (newMeshes.meshes.length > 0) {
             this.itemModel = newMeshes.meshes[0] as bjs.Mesh;
+            this.itemModel._scene = this.scene.bjsScene;
+            this.itemModel.parent = this;
         }
     }
 
