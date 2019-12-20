@@ -1,17 +1,20 @@
 import * as bjs from 'babylonjs';
 import { Scene } from './Scene'
-import { ITextMeshStringGenerator } from './SceneGraphInterfaces';
+import { ITextMeshNumberGenerator } from './SceneGraphInterfaces';
 import { SceneElement } from './SceneElement';
 import { TextMeshCharacterGenerator } from './TextMeshCharacterGenerator';
+import GLSGAssetManager from '../AssetManager';
+import { TextMeshModelLoader } from './TextMeshModelLoader';
 
-export class TextMeshStringGenerator extends SceneElement implements ITextMeshStringGenerator
+export class TextMeshNumberGenerator extends SceneElement implements ITextMeshNumberGenerator
 {
-    maxLength: number = 11;
+    maxLength: number = 15;
     
     initialized : boolean = false;
 
     characterGenerators: Array<TextMeshCharacterGenerator> = [];
-    characterMeshes: Map<string,bjs.Mesh> = new Map<string,bjs.Mesh>();
+    static characterMeshes: Map<string,bjs.Mesh> = new Map<string,bjs.Mesh>();
+    static isLoaded : boolean = false;
 
     constructor(name:string, 
                 public x: number,
@@ -38,7 +41,8 @@ export class TextMeshStringGenerator extends SceneElement implements ITextMeshSt
     
     async create()
     {
-        await this.loadModel();
+        //if (! TextMeshModelLoader.Instance.isLoaded)
+         //   await TextMeshModelLoader.Instance.init(this.scene);
         //Logger.log('TextMeshCaracterGenerator :  Loaded ' + this.characterMeshes.size + ' meshes');
         //Logger.log('TextMeshCaracterGenerator :  creating character generators');
         for( var i = 0; i < this.maxLength; i++)
@@ -58,43 +62,32 @@ export class TextMeshStringGenerator extends SceneElement implements ITextMeshSt
 
             //Logger.log('TextMeshCharacterGenerator :  created character generator for period' + i);
 
-            this.characterGenerators[i].addCharacterMesh(".", this.characterMeshes.get(".") as bjs.Mesh);
+            this.characterGenerators[i].addCharacterMesh(".", TextMeshModelLoader.Instance.getCharacterMesh(".") as bjs.Mesh);
 
             for (var j = 1; j < 11; j++)
             {
-                this.characterGenerators[i].addCharacterMesh((10-j).toString(), this.characterMeshes.get((10-j).toString()));
+                this.characterGenerators[i].addCharacterMesh((10-j).toString(), TextMeshModelLoader.Instance.getCharacterMesh((10-j).toString()));
             }
+/*
+            for (var i = 0; i < 27; i++)
+            {   
+                let currentLetter : string = String.fromCharCode(65+i);
+                this.characterGenerators[11+i].addCharacterMesh(currentLetter, TextMeshModelLoader.Instance.getCharacterMesh(currentLetter));
+            }
+*/
+            
 
             this.addChild(this.characterGenerators[i]);
         }
        
         this.initialized = true;
+    
         //Logger.log('TextMeshCaracterGenerator :  added ' + this.characterGenerators.length + " characters.");
         //let characterGenerator = this.characterGenerators[0];
         //Logger.log('TextMeshCaracterGenerator :  Setting Character ');
     }
 
-    async loadModel()
-    {
-        const characterMeshes = await bjs.SceneLoader.ImportMeshAsync(null, '/', '3DNumbers.babylon', this.scene.bjsScene);
-
-        //Logger.log('TextMeshCharacterGenerator :  Characters Model Imported ');
-        characterMeshes.meshes[0].parent = this;
-        characterMeshes.meshes[0].material = this.material;
-        characterMeshes.meshes[0].rotation.x = -Math.PI/2;
-        characterMeshes.meshes[0].isVisible = false;
-
-        this.characterMeshes.set(".", characterMeshes.meshes[0] as bjs.Mesh);
-        //Logger.log('TextMeshCaracterGenerator :  Added period model to charactermeshes');
-        for (var i = 1; i < 11; i++)
-        {
-            characterMeshes.meshes[i].parent = this;
-            characterMeshes.meshes[i].material = this.material;
-            characterMeshes.meshes[i].rotation.x = -Math.PI/2;
-            characterMeshes.meshes[i].isVisible = false;
-            this.characterMeshes.set((10-i).toString(), characterMeshes.meshes[i] as bjs.Mesh);
-        }
-    }
+   
 
     protected onPreRender()
     {

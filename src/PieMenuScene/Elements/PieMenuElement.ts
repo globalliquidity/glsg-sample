@@ -1,9 +1,11 @@
 import * as bjs from 'babylonjs';
 import * as bjsgui from 'babylonjs-gui';
-import { Scene, SceneElement } from '../../glsg';
+import { Scene, SceneElement, TextMeshNumberGenerator } from '../../glsg';
 import { PieMenuItemElement } from './PieMenuItemElement';
 import PieMenuSceneAssetManager from '../AssetManager';
-import { CannonJSPlugin } from 'babylonjs';
+import GLSGAssetManager from '../../glsg/AssetManager';
+
+import { CannonJSPlugin, PBRMetallicRoughnessMaterial } from 'babylonjs';
 
 
 export enum MenuState
@@ -32,6 +34,11 @@ export class PieMenuElement extends SceneElement
 
     rotationAmplifier : number = 0;
 
+    menuActiveItem : TextMeshNumberGenerator;
+
+    testItems : Array<string> = [ 'BINANCE', 'BITFINEX', 'BITTREX', 'KUKOIN', 'COINBASEPRO', 'POLONIEX', 'KRAKEN', 'BIBOX', 'HUOBI', 'HITBTC', 'BITMART', 'BITSTAMP', 'OKEX' ];
+
+
     constructor(name: string,
                 public x: number,
                 public y: number,
@@ -58,13 +65,21 @@ export class PieMenuElement extends SceneElement
     
         manager.addControl(this.controlContainer);
         this.controlContainer.linkToTransformNode(this);
-        //this.controlContainer.position.z = 5.5;
+        this.controlContainer.position.z = 0;
 
         const model = await bjs.SceneLoader.ImportMeshAsync(null, '', PieMenuSceneAssetManager.discModel, this.scene.bjsScene);
 
         this.itemModel = model.meshes[0] as bjs.Mesh;
         this.buildMenu();
         this.itemModel.setEnabled(false);
+
+        let textMaterial : PBRMetallicRoughnessMaterial = new PBRMetallicRoughnessMaterial("text",this.scene.bjsScene);
+        
+        //this.menuActiveItem = new TextMeshStringGenerator("ActiveItem", 0,0,0,this.scene,textMaterial);
+        //await this.menuActiveItem.create();
+        //this.menuActiveItem.setText("0123");
+        //this.menuActiveItem.setPosition(-2,0,0);
+        this.addChild(this.menuActiveItem);
 
         /*
         bjs.SceneLoader.ImportMesh("", "../Assets/models/", "pushButton.glb", this.scene.bjsScene, function (newMeshes) {
@@ -74,16 +89,17 @@ export class PieMenuElement extends SceneElement
 
     }
 
-    protected buildMenu()
+    protected async buildMenu()
     {
         this.buildCenterButton();
         this.pivot = bjs.MeshBuilder.CreateSphere("sphere", {diameter:0.1}, this.scene.bjsScene);
         this.pivot.position = this.position;
         this.axle = bjs.MeshBuilder.CreateBox("holder", { width: .2, height: .2, depth: 0.5}, this.scene.bjsScene);
         this.axle.position = this.position;
-        this.axle.isVisible = true;
+        this.axle.isVisible = false;
+        this.pivot.isVisible = false;
 
-        this.pivot.physicsImpostor = new bjs.PhysicsImpostor(this.axle, bjs.PhysicsImpostor.SphereImpostor, { mass: 0 });      
+        this.pivot.physicsImpostor = new bjs.PhysicsImpostor(this.pivot, bjs.PhysicsImpostor.SphereImpostor, { mass: 0 });      
         this.axle.physicsImpostor =  new bjs.PhysicsImpostor(this.axle, bjs.PhysicsImpostor.BoxImpostor, { mass: 10 });
 
         //Add Joint
@@ -97,7 +113,7 @@ export class PieMenuElement extends SceneElement
             }); 
 
         this.pivot.physicsImpostor.addJoint(this.axle.physicsImpostor, this.joint);         
-        this.buildItems();
+        await this.buildItems();
         //this.open();
     }
 
@@ -115,6 +131,7 @@ export class PieMenuElement extends SceneElement
 
         var centerButton = new bjsgui.MeshButton3D(centerMesh, "centerButton");
         centerButton.position = new bjs.Vector3(0,0,0);
+        centerButton.scaling = new bjs.Vector3(0.75,0.75,0.75);
 
         centerButton.pointerDownAnimation = () =>
         {
@@ -139,7 +156,7 @@ export class PieMenuElement extends SceneElement
             }
         }
         centerButton.pointerUpAnimation = () => {
-            this.scaling = new bjs.Vector3(1.0,1.0,1.0);
+            this.scaling = new bjs.Vector3(0.2,0.2,0.2);
             
         }
         centerButton.onPointerDownObservable.add(() => {
@@ -148,7 +165,7 @@ export class PieMenuElement extends SceneElement
         this.controlContainer.addControl(centerButton);
     }
 
-    protected buildItems()
+    protected async buildItems()
     {
         for( var i = 0; i < this.itemCount; i++)
         {
@@ -158,11 +175,15 @@ export class PieMenuElement extends SceneElement
                                                                 this.z,
                                                                 this.scene,
                                                                 this.itemModel,
-                                                                0.618);
+                                                                0.618,
+                                                                this.axle,
+                                                                this.testItems[i]);
+            await item.create();
             this.controlContainer.addControl(item.button);                                                     
             this.menuItems.push(item);
             this.addChild(item);
             item.button.linkToTransformNode(this.axle);
+            item.parent = this.axle;
         }
     }
 
@@ -219,24 +240,28 @@ export class PieMenuElement extends SceneElement
                 this.menuState = MenuState.Closed;
             }
             this.positionMenuItems();
-        }     
+        }
+        
+        
     }
     
     private positionMenuItems()
     {
         let itemAngleIncrement = (2 * Math.PI) / this.itemCount;
+
         for( var i = 0; i < this.itemCount; i++)
         {
             let item :PieMenuItemElement = this.menuItems[i];
-           
 
             let translationVector : bjs.Vector3 = new bjs.Vector3(Math.sin(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
             Math.cos(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
             0);
 
-            
-            item.button.position.x = translationVector.x;
+            item.position.x = translationVector.x;
+            item.position.y = translationVector.y;
+            item.button.position.x= translationVector.x;
             item.button.position.y = translationVector.y;
+
 
         }     
     }

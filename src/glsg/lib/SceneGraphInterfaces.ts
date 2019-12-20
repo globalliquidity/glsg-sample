@@ -1,5 +1,6 @@
 import * as bjs from 'babylonjs';
 import { VectorField } from './VectorField';
+import { InstancedMesh } from 'babylonjs';
 
 export interface IExperience
 {
@@ -97,7 +98,12 @@ export interface ITextMeshCharacterGenerator
     setCharacter(character: string): void;
 }
 
-export interface ITextMeshStringGenerator
+export interface ITextMeshString
+{
+    characterMeshes : Array<InstancedMesh>;
+}
+
+export interface ITextMeshNumberGenerator
 {
     maxLength : number;
     characterGenerators : Array<ITextMeshCharacterGenerator>;

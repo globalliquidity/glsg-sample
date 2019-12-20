@@ -9,7 +9,7 @@ export * from './lib/SceneElementPresenter';
 export * from './lib/SceneManager';
 export * from './lib/SolidParticleSystemElement';
 export * from './lib/TextMeshCharacterGenerator';
-export * from './lib/TextMeshStringGenerator';
+export * from './lib/TextMeshNumberGenerator';
 export * from './lib/Utils';
 export * from './lib/VectorField';
 export * from './lib/VectorFieldPresenter';

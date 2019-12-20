@@ -68,7 +68,7 @@ export class Scene implements IScene
         if (this.camera && this.bjsScene) {
             this.camera.alpha  = -Math.PI / 2;
             this.camera.beta = Math.PI / 2;       
-            //this.camera.attachControl(this.canvas, true);
+            this.camera.attachControl(this.canvas, true);
             this.bjsScene.activeCameras = [this.camera];
 
             this.bjsScene.registerBeforeRender(() => {
