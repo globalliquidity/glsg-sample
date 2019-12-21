@@ -212,7 +212,7 @@ export class PieMenuElement extends SceneElement
             //Rotation Brake
             this.axle.physicsImpostor.setAngularVelocity(bjs.Vector3.Lerp(this.axle.physicsImpostor.getAngularVelocity(),
                                                                         new bjs.Vector3(0,0,0)
-                                                                        ,0.05));  
+                                                                        ,0.11));  
                                                                         
         }     
     }
