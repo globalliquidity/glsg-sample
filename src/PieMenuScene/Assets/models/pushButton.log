@@ -1,0 +1,38 @@
+Exporter version: 6.2.3, Blender version: 2.80 (sub 75)
+========= Conversion from Blender to Babylon.js =========
+	Scene settings used :
+		inline textures     :  false
+		Material Type       :  PBR
+		Positions Precision :  4
+		Normals Precision   :  3
+		UVs Precision       :  3
+		Vert Color Precision:  3
+		Mat Weight Precision:  2
+		texture directory   :  C:\Users\james\Documents\GitHub\glsg-sample\src\PieMenuScene\Assets\models\
+	Python World class constructor completed
+	WARNING: No active camera has been assigned, or is not in a currently selected Blender layer
+	processing begun of node:  PushButton
+	processing begun of mesh:  Tube
+		processing begun of material:  White
+		num positions      :  775
+		num normals        :  775
+		num tangents       :  3100
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  4320
+	processing begun of mesh:  Cylinder
+		processing begun of material:  PushButtonYellow
+		num positions      :  442
+		num normals        :  442
+		num tangents       :  1768
+		num uvs            :  0
+		num uvs2           :  0
+		num colors         :  0
+		num indices        :  2160
+========= Writing of JSON file started =========
+	writing mesh:  Tube
+	writing mesh:  Cylinder
+========= Writing of JSON file completed =========
+========= end of processing =========
+elapsed time:  0 min, 0.3768 secs

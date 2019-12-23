@@ -40,7 +40,7 @@ export class VectorField extends SolidParticleSystemElement implements IDepthFin
         Logger.log('VectorField :  creating ValueField with ' + rowCount + ' rows, and ' + columnCount + ' columns.'); 
     }
     
-    async create()
+    async onCreate()
     {
         if (this.material) {
             if (this.scene.hdrTexture) {
@@ -73,7 +73,7 @@ export class VectorField extends SolidParticleSystemElement implements IDepthFin
     async loadModel()
     {
       
-        //bjs.OBJFileLoader.
+        //bj.OBJFileLoader.
         Logger.log("Loading Smooth Cube");
         const newMeshes = await bjs.SceneLoader.ImportMeshAsync(null, "/", 'SimpleCube.babylon', this.scene.bjsScene);
         newMeshes.meshes[0].position.set(0, 0, 0);

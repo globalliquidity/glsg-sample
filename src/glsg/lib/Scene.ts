@@ -51,7 +51,7 @@ export class Scene implements IScene
     {
         Logger.log("Creating Base Scene");
         if (this.bjsScene) {
-            this.camera = new bjs.ArcRotateCamera("Camera", 0, 0, 15, new bjs.Vector3(0.0, 0, 10), this.bjsScene);
+            this.camera = new bjs.ArcRotateCamera("Camera", 0, 0, 0, new bjs.Vector3(0, 0, 0), this.bjsScene);
             // Environment Texture
 
             if (this.hdrSkyboxTexture) {

@@ -6,6 +6,7 @@ export class SceneElement extends bjs.TransformNode implements ISceneElement
 {
     public scene: Scene;
     sceneElements: Array<ISceneElement>;
+    isCreated : boolean = false;
 
     constructor(public name: string, public x: number, public y: number, public z: number, scene: Scene)
     {
@@ -15,28 +16,29 @@ export class SceneElement extends bjs.TransformNode implements ISceneElement
         this.sceneElements = new Array<SceneElement>();
     }
 
-    protected create()
+    public create()
     {
+        this.onCreate();
+        this.isCreated = true;
     }
 
-    protected onPreRender()
-    {
-    }
-
-    protected onRender()
-    {
-    }
-
+   
     public preRender()
     {
-        this.sceneElements.forEach( e => { e.preRender() });
-        this.onPreRender();
+        if (this.isCreated)
+        {
+            this.sceneElements.forEach( e => { e.preRender() });
+            this.onPreRender();
+        }
     }
 
     public render()
     {
-        this.sceneElements.forEach( e => { e.render() });
-        this.onRender();
+        if (this.isCreated)
+        {
+            this.sceneElements.forEach( e => { e.render() });
+            this.onRender();
+        }
     }
 
     public addChild(element: SceneElement)
@@ -49,6 +51,20 @@ export class SceneElement extends bjs.TransformNode implements ISceneElement
     {
         this.onDisposing();
     }
+
+    protected onCreate()
+    {
+        
+    }
+
+    protected onPreRender()
+    {
+    }
+
+    protected onRender()
+    {
+    }
+
 
     protected onDisposing()
     {

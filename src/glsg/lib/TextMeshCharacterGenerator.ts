@@ -40,7 +40,7 @@ export class TextMeshCharacterGenerator extends SceneElement implements ITextMes
    
     public addCharacterMesh(character: string, mesh: bjs.Mesh | undefined)
     {
-        //Logger.log('TextMeshCaracterGenerator :  adding mesh for : ' + character);
+        //console.log('TextMeshCaracterGenerator :  adding mesh for : ' + character);
         if (!mesh) return;
         
         let instancedMesh : bjs.InstancedMesh = mesh.createInstance(character);
@@ -59,6 +59,10 @@ export class TextMeshCharacterGenerator extends SceneElement implements ITextMes
 
         if (characterMesh) {
             characterMesh.isVisible = true;
+        }
+        else
+        {
+            console.log("TMCG : No mesh at : " + character);
         }
     }
 }
