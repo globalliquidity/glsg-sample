@@ -56,6 +56,7 @@ export class PieMenuItemElement extends SceneElement
         //this.itemText = new TextMeshNumberGenerator("ActiveItem", 0,0,0,this.scene,textMaterial);
         this.itemText = new TextMeshString("ActiveItem", 0,0,0,this.scene,this.text);
 
+
         //await this.itemText.create();
         //this.itemText.setText("237.15");
         this.itemText.scaling = new bjs.Vector3(0.33,0.33,0.33);

@@ -131,7 +131,7 @@ export class PieMenuElement extends SceneElement
 
         var centerButton = new bjsgui.MeshButton3D(centerMesh, "centerButton");
         centerButton.position = new bjs.Vector3(0,0,0);
-        centerButton.scaling = new bjs.Vector3(0.75,0.75,0.75);
+        //centerButton.scaling = new bjs.Vector3(0.75,0.75,0.75);
 
         centerButton.pointerDownAnimation = () =>
         {
@@ -156,7 +156,7 @@ export class PieMenuElement extends SceneElement
             }
         }
         centerButton.pointerUpAnimation = () => {
-            this.scaling = new bjs.Vector3(0.2,0.2,0.2);
+            this.scaling = new bjs.Vector3(0.5,0.5,0.5);
             
         }
         centerButton.onPointerDownObservable.add(() => {

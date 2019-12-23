@@ -54,7 +54,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString
                 characterMesh.isVisible = true;
                 characterMesh.position = this.position;
                 characterMesh.scaling = new Vector3(1,1,1);
-                //characterMesh.showBoundingBox = true;
+                characterMesh.showBoundingBox = false;
                 //characterMesh.position.x = characterMesh.position.x + (i * 10);
                 this.characterMeshes.push(characterMesh);
             }
@@ -73,6 +73,9 @@ export class TextMeshString extends SceneElement implements ITextMeshString
             console.log("TextMeshString : Character - " + currentCharacter + " is " + boundingWidth + " wide.");
             let characterSpacing : number = 1;
             let offset : number = -(this.characterMeshes.length * 1 * 0.5);
+            //let offset : number = 0;
+
+
             this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(offset + ( characterSpacing * i),0,0));
         }
 
@@ -115,6 +118,14 @@ export class TextMeshString extends SceneElement implements ITextMeshString
         for (var i=0; i<this.characterMeshes.length; i++)
         {
             this.characterMeshes[i].scaling = scaling;
+        }
+    }
+
+    public setVisibility(isVisible : boolean)
+    {
+        for (var i=0; i<this.characterMeshes.length; i++)
+        {
+            this.characterMeshes[i].isVisible = isVisible;
         }
     }
 }

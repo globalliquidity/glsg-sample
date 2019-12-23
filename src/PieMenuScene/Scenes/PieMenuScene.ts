@@ -14,7 +14,7 @@ export class PieMenuScene extends Scene
     menu:PieMenuElement
     //menuPosition : Vector3 = new Vector3(-4,3.15,0);
     //menuPosition : Vector3 = new Vector3(-4.25,4.25,10);
-    menuPosition : Vector3 = new Vector3(0,0,0);
+    menuPosition : Vector3 = new Vector3(-1.5,0,0);
 
     centerBox : bjs.Mesh;
 
@@ -32,7 +32,7 @@ export class PieMenuScene extends Scene
         //let canvasAspectRatio = (this.canvas.clientWidth/this.canvas.clientHeight);
         let aspectRatio = ( this.canvas.clientHeight * this.camera.viewport.height) / ( this.canvas.clientWidth * this.camera.viewport.width);
 
-        this.camera.radius = 20;
+        this.camera.radius = 10;
        
         /*
         this.camera.mode = bjs.Camera.ORTHOGRAPHIC_CAMERA;
@@ -61,8 +61,10 @@ export class PieMenuScene extends Scene
                                         this.menuPosition.y,
                                         this.menuPosition.z,
                                         this,
-                                        this.itemCount);  
+                                        this.itemCount);
+        //this.menu.rotation.y = Math.PI/8;  
         this.AddSceneElement(this.menu);
+        this.camera.wheelPrecision = 15;
         
         //this.centerBox = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1 }, this.bjsScene);
     }
