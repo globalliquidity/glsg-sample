@@ -45,9 +45,10 @@ export class PieMenuItemElement extends SceneElement
         //this.button.position = new bjs.Vector3(0,0,0);
         //this.mesh.scaling = new bjs.Vector3(1,1,1);
 
-        this.mesh.scaling.x = .01 * this.itemScale;
-        this.mesh.scaling.y = .01 * this.itemScale;
-        this.mesh.scaling.z = .01 * this.itemScale;
+        //this.mesh.scaling.x = .02 * this.itemScale;
+        //this.mesh.scaling.y = .0001 * this.itemScale;
+        //this.mesh.scaling.z = .01 * this.itemScale;
+        this.mesh.position.z = .05;
 
         let textMaterial : PBRMetallicRoughnessMaterial = new PBRMetallicRoughnessMaterial("text",this.scene.bjsScene);
        
@@ -55,6 +56,7 @@ export class PieMenuItemElement extends SceneElement
 
         //this.itemText = new TextMeshNumberGenerator("ActiveItem", 0,0,0,this.scene,textMaterial);
         this.itemText = new TextMeshString("ActiveItem", 0,0,0,this.scene,this.text);
+        //this.itemText.setVisibility(false);
 
 
         //await this.itemText.create();
@@ -75,6 +77,12 @@ export class PieMenuItemElement extends SceneElement
 
         //console.log(this.axle.rotationQuaternion.toEulerAngles());
         this.itemText.rotation = new Vector3(0,0,-axleRotation.z);
+
+        //if (this.itemText.rotation.z < (-Math.PI/2))
+         //   this.itemText.setVisibility(false);
+        //else   
+            //this.itemText.setVisibility(true);
+        //this.mesh.rotation = new Vector3(0,0,-axleRotation);
         
     }
 }

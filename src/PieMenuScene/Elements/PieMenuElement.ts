@@ -36,7 +36,7 @@ export class PieMenuElement extends SceneElement
 
     menuActiveItem : TextMeshNumberGenerator;
 
-    testItems : Array<string> = [ 'BINANCE', 'BITFINEX', 'BITTREX', 'KUKOIN', 'COINBASEPRO', 'POLONIEX', 'KRAKEN', 'BIBOX', 'HUOBI', 'HITBTC', 'BITMART', 'BITSTAMP', 'OKEX' ];
+    testItems : Array<string> = [ 'BIBOX', 'BITFINEX','BITSTAMP','COINBASEPRO', 'BITMART', 'BITTREX', 'HITBTC', 'HUOBI', 'KRAKEN',  'KUKOIN', 'OKEX', 'POLONIEX' ];
 
 
     constructor(name: string,
