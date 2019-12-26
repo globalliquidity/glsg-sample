@@ -36,7 +36,8 @@ export class PieMenuElement extends SceneElement
 
     menuActiveItem : TextMeshNumberGenerator;
 
-    testItems : Array<string> = [ 'BIBOX', 'BITFINEX','BITSTAMP','COINBASEPRO', 'BITMART', 'BITTREX', 'HITBTC', 'HUOBI', 'KRAKEN',  'KUKOIN', 'OKEX', 'POLONIEX' ];
+    //testItems : Array<string> = [ 'BIBOX', 'BITFINEX','BITSTAMP','COINBASEPRO', 'BITMART', 'BITTREX', 'HITBTC', 'HUOBI', 'KRAKEN',  'KUKOIN', 'OKEX', 'POLONIEX' ];
+    testItems : Array<string> = [ 'ONE', 'TWO','THREE','FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE',  'TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN' ];
 
 
     constructor(name: string,
@@ -247,7 +248,7 @@ export class PieMenuElement extends SceneElement
     
     private positionMenuItems()
     {
-        let itemAngleIncrement = (2 * Math.PI) / this.itemCount;
+        let itemAngleIncrement = -(2 * Math.PI) / this.itemCount;
 
         for( var i = 0; i < this.itemCount; i++)
         {
