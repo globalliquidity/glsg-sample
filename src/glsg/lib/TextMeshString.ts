@@ -54,7 +54,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString
                 characterMesh.isVisible = true;
                 characterMesh.position = this.position;
                 characterMesh.scaling = new Vector3(1,1,1);
-                characterMesh.showBoundingBox = false;
+                characterMesh.showBoundingBox = true;
                 //characterMesh.position.x = characterMesh.position.x + (i * 10);
                 this.characterMeshes.push(characterMesh);
             }
