@@ -36,7 +36,7 @@ export class PieMenuItemElement extends SceneElement
     {
         this.mesh = this.model.clone("item");
         this.mesh.parent = this;
-        this.mesh.isVisible = false;
+        this.mesh.isVisible = true;
         //this.mesh.position.y = 1.618;
         //this.mesh.position.z = 0;
 
@@ -45,9 +45,9 @@ export class PieMenuItemElement extends SceneElement
         //this.button.position = new bjs.Vector3(0,0,0);
         //this.mesh.scaling = new bjs.Vector3(1,1,1);
 
-        //this.mesh.scaling.x = .02 * this.itemScale;
-        //this.mesh.scaling.y = .0001 * this.itemScale;
-        //this.mesh.scaling.z = .01 * this.itemScale;
+        this.mesh.scaling.x = .01 * this.itemScale;
+        this.mesh.scaling.y = .01 * this.itemScale;
+        this.mesh.scaling.z = .01 * this.itemScale;
         this.mesh.position.z = .05;
 
         let textMaterial : PBRMetallicRoughnessMaterial = new PBRMetallicRoughnessMaterial("text",this.scene.bjsScene);
