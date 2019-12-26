@@ -80,7 +80,7 @@ export class TextMeshModelLoader
         {
             //numberMeshes.meshes[i].parent = this;
             fontMeshes.meshes[i].material = this.textMaterial;
-            //numberMeshes.meshes[i].rotation.x = -Math.PI/2;
+            fontMeshes.meshes[i].rotation.x = -Math.PI/2;
             fontMeshes.meshes[i].isVisible = false;
             this.characterMeshes.set((i).toString(), fontMeshes.meshes[i] as bjs.Mesh);
         }
@@ -94,7 +94,7 @@ export class TextMeshModelLoader
             
             //numberMeshes.meshes[i].parent = this;
             fontMeshes.meshes[i].material = this.textMaterial;
-            //numberMeshes.meshes[i].rotation.x = -Math.PI/2;
+            fontMeshes.meshes[i].rotation.x = -Math.PI/2;
             fontMeshes.meshes[i].isVisible = false;
             this.characterMeshes.set(currentLetter, fontMeshes.meshes[i] as bjs.Mesh);
         }

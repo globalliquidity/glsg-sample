@@ -32,7 +32,7 @@ export class PieMenuScene extends Scene
         this.bjsScene.imageProcessingConfiguration.exposure = 0.6;
         this.bjsScene.imageProcessingConfiguration.toneMappingEnabled = true;
 
-        this.glowLayer = new bjs.GlowLayer("glow", this.bjsScene, { mainTextureSamples: 2 });
+        //this.glowLayer = new bjs.GlowLayer("glow", this.bjsScene, { mainTextureSamples: 2 });
 
         var helper = this.bjsScene.createDefaultEnvironment();
         helper.setMainColor(BABYLON.Color3.Gray());
