@@ -43,8 +43,7 @@ export class PieMenuItemElement extends SceneElement
         this.button = new bjsgui.MeshButton3D(this.mesh, "itemButton");
         //this.button.parent = this;
         //this.button.position = new bjs.Vector3(0,0,0);
-        //this.mesh.scaling = new bjs.Vector3(1,1,1);
-
+    
         this.mesh.scaling.x = .01 * this.itemScale;
         this.mesh.scaling.y = .01 * this.itemScale;
         this.mesh.scaling.z = .01 * this.itemScale;
