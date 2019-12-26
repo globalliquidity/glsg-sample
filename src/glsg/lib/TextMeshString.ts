@@ -6,11 +6,13 @@ import { TextMeshCharacterGenerator } from './TextMeshCharacterGenerator';
 import GLSGAssetManager from '../AssetManager';
 import { TextMeshModelLoader } from './TextMeshModelLoader';
 import { InstancedMesh, Vector3, BackEase } from 'babylonjs';
+import { HorizontalAlignment, VerticalAlignment } from './Enums';
 
 export class TextMeshString extends SceneElement implements ITextMeshString
 {
      characterMeshes: Array<InstancedMesh> = [];
      characterSpacing : number = 1;
+    
      box : bjs.Mesh;
 
     constructor(name:string, 
@@ -18,7 +20,9 @@ export class TextMeshString extends SceneElement implements ITextMeshString
                 public y: number,
                 public z: number,
                 scene:Scene,
-                public text : string)
+                public text : string,
+                public horizontalAlignment = HorizontalAlignment.Left,
+                public verticalAlignment : VerticalAlignment = VerticalAlignment.Middle)
     {   
         super(
             name,
@@ -49,7 +53,6 @@ export class TextMeshString extends SceneElement implements ITextMeshString
 
             if (characterMesh != null)
             {
-                //characterMesh.setParent(this);
                 characterMesh.parent = this;
                 characterMesh.isVisible = true;
                 characterMesh.position = this.position;
@@ -69,14 +72,50 @@ export class TextMeshString extends SceneElement implements ITextMeshString
         {
             //this.characterMeshes[i].position.x += i;
             let currentCharacter : bjs.InstancedMesh = this.characterMeshes[i];
-            let boundingWidth = currentCharacter.getBoundingInfo().boundingBox.extendSize.x;
-            console.log("TextMeshString : Character - " + currentCharacter + " is " + boundingWidth + " wide.");
+            let characterWidth = currentCharacter.getBoundingInfo().boundingBox.extendSize.x * 2;
+            console.log("TextMeshString : Character - " + currentCharacter + " is " + characterWidth + " wide.");
+            let characterHeight = currentCharacter.getBoundingInfo().boundingBox.extendSize.y * 2;
+            console.log("TextMeshString : Character - " + currentCharacter + " is " + characterHeight + " high.");
+            
             let characterSpacing : number = 1;
-            let offset : number = -(this.characterMeshes.length * 1 * 0.5);
-            //let offset : number = 0;
+            //let offset : number = 
+            let horizontalOffset : number = 0;
+
+            //Align the string horizontally
+            if (this.horizontalAlignment === HorizontalAlignment.Left)
+            {
+                horizontalOffset = 0
+            }
+            else if (this.horizontalAlignment === HorizontalAlignment.Center)
+            {
+                //Offset the whole string horizontally by half the length of the string.
+                //For now this is using the fixed character width, but we will update this with
+                //logic that accounts for variable width characters.
+                horizontalOffset = -(this.characterMeshes.length * characterSpacing * 0.5);
+            }
+            else if (this.horizontalAlignment === HorizontalAlignment.Right)
+            {
+                //Offset the whole string horizontally the length of the string.
+                horizontalOffset = -(this.characterMeshes.length * characterSpacing);
+            }
+
+            let verticalOffset : number = 0;
+
+            if (this.verticalAlignment === VerticalAlignment.Bottom)
+            {
+                verticalOffset = -(characterHeight * 0.5);
+            }
+            else if (this.verticalAlignment === VerticalAlignment.Middle)
+            {
+                verticalOffset = 0;
+            }
+            else if (this.verticalAlignment === VerticalAlignment.Top)
+            {
+                verticalOffset = (characterHeight *2);
+            }
 
 
-            this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(offset + ( characterSpacing * i),0,0));
+            this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + ( characterSpacing * i),0,verticalOffset));
         }
 
     }
