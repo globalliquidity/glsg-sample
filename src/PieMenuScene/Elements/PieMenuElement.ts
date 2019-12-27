@@ -6,6 +6,7 @@ import PieMenuSceneAssetManager from '../AssetManager';
 import GLSGAssetManager from '../../glsg/AssetManager';
 
 import { CannonJSPlugin, PBRMetallicRoughnessMaterial } from 'babylonjs';
+import { Vector3WithInfo } from 'babylonjs-gui';
 
 
 export enum MenuState
@@ -92,12 +93,14 @@ export class PieMenuElement extends SceneElement
     protected async buildMenu()
     {
         this.buildCenterButton();
-        this.pivot = bjs.MeshBuilder.CreateSphere("sphere", {diameter:0.1}, this.scene.bjsScene);
+        this.pivot = bjs.MeshBuilder.CreateSphere("sphere", {diameter:0.3}, this.scene.bjsScene);
         this.pivot.position = this.position;
         this.axle = bjs.MeshBuilder.CreateBox("holder", { width: .2, height: .2, depth: 0.5}, this.scene.bjsScene);
         this.axle.position = this.position;
-        this.axle.isVisible = false;
-        this.pivot.isVisible = false;
+        this.axle.isVisible = true;
+        this.pivot.isVisible = true;
+        //this.axle.parent = this;
+        //this.pivot.parent = this;
 
         this.pivot.physicsImpostor = new bjs.PhysicsImpostor(this.pivot, bjs.PhysicsImpostor.SphereImpostor, { mass: 0 });      
         this.axle.physicsImpostor =  new bjs.PhysicsImpostor(this.axle, bjs.PhysicsImpostor.BoxImpostor, { mass: 10 });

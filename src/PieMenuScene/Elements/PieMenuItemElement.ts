@@ -36,7 +36,7 @@ export class PieMenuItemElement extends SceneElement
     {
         this.mesh = this.model.clone("item");
         this.mesh.parent = this;
-        this.mesh.isVisible = false;
+        this.mesh.isVisible = true;
         //this.mesh.position.y = 1.618;
         //this.mesh.position.z = 0;
 

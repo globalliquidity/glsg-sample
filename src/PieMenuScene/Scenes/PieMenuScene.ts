@@ -64,9 +64,30 @@ export class PieMenuScene extends Scene
                                         this.itemCount);
         //this.menu.rotation.y = Math.PI/8;  
         this.AddSceneElement(this.menu);
-        this.camera.wheelPrecision = 15;
-        
+        this.camera.wheelPrecision = 15;        
         //this.centerBox = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1 }, this.bjsScene);
+    }
+
+    protected onPreRender()
+    {
+        if(this.menu && this.menu.pivot && this.menu.axle){
+
+            var menuRay = this.bjsScene.createPickingRay(
+                0,
+                this.canvas.clientHeight / 2,
+                bjs.Matrix.Identity(),
+                this.camera
+            )
+            this.menuPosition = menuRay.origin.add(menuRay.direction.scale(10))
+    
+            this.menu.position = this.menuPosition;
+
+            this.menu.pivot.position = this.menuPosition;
+            this.menu.axle.position = this.menuPosition;
+
+            let axis1 : Vector3 = new Vector3(-1.5,0,0);
+            //let axis1 = new bjs.Vector3(this.camera.upVetor());
+        }
     }
 
     protected onRender()
