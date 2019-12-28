@@ -11,7 +11,7 @@ import { HorizontalAlignment, VerticalAlignment } from './Enums';
 export class TextMeshString extends SceneElement implements ITextMeshString
 {
      characterMeshes: Array<InstancedMesh> = [];
-     characterSpacing : number = 1;
+     characterSpacing : number = 1.;
     
      box : bjs.Mesh;
 
@@ -43,6 +43,9 @@ export class TextMeshString extends SceneElement implements ITextMeshString
         //this.box.setParent(this);
         //this.box.parent = this;
         //this.box.position = this.position;
+        let characterOffset : number = 0;
+        let prevCharacterWidth : number = 0;
+        //let maxCharacterWidth: number = 1;
 
         console.log("TextMeshString : Creating Meshes for : " + this.text);
         for( var i = 0; i < this.text.length; i++)
@@ -57,7 +60,8 @@ export class TextMeshString extends SceneElement implements ITextMeshString
                 characterMesh.isVisible = true;
                 characterMesh.position = this.position;
                 characterMesh.scaling = new Vector3(1,1,1);
-                characterMesh.showBoundingBox = true;
+                characterMesh.showBoundingBox = false;
+                //characterMesh.position.x = characterMesh.position.x + (i * 10);
                 this.characterMeshes.push(characterMesh);
             }
             else
@@ -76,9 +80,17 @@ export class TextMeshString extends SceneElement implements ITextMeshString
             let characterHeight = currentCharacter.getBoundingInfo().boundingBox.extendSize.y * 2;
             console.log("TextMeshString : Character - " + currentCharacter + " is " + characterHeight + " high.");
             
-            let characterSpacing : number = 1;
+            //let characterSpacing : number = 1;
             //let offset : number = 
             let horizontalOffset : number = 0;
+
+            // Calculate offset of each character
+            characterOffset += prevCharacterWidth + ((characterWidth - prevCharacterWidth) / 2) + ((i == 0) ? 0 : this.characterSpacing);
+            
+            // Above equation is equal to following calculation
+            //characterOffset += prevCharacterWidth + ((maxCharacterWidth - prevCharacterWidth) / 2) - ((maxCharacterWidth - characterWidth) / 2) + ((i == 0) ? 0 : characterSpacing);
+            
+            prevCharacterWidth = characterWidth;
 
             //Align the string horizontally
             if (this.horizontalAlignment === HorizontalAlignment.Left)
@@ -90,12 +102,12 @@ export class TextMeshString extends SceneElement implements ITextMeshString
                 //Offset the whole string horizontally by half the length of the string.
                 //For now this is using the fixed character width, but we will update this with
                 //logic that accounts for variable width characters.
-                horizontalOffset = -(this.characterMeshes.length * characterSpacing * 0.5);
+                horizontalOffset = -(this.characterMeshes.length * this.characterSpacing * 0.5);
             }
             else if (this.horizontalAlignment === HorizontalAlignment.Right)
             {
                 //Offset the whole string horizontally the length of the string.
-                horizontalOffset = -(this.characterMeshes.length * characterSpacing);
+                horizontalOffset = -(this.characterMeshes.length * this.characterSpacing);
             }
 
             let verticalOffset : number = 0;
@@ -114,7 +126,8 @@ export class TextMeshString extends SceneElement implements ITextMeshString
             }
 
 
-            this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + ( characterSpacing * i),0,verticalOffset));
+            //this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + ( characterSpacing * i),0,verticalOffset));
+            this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + characterOffset,0,verticalOffset));
         }
 
     }
