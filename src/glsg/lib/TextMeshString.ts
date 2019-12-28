@@ -43,6 +43,9 @@ export class TextMeshString extends SceneElement implements ITextMeshString
         //this.box.setParent(this);
         //this.box.parent = this;
         //this.box.position = this.position;
+        let characterOffset : number = 0;
+        let prevCharacterWidth : number = 0;
+        //let maxCharacterWidth: number = 1;
 
         console.log("TextMeshString : Creating Meshes for : " + this.text);
         for( var i = 0; i < this.text.length; i++)
@@ -81,6 +84,14 @@ export class TextMeshString extends SceneElement implements ITextMeshString
             //let offset : number = 
             let horizontalOffset : number = 0;
 
+            // Calculate offset of each character
+            characterOffset += prevCharacterWidth + ((characterWidth - prevCharacterWidth) / 2) + ((i == 0) ? 0 : characterSpacing);
+            
+            // Above equation is equal to following calculation
+            //characterOffset += prevCharacterWidth + ((maxCharacterWidth - prevCharacterWidth) / 2) - ((maxCharacterWidth - characterWidth) / 2) + ((i == 0) ? 0 : characterSpacing);
+            
+            prevCharacterWidth = characterWidth;
+
             //Align the string horizontally
             if (this.horizontalAlignment === HorizontalAlignment.Left)
             {
@@ -115,7 +126,8 @@ export class TextMeshString extends SceneElement implements ITextMeshString
             }
 
 
-            this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + ( characterSpacing * i),0,verticalOffset));
+            //this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + ( characterSpacing * i),0,verticalOffset));
+            this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + characterOffset,0,verticalOffset));
         }
 
     }
