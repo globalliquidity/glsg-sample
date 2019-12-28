@@ -18,6 +18,7 @@ export class PieMenuScene extends Scene
 
     centerBox : bjs.Mesh;
     glowLayer : bjs.GlowLayer;
+    glowEnabled : boolean = false;
 
 
 
@@ -32,7 +33,8 @@ export class PieMenuScene extends Scene
         this.bjsScene.imageProcessingConfiguration.exposure = 0.6;
         this.bjsScene.imageProcessingConfiguration.toneMappingEnabled = true;
 
-        this.glowLayer = new bjs.GlowLayer("glow", this.bjsScene, { mainTextureSamples: 2 });
+        if (this.glowEnabled)
+            this.glowLayer = new bjs.GlowLayer("glow", this.bjsScene, { mainTextureSamples: 2 });
 
         var helper = this.bjsScene.createDefaultEnvironment();
         helper.setMainColor(BABYLON.Color3.Gray());
