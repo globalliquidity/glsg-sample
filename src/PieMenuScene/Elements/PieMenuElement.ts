@@ -39,7 +39,7 @@ export class PieMenuElement extends SceneElement
     
     activeItemIndex : number = 0;
 
-    firstItemOffset : number = 2; //Rotate the menu two places so the active its is in the right place
+    firstItemIndexOffset : number = 2; //Rotate the menu two places so the active its is in the right place
     currentMenuRotation : number = 0;
     targetMenuRotation : number = 0;
 
@@ -104,7 +104,7 @@ export class PieMenuElement extends SceneElement
         this.pivot.position = this.position;
         this.axle = bjs.MeshBuilder.CreateBox("holder", { width: .2, height: .2, depth: 0.5}, this.scene.bjsScene);
         this.axle.position = this.position;
-        this.axle.isVisible = true;
+        this.axle.isVisible = false;
         this.pivot.isVisible = false;
         
         this.axle.physicsImpostor =  new bjs.PhysicsImpostor(this.axle, bjs.PhysicsImpostor.BoxImpostor, { mass: 10 });
@@ -112,7 +112,7 @@ export class PieMenuElement extends SceneElement
        
         await this.buildItems();
         let itemAngleIncrement = -(2 * Math.PI) / this.itemCount;
-        this.targetMenuRotation = this.firstItemOffset * itemAngleIncrement;
+        this.targetMenuRotation = this.firstItemIndexOffset * itemAngleIncrement;
         this.currentMenuRotation = this.targetMenuRotation;
         this.axle.rotation = new Vector3(0,0,this.currentMenuRotation);
     }
@@ -139,15 +139,9 @@ export class PieMenuElement extends SceneElement
             if (this.menuState === MenuState.Closed)
                 this.open();
             else if ( (this.menuState === MenuState.Open) || (this.menuState === MenuState.Rotating))
-            {  
-                var impulseDirection = new bjs.Vector3(1, 0, 0);
-                var impulseMagnitude = .2;
-                var contactLocalRefPoint = new bjs.Vector3(0, 1.5, 0);
-
+            {       
                 let itemAngleIncrement = -(2 * Math.PI) / this.itemCount;
-
                 this.targetMenuRotation += itemAngleIncrement;
-
                 this.menuState = MenuState.Rotating;
             }
         }
@@ -261,6 +255,7 @@ export class PieMenuElement extends SceneElement
                 {
                     this.activeItemIndex = 0;
                 }
+
                 this.menuState = MenuState.Open;
             }
         }
