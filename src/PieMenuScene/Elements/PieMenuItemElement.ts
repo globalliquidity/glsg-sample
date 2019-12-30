@@ -63,6 +63,7 @@ export class PieMenuItemElement extends SceneElement
         this.itemText.scaling = new bjs.Vector3(0.33,0.33,0.33);
         //this.itemText.setPosition(-1,0,-10.05);
         //this.itemText.setPivotPoint(new bjs.Vector3(0.75,-0.25,0));
+        
         this.addChild(this.itemText);
         //this.itemText.parent = this.button;
 

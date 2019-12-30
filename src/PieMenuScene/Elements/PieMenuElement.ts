@@ -80,7 +80,7 @@ export class PieMenuElement extends SceneElement
         //await this.menuActiveItem.create();
         //this.menuActiveItem.setText("0123");
         //this.menuActiveItem.setPosition(-2,0,0);
-        this.addChild(this.menuActiveItem);
+        //this.addChild(this.menuActiveItem);
 
         /*
         bjs.SceneLoader.ImportMesh("", "../Assets/models/", "pushButton.glb", this.scene.bjsScene, function (newMeshes) {
