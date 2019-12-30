@@ -74,7 +74,7 @@ export class PieMenuScene extends Scene
 
             var menuRay = this.bjsScene.createPickingRay(
                 0,
-                0,
+                this.canvas.clientHeight / 2,
                 bjs.Matrix.Identity(),
                 this.camera
             )
