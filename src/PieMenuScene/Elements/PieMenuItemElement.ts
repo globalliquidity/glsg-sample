@@ -73,9 +73,7 @@ export class PieMenuItemElement extends SceneElement
 
     protected onRender()
     {
-        let axleRotation : bjs.Vector3 = this.axle.rotationQuaternion.toEulerAngles();
-
-        //console.log(this.axle.rotationQuaternion.toEulerAngles());
+        let axleRotation : bjs.Vector3 = this.axle.rotation;
         this.itemText.rotation = new Vector3(0,0,-axleRotation.z);
 
         //if (this.itemText.rotation.z < (-Math.PI/2))
