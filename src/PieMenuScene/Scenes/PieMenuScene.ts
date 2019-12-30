@@ -10,13 +10,15 @@ const OIMO = require('oimo');
 
 export class PieMenuScene extends Scene
 {
-    itemCount : number = 9;
+    itemCount : number = 10;
     menu:PieMenuElement
     //menuPosition : Vector3 = new Vector3(-4,3.15,0);
     //menuPosition : Vector3 = new Vector3(-4.25,4.25,10);
     menuPosition : Vector3 = new Vector3(-1.5,0,0);
 
     centerBox : bjs.Mesh;
+    glowLayer : bjs.GlowLayer;
+    glowEnabled : boolean = false;
 
 
 
@@ -26,6 +28,18 @@ export class PieMenuScene extends Scene
     
     protected async createScene()
     {
+
+        this.bjsScene.imageProcessingConfiguration.contrast = 1.6;
+        this.bjsScene.imageProcessingConfiguration.exposure = 0.6;
+        this.bjsScene.imageProcessingConfiguration.toneMappingEnabled = true;
+
+        if (this.glowEnabled)
+            this.glowLayer = new bjs.GlowLayer("glow", this.bjsScene, { mainTextureSamples: 2 });
+
+        var helper = this.bjsScene.createDefaultEnvironment();
+        helper.setMainColor(BABYLON.Color3.Gray());
+        
+
         await TextMeshModelLoader.Instance.init(this);
         //this.camera = new bjs.ArcRotateCamera("Camera", 0, 0, 15, new bjs.Vector3(0.0, 0, 100), this.bjsScene);
 

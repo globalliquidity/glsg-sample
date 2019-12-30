@@ -9,10 +9,12 @@ import { CannonJSPlugin, PBRMetallicRoughnessMaterial } from 'babylonjs';
 import { Vector3WithInfo } from 'babylonjs-gui';
 
 
+
 export enum MenuState
 {
     Closed,
     Opening,
+    Rotating,
     Closing,
     Open
 }
@@ -36,8 +38,15 @@ export class PieMenuElement extends SceneElement
     rotationAmplifier : number = 0;
 
     menuActiveItem : TextMeshNumberGenerator;
+    
+    activeItemIndex : number = 0;
 
-    testItems : Array<string> = [ 'BINANCE', 'BITFINEX', 'BITTREX', 'KUKOIN', 'COINBASEPRO', 'POLONIEX', 'KRAKEN', 'BIBOX', 'HUOBI', 'HITBTC', 'BITMART', 'BITSTAMP', 'OKEX' ];
+    firstItemIndexOffset : number = 2; //Rotate the menu two places so the active its is in the right place
+    currentMenuRotation : number = 0;
+    targetMenuRotation : number = 0;
+
+    //testItems : Array<string> = [ 'BIBOX', 'BITFINEX','BITSTAMP','COINBASEPRO', 'BITMART', 'BITTREX', 'HITBTC', 'HUOBI', 'KRAKEN',  'KUKOIN', 'OKEX', 'POLONIEX' ];
+    testItems : Array<string> = [ 'ONE', 'TWO','THREE','FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE',  'TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN' ];
 
 
     constructor(name: string,
@@ -80,7 +89,7 @@ export class PieMenuElement extends SceneElement
         //await this.menuActiveItem.create();
         //this.menuActiveItem.setText("0123");
         //this.menuActiveItem.setPosition(-2,0,0);
-        this.addChild(this.menuActiveItem);
+        //this.addChild(this.menuActiveItem);
 
         /*
         bjs.SceneLoader.ImportMesh("", "../Assets/models/", "pushButton.glb", this.scene.bjsScene, function (newMeshes) {
@@ -97,27 +106,20 @@ export class PieMenuElement extends SceneElement
         this.pivot.position = this.position;
         this.axle = bjs.MeshBuilder.CreateBox("holder", { width: .2, height: .2, depth: 0.5}, this.scene.bjsScene);
         this.axle.position = this.position;
-        this.axle.isVisible = true;
-        this.pivot.isVisible = true;
+
+        this.axle.isVisible = false;
+        this.pivot.isVisible = false;
         //this.axle.parent = this;
         //this.pivot.parent = this;
 
         this.pivot.physicsImpostor = new bjs.PhysicsImpostor(this.pivot, bjs.PhysicsImpostor.SphereImpostor, { mass: 0 });      
         this.axle.physicsImpostor =  new bjs.PhysicsImpostor(this.axle, bjs.PhysicsImpostor.BoxImpostor, { mass: 10 });
-
-        //Add Joint
-        this.joint = new bjs.HingeJoint({  
-            mainPivot: new bjs.Vector3(0, 0, 0),
-            connectedPivot: new bjs.Vector3(0, 0, 0),
-            mainAxis: new bjs.Vector3(0, 0, 1),
-            connectedAxis: new bjs.Vector3(0, 0, 1),
-            nativeParams: {
-            }
-            }); 
-
-        this.pivot.physicsImpostor.addJoint(this.axle.physicsImpostor, this.joint);         
+       
         await this.buildItems();
-        //this.open();
+        let itemAngleIncrement = -(2 * Math.PI) / this.itemCount;
+        this.targetMenuRotation = this.firstItemIndexOffset * itemAngleIncrement;
+        this.currentMenuRotation = this.targetMenuRotation;
+        this.axle.rotation = new Vector3(0,0,this.currentMenuRotation);
     }
 
     protected buildCenterButton()
@@ -141,21 +143,11 @@ export class PieMenuElement extends SceneElement
             
             if (this.menuState === MenuState.Closed)
                 this.open();
-            else if (this.menuState === MenuState.Open)
-            {  
-                var impulseDirection = new bjs.Vector3(1, 0, 0);
-                var impulseMagnitude = .2;
-                var contactLocalRefPoint = new bjs.Vector3(0, 1.5, 0);
-                
-                if (this.axle.physicsImpostor != null)
-                {
-                    this.axle.physicsImpostor.applyImpulse(impulseDirection
-                                                            .scale(impulseMagnitude),
-                                                            this.axle.getAbsolutePosition()
-                                                            .add(contactLocalRefPoint));
-                }
-                else
-                    console.log("imposter is null");         
+            else if ( (this.menuState === MenuState.Open) || (this.menuState === MenuState.Rotating))
+            {       
+                let itemAngleIncrement = -(2 * Math.PI) / this.itemCount;
+                this.targetMenuRotation += itemAngleIncrement;
+                this.menuState = MenuState.Rotating;
             }
         }
         centerButton.pointerUpAnimation = () => {
@@ -207,8 +199,14 @@ export class PieMenuElement extends SceneElement
         this.menuState = MenuState.Closing; 
     }
 
+    private nextItem()
+    {
+
+    }
+
     protected onPreRender()
     {
+        /*
         if (this.axle != null)
         {
             
@@ -217,7 +215,8 @@ export class PieMenuElement extends SceneElement
                                                                         new bjs.Vector3(0,0,0)
                                                                         ,0.11));  
                                                                         
-        }     
+        }   
+        */  
     }
 
     protected onRender()
@@ -244,13 +243,35 @@ export class PieMenuElement extends SceneElement
             }
             this.positionMenuItems();
         }
+        else if (this.menuState === MenuState.Rotating)
+        {
+            this.currentMenuRotation = bjs.Scalar.Lerp(this.currentMenuRotation,this.targetMenuRotation,0.1);
+            this.axle.rotation = new Vector3(0,0,this.currentMenuRotation);
+
+            if (this.currentMenuRotation - this.targetMenuRotation < 0.01)
+            {
+                this.currentMenuRotation = this.targetMenuRotation;
+
+                if (this.activeItemIndex < (this.itemCount - 1))
+                {
+                    this.activeItemIndex ++;
+                }
+                else
+                {
+                    this.activeItemIndex = 0;
+                }
+
+                this.menuState = MenuState.Open;
+            }
+        }
         
         
     }
     
     private positionMenuItems()
     {
-        let itemAngleIncrement = (2 * Math.PI) / this.itemCount;
+      
+        let itemAngleIncrement = -((2 * Math.PI) / this.itemCount);
 
         for( var i = 0; i < this.itemCount; i++)
         {
