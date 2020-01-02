@@ -27,6 +27,9 @@ export class PieMenuScene extends Scene {
     glowEnabled: boolean = false;
     angleX0: number;
     angleY0: number;
+    cornerMarginX: number = 40;
+    cornerMarginY: number = 20;
+
 
     constructor(public title: string, public canvas: HTMLElement, hdrSkyboxTexture: string) {
         super(title, canvas, hdrSkyboxTexture);
@@ -91,11 +94,13 @@ export class PieMenuScene extends Scene {
 
     protected onPreRender() {
         if (this.menu && this.menu.pivot && this.menu.axle) {
-            let menu_x = ((this.menuPositionType === MenuPosition.TOP_LEFT || this.menuPositionType === MenuPosition.BOTTOM_LEFT) ? 0 : this.canvas.clientWidth)
-            let menu_y = ((this.menuPositionType === MenuPosition.TOP_LEFT || this.menuPositionType === MenuPosition.TOP_RIGHT) ? 0 : this.canvas.clientHeight)
+            let menuOffsetX = ((this.menuPositionType === MenuPosition.TOP_LEFT || this.menuPositionType === MenuPosition.BOTTOM_LEFT) 
+                            ? this.cornerMarginX : this.canvas.clientWidth - this.cornerMarginX)
+            let menuOffsetY = ((this.menuPositionType === MenuPosition.TOP_LEFT || this.menuPositionType === MenuPosition.TOP_RIGHT) 
+                            ? this.cornerMarginY : this.canvas.clientHeight - this.cornerMarginY)
             let menuRay = this.bjsScene.createPickingRay(
-                menu_x,
-                menu_y,
+                menuOffsetX,
+                menuOffsetY,
                 null,
                 this.camera
             )
