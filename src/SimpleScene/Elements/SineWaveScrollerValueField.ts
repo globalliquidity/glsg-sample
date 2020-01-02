@@ -2,7 +2,7 @@ import * as bjs from 'babylonjs';
 import { Scene, VectorField, IVectorFieldUpdateStrategy } from "../../glsg";
 import { SineWaveOscillatorUpdateStrategy } from "./SinewaveOscillatorUpdateStrategy";
 
-export class SineWaveScrollerValueField extends VectorField
+export class SineWaveScrollerVectorField extends VectorField
 {
     constructor(
         name: string,
