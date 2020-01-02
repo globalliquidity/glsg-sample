@@ -118,7 +118,7 @@ export class PieMenuElement extends SceneElement
         let itemAngleIncrement = -(2 * Math.PI) / this.itemCount;
         this.targetMenuRotation = this.firstItemIndexOffset * itemAngleIncrement;
         this.currentMenuRotation = this.targetMenuRotation;
-        this.axle.rotation = new Vector3(0,0,this.currentMenuRotation);
+        this.axle.rotation = new bjs.Vector3(0,0,this.currentMenuRotation);
     }
 
     protected buildCenterButton()
@@ -245,7 +245,7 @@ export class PieMenuElement extends SceneElement
         else if (this.menuState === MenuState.Rotating)
         {
             this.currentMenuRotation = bjs.Scalar.Lerp(this.currentMenuRotation,this.targetMenuRotation,0.1);
-            this.axle.rotation = new Vector3(0,0,this.currentMenuRotation);
+            this.axle.rotation = new bjs.Vector3(0,0,this.currentMenuRotation);
 
             if (this.currentMenuRotation - this.targetMenuRotation < 0.01)
             {
