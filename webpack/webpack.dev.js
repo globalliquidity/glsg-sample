@@ -62,7 +62,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(babylon|obj|glb)$/,
+        test: /\.(babylon|obj|glb|fbx)$/,
         use: [
           {
             loader: 'babylon-file-loader',
