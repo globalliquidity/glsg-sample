@@ -101,7 +101,7 @@ export class PieMenuScene extends Scene
 
             // this.menu.rotate(new Vector3(0,1,0),-this.camera.inertialAlphaOffset,0);
             this.menu.rotation.y = -(this.camera.alpha+this.angle_y0);
-            // this.menu.rotation.x = -(this.camera.beta+this.angle_x0);
+            
             // let axis1 : Vector3 = new Vector3(-1.5,0,0);
             // let axis1 = new bjs.Vector3(this.camera.upVetor());
         }
