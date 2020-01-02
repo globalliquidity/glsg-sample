@@ -73,10 +73,9 @@ export class PieMenuScene extends Scene
         //this.menu.rotation.y = Math.PI/8;  
         this.AddSceneElement(this.menu);
         this.camera.wheelPrecision = 15;  
+        //this.centerBox = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1 }, this.bjsScene);
         this.angle_y0 = this.camera.alpha;
         this.angle_x0 = this.camera.beta;
-        console.log("kdkdkd", this.angle_x0);
-        //this.centerBox = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1 }, this.bjsScene);
     }
 
     protected onPreRender()
@@ -84,7 +83,6 @@ export class PieMenuScene extends Scene
         if(this.menu && this.menu.pivot && this.menu.axle){
             let menu_x = ((this.menu_position_type==MenuPosition.TOP_LEFT || this.menu_position_type==MenuPosition.BOTTOM_LEFT)?0:this.canvas.clientWidth)
             let menu_y = ((this.menu_position_type==MenuPosition.TOP_LEFT || this.menu_position_type==MenuPosition.TOP_RIGHT)?0:this.canvas.clientHeight)
-            
             let menuRay = this.bjsScene.createPickingRay(
                 menu_x,
                 menu_y,
@@ -99,11 +97,14 @@ export class PieMenuScene extends Scene
             this.menu.pivot.position = this.menuPosition;
             this.menu.axle.position = this.menuPosition;
 
-            // this.menu.rotate(new Vector3(0,1,0),-this.camera.inertialAlphaOffset,0);
-            this.menu.rotation.y = -(this.camera.alpha+this.angle_y0);
             
             // let axis1 : Vector3 = new Vector3(-1.5,0,0);
             // let axis1 = new bjs.Vector3(this.camera.upVetor());
+
+            this.menu.rotation.y = -(this.camera.alpha + this.angle_y0) - Math.PI;
+            this.menu.axle.rotation.y = -(this.camera.alpha + this.angle_y0) - Math.PI;
+            this.menu.rotation.x = -(this.camera.beta + this.angle_x0) + Math.PI;
+            this.menu.axle.rotation.x = -(this.camera.beta + this.angle_x0) + Math.PI;
         }
     }
 
