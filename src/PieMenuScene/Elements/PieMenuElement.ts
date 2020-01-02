@@ -5,7 +5,9 @@ import { PieMenuItemElement } from './PieMenuItemElement';
 import PieMenuSceneAssetManager from '../AssetManager';
 import GLSGAssetManager from '../../glsg/AssetManager';
 
-import { CannonJSPlugin, PBRMetallicRoughnessMaterial, Vector3 } from 'babylonjs';
+import { CannonJSPlugin, PBRMetallicRoughnessMaterial } from 'babylonjs';
+import { Vector3WithInfo } from 'babylonjs-gui';
+
 
 
 export enum MenuState
@@ -100,21 +102,23 @@ export class PieMenuElement extends SceneElement
     protected async buildMenu()
     {
         this.buildCenterButton();
-        this.pivot = bjs.MeshBuilder.CreateSphere("sphere", {diameter:0.1}, this.scene.bjsScene);
+        this.pivot = bjs.MeshBuilder.CreateSphere("sphere", {diameter:0.3}, this.scene.bjsScene);
         this.pivot.position = this.position;
         this.axle = bjs.MeshBuilder.CreateBox("holder", { width: .2, height: .2, depth: 0.5}, this.scene.bjsScene);
         this.axle.position = this.position;
         this.axle.isVisible = false;
         this.pivot.isVisible = false;
-        
+        //this.axle.parent = this;
+        //this.pivot.parent = this;
+
+        this.pivot.physicsImpostor = new bjs.PhysicsImpostor(this.pivot, bjs.PhysicsImpostor.SphereImpostor, { mass: 0 });      
         this.axle.physicsImpostor =  new bjs.PhysicsImpostor(this.axle, bjs.PhysicsImpostor.BoxImpostor, { mass: 10 });
-      
        
         await this.buildItems();
         let itemAngleIncrement = -(2 * Math.PI) / this.itemCount;
         this.targetMenuRotation = this.firstItemIndexOffset * itemAngleIncrement;
         this.currentMenuRotation = this.targetMenuRotation;
-        this.axle.rotation = new Vector3(0,0,this.currentMenuRotation);
+        this.axle.rotation = new bjs.Vector3(0,0,this.currentMenuRotation);
     }
 
     protected buildCenterButton()
@@ -241,7 +245,7 @@ export class PieMenuElement extends SceneElement
         else if (this.menuState === MenuState.Rotating)
         {
             this.currentMenuRotation = bjs.Scalar.Lerp(this.currentMenuRotation,this.targetMenuRotation,0.1);
-            this.axle.rotation = new Vector3(0,0,this.currentMenuRotation);
+            this.axle.rotation = new bjs.Vector3(0,0,this.currentMenuRotation);
 
             if (this.currentMenuRotation - this.targetMenuRotation < 0.01)
             {
