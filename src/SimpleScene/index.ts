@@ -1,14 +1,14 @@
 import { Scene } from '../glsg';
 import * as bjs from 'babylonjs';
 import { SpinningCylinderThing } from './Elements/SpinningCylinderThing';
-import { SineWaveScrollerValueField } from './Elements/SineWaveScrollerValueField';
+import { SineWaveScrollerVectorField } from './Elements/SineWaveScrollerValueField';
 import { TextMeshString } from '../glsg/lib/TextMeshString';
 import { TextMeshModelLoader } from '../glsg/lib/TextMeshModelLoader';
 
 export class SimpleScene extends Scene
 {
     cylinders: SpinningCylinderThing;
-    field: SineWaveScrollerValueField;
+    field: SineWaveScrollerVectorField;
     text : TextMeshString;
 
 
@@ -21,7 +21,7 @@ export class SimpleScene extends Scene
     {
         await TextMeshModelLoader.Instance.init(this);
         
-        this.field = new SineWaveScrollerValueField("value field",
+        this.field = new SineWaveScrollerVectorField("value field",
                                                     -200,    //x
                                                     0,    //y
                                                     0,    //z
