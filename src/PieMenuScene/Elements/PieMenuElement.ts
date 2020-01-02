@@ -106,7 +106,6 @@ export class PieMenuElement extends SceneElement
         this.pivot.position = this.position;
         this.axle = bjs.MeshBuilder.CreateBox("holder", { width: .2, height: .2, depth: 0.5}, this.scene.bjsScene);
         this.axle.position = this.position;
-
         this.axle.isVisible = false;
         this.pivot.isVisible = false;
         //this.axle.parent = this;

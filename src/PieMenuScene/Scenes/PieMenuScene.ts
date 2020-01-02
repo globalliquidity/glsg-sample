@@ -8,6 +8,13 @@ import { TextMeshString } from '../../glsg/lib/TextMeshString';
 const CANNON = require('cannon');
 const OIMO = require('oimo');
 
+enum MenuPosition {
+    TOP_LEFT = 0,
+    TOP_RIGHT,
+    BOTTOM_LEFT,
+    BOTTOM,RIGHT
+}
+
 export class PieMenuScene extends Scene
 {
     itemCount : number = 10;
@@ -15,12 +22,12 @@ export class PieMenuScene extends Scene
     //menuPosition : Vector3 = new Vector3(-4,3.15,0);
     //menuPosition : Vector3 = new Vector3(-4.25,4.25,10);
     menuPosition : Vector3 = new Vector3(-1.5,0,0);
-
+    menu_position_type : number = MenuPosition.TOP_RIGHT;
     centerBox : bjs.Mesh;
     glowLayer : bjs.GlowLayer;
     glowEnabled : boolean = false;
-
-
+    angle_x0 : number;
+    angle_y0 : number;
 
     constructor(public title: string, public canvas: HTMLElement, hdrSkyboxTexture: string) {
         super(title,canvas,hdrSkyboxTexture);
@@ -78,29 +85,38 @@ export class PieMenuScene extends Scene
                                         this.itemCount);
         //this.menu.rotation.y = Math.PI/8;  
         this.AddSceneElement(this.menu);
-        this.camera.wheelPrecision = 15;        
+        this.camera.wheelPrecision = 15;  
+        this.angle_y0 = this.camera.alpha;
+        this.angle_x0 = this.camera.beta;
+        console.log("kdkdkd", this.angle_x0);
         //this.centerBox = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1 }, this.bjsScene);
     }
 
     protected onPreRender()
     {
         if(this.menu && this.menu.pivot && this.menu.axle){
-
-            var menuRay = this.bjsScene.createPickingRay(
-                0,
-                0,
-                bjs.Matrix.Identity(),
+            let menu_x = ((this.menu_position_type==MenuPosition.TOP_LEFT || this.menu_position_type==MenuPosition.BOTTOM_LEFT)?0:this.canvas.clientWidth)
+            let menu_y = ((this.menu_position_type==MenuPosition.TOP_LEFT || this.menu_position_type==MenuPosition.TOP_RIGHT)?0:this.canvas.clientHeight)
+            
+            let menuRay = this.bjsScene.createPickingRay(
+                menu_x,
+                menu_y,
+                null,
                 this.camera
             )
-            this.menuPosition = menuRay.origin.add(menuRay.direction.scale(10))
+
+            this.menuPosition = menuRay.origin.add(menuRay.direction.scale(15))
     
             this.menu.position = this.menuPosition;
 
             this.menu.pivot.position = this.menuPosition;
             this.menu.axle.position = this.menuPosition;
 
-            let axis1 : Vector3 = new Vector3(-1.5,0,0);
-            //let axis1 = new bjs.Vector3(this.camera.upVetor());
+            // this.menu.rotate(new Vector3(0,1,0),-this.camera.inertialAlphaOffset,0);
+            this.menu.rotation.y = -(this.camera.alpha+this.angle_y0);
+            
+            // let axis1 : Vector3 = new Vector3(-1.5,0,0);
+            // let axis1 = new bjs.Vector3(this.camera.upVetor());
         }
     }
 
