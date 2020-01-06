@@ -16,20 +16,19 @@ enum MenuPosition {
 }
 
 export class PieMenuScene extends Scene {
-    itemCount: number = 10;
+    itemCount: number = 12;
     menu: PieMenuElement
     //menuPosition : Vector3 = new Vector3(-4,3.15,0);
     //menuPosition : Vector3 = new Vector3(-4.25,4.25,10);
     menuPosition: Vector3 = new Vector3(-1.5, 0, 0);
-    menuPositionType: number = MenuPosition.TOP_RIGHT;
+    menuPositionType: number = MenuPosition.BOTTOM_RIGHT;
     centerBox: bjs.Mesh;
     glowLayer: bjs.GlowLayer;
     glowEnabled: boolean = false;
     angleX0: number;
     angleY0: number;
-    cornerMarginX: number = 40;
+    cornerMarginX: number = 30;
     cornerMarginY: number = 20;
-
 
     constructor(public title: string, public canvas: HTMLElement, hdrSkyboxTexture: string) {
         super(title, canvas, hdrSkyboxTexture);
@@ -84,6 +83,8 @@ export class PieMenuScene extends Scene {
             this.menuPosition.z,
             this,
             this.itemCount);
+        // this.menu.menuPosition = this.menuPositionType;
+        this.menu.setMenuPosition(this.menuPositionType);
         //this.menu.rotation.y = Math.PI/8;  
         this.AddSceneElement(this.menu);
         this.camera.wheelPrecision = 15;

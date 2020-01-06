@@ -66,9 +66,22 @@ export class PieMenuItemElement extends SceneElement
         
         this.addChild(this.itemText);
         //this.itemText.parent = this.button;
+    }
 
+    public setScale(itemScale: number) {
+        this.mesh.scaling.x = .01 * itemScale;
+        this.mesh.scaling.y = .01 * itemScale;
+        this.mesh.scaling.z = .01 * itemScale;
 
-        
+        this.itemScale = itemScale;
+    }
+
+    public setText(text: string) {
+        this.removeChild(this.itemText);
+        this.itemText.dispose();
+        this.itemText = new TextMeshString("ActiveItem", 0, 0, 0, this.scene, text);
+        this.itemText.scaling = new bjs.Vector3(0.33, 0.33, 0.33);
+        this.addChild(this.itemText);
     }
 
     protected onRender()
