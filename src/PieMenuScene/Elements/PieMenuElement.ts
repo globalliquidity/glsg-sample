@@ -181,7 +181,8 @@ export class PieMenuElement extends SceneElement
                                 }
 
                                 for (let i=0; i<this.itemCount; i++) {
-                                    // this.menuItems[i].setText(this.testItems[this.startMenuIndex + i]);
+                                    console.log('start menu index: ', this.startMenuIndex);
+                                    this.menuItems[i].setText(this.testItems[(this.startMenuIndex + i) % 50]);
                                 }
                             }
                         }

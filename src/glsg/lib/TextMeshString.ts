@@ -129,10 +129,16 @@ export class TextMeshString extends SceneElement implements ITextMeshString
             //this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + ( characterSpacing * i),0,verticalOffset));
             this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + characterOffset,0,verticalOffset));
         }
-
     }
 
-   
+    public setText(name: string) {
+        for (var i = 0; i < this.characterMeshes.length; i++) {
+            this.characterMeshes[i].dispose();
+        }
+        this.text = name;
+        this.characterMeshes = new Array<InstancedMesh>();
+        this.create();
+    }
 
     protected onPreRender()
     {

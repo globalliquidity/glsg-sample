@@ -77,11 +77,8 @@ export class PieMenuItemElement extends SceneElement
     }
 
     public setText(text: string) {
-        this.removeChild(this.itemText);
-        this.itemText.dispose();
-        this.itemText = new TextMeshString("ActiveItem", 0, 0, 0, this.scene, text);
+        this.itemText.setText(text);
         this.itemText.scaling = new bjs.Vector3(0.33, 0.33, 0.33);
-        this.addChild(this.itemText);
     }
 
     protected onRender()
