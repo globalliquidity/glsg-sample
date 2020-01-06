@@ -36,6 +36,17 @@ export class TextMeshString extends SceneElement implements ITextMeshString
         this.create();
         
     }
+
+    public setText(tname : string)
+    {
+        for( var i = 0; i < this.characterMeshes.length; i++)
+        {
+            this.characterMeshes[i].dispose();
+        }
+        this.text = tname;
+        this.characterMeshes = new Array<InstancedMesh>();
+        this.create();
+    }
     
     async create()
     {

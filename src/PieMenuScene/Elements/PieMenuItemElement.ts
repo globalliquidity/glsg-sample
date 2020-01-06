@@ -30,7 +30,6 @@ export class PieMenuItemElement extends SceneElement
         );
         //this.create();
     }
-    
 
     protected async onCreate()
     {
@@ -69,6 +68,12 @@ export class PieMenuItemElement extends SceneElement
 
 
         
+    }
+
+    public setText(tname: string)
+    {
+        this.itemText.setText(tname);
+        this.itemText.scaling = new bjs.Vector3(0.33,0.33,0.33);
     }
 
     protected onRender()

@@ -46,7 +46,13 @@ export class PieMenuElement extends SceneElement
     targetMenuRotation : number = 0;
 
     //testItems : Array<string> = [ 'BIBOX', 'BITFINEX','BITSTAMP','COINBASEPRO', 'BITMART', 'BITTREX', 'HITBTC', 'HUOBI', 'KRAKEN',  'KUKOIN', 'OKEX', 'POLONIEX' ];
-    testItems : Array<string> = [ 'ONE', 'TWO','THREE','FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE',  'TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN' ];
+    testItems : Array<string> = [ "ONE", "TWO","THREE","FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE",  "TEN", "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN" ];
+    maxMenuNum : number = 15;
+    showingItemNum : number = 10;
+    centerClickNum : number = 0;
+    //clockwise : 0
+    //anti-clockwise : 1
+    swipeDirection: number = 1;
 
 
     constructor(name: string,
@@ -121,6 +127,22 @@ export class PieMenuElement extends SceneElement
         this.axle.rotation = new bjs.Vector3(0,0,this.currentMenuRotation);
     }
 
+    private async updateMenuItems()
+    {  
+        this.centerClickNum++;
+        let targetIndex, targetText;
+        if (this.swipeDirection === 0)
+        {
+            targetIndex = (this.centerClickNum-1) % this.showingItemNum;
+            targetText = this.testItems[(this.centerClickNum-1+this.showingItemNum)%(this.maxMenuNum)];
+        } else {
+            targetIndex = this.showingItemNum-1-(this.centerClickNum-1) % this.showingItemNum;
+            targetText = this.testItems[this.maxMenuNum-1-(this.centerClickNum-1) % this.maxMenuNum];
+            console.log("---------"+targetIndex+"-----------"+targetText);
+        }
+        this.menuItems[targetIndex].setText(targetText);
+    }
+
     protected buildCenterButton()
     {
         let centerButtonMaterial = new bjs.PBRMaterial("centerButton",this.scene.bjsScene);
@@ -145,8 +167,15 @@ export class PieMenuElement extends SceneElement
             else if ( (this.menuState === MenuState.Open) || (this.menuState === MenuState.Rotating))
             {       
                 let itemAngleIncrement = -(2 * Math.PI) / this.itemCount;
-                this.targetMenuRotation += itemAngleIncrement;
+                if(this.swipeDirection === 0)
+                {
+                    this.targetMenuRotation += itemAngleIncrement;
+                } else {
+                    this.targetMenuRotation -= itemAngleIncrement;
+                }
+                
                 this.menuState = MenuState.Rotating;
+                this.updateMenuItems();
             }
         }
         centerButton.pointerUpAnimation = () => {
@@ -247,21 +276,21 @@ export class PieMenuElement extends SceneElement
             this.currentMenuRotation = bjs.Scalar.Lerp(this.currentMenuRotation,this.targetMenuRotation,0.1);
             this.axle.rotation = new bjs.Vector3(0,0,this.currentMenuRotation);
 
-            if (this.currentMenuRotation - this.targetMenuRotation < 0.01)
-            {
-                this.currentMenuRotation = this.targetMenuRotation;
+            // if (this.currentMenuRotation - this.targetMenuRotation < 0.01)
+            // {
+            //     this.currentMenuRotation = this.targetMenuRotation;
 
-                if (this.activeItemIndex < (this.itemCount - 1))
-                {
-                    this.activeItemIndex ++;
-                }
-                else
-                {
-                    this.activeItemIndex = 0;
-                }
+            //     if (this.activeItemIndex < (this.itemCount - 1))
+            //     {
+            //         this.activeItemIndex ++;
+            //     }
+            //     else
+            //     {
+            //         this.activeItemIndex = 0;
+            //     }
 
-                this.menuState = MenuState.Open;
-            }
+            //     this.menuState = MenuState.Open;
+            // }
         }
         
         

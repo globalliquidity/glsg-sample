@@ -21,14 +21,14 @@ export class PieMenuScene extends Scene {
     //menuPosition : Vector3 = new Vector3(-4,3.15,0);
     //menuPosition : Vector3 = new Vector3(-4.25,4.25,10);
     menuPosition: Vector3 = new Vector3(-1.5, 0, 0);
-    menuPositionType: number = MenuPosition.TOP_RIGHT;
+    menuPositionType: number = MenuPosition.TOP_LEFT;
     centerBox: bjs.Mesh;
     glowLayer: bjs.GlowLayer;
     glowEnabled: boolean = false;
     angleX0: number;
     angleY0: number;
     cornerMarginX: number = 40;
-    cornerMarginY: number = 20;
+    cornerMarginY: number = 0;
 
 
     constructor(public title: string, public canvas: HTMLElement, hdrSkyboxTexture: string) {

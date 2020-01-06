@@ -46,7 +46,7 @@ export class SceneElement extends bjs.TransformNode implements ISceneElement
         element.parent = this;
         this.sceneElements.push(element);
     }
-
+    
     public dispose()
     {
         this.onDisposing();
