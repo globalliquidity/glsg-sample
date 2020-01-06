@@ -39,13 +39,17 @@ export class TextMeshString extends SceneElement implements ITextMeshString
     
     async create()
     {
-        //this.box = bjs.MeshBuilder.CreateBox("box", { height: 5, width: 5, depth: 5 }, this.scene.bjsScene);
-        //this.box.setParent(this);
-        //this.box.parent = this;
-        //this.box.position = this.position;
         let characterOffset : number = 0;
         let prevCharacterWidth : number = 0;
         //let maxCharacterWidth: number = 1;
+        
+        let horizontalOffset : number = 0;
+        let verticalOffset : number = 0;
+
+        this.box = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1, }, this.scene.bjsScene);
+        this.box.setParent(this);
+        this.box.parent = this;
+        this.box.position = this.position;
 
         console.log("TextMeshString : Creating Meshes for : " + this.text);
         for( var i = 0; i < this.text.length; i++)
@@ -82,7 +86,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString
             
             //let characterSpacing : number = 1;
             //let offset : number = 
-            let horizontalOffset : number = 0;
+            //let horizontalOffset : number = 0;
 
             // Calculate offset of each character
             characterOffset += prevCharacterWidth + ((characterWidth - prevCharacterWidth) / 2) + ((i == 0) ? 0 : this.characterSpacing);
@@ -110,7 +114,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString
                 horizontalOffset = -(this.characterMeshes.length * this.characterSpacing);
             }
 
-            let verticalOffset : number = 0;
+            //let verticalOffset : number = 0;
 
             if (this.verticalAlignment === VerticalAlignment.Bottom)
             {
@@ -130,9 +134,8 @@ export class TextMeshString extends SceneElement implements ITextMeshString
             this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + characterOffset,0,verticalOffset));
         }
 
+        this.box.scaling = new Vector3(10, 1, 1);
     }
-
-   
 
     protected onPreRender()
     {
