@@ -8,12 +8,7 @@ import GLSGAssetManager from '../../glsg/AssetManager';
 import { CannonJSPlugin, PBRMetallicRoughnessMaterial } from 'babylonjs';
 import { Vector3WithInfo } from 'babylonjs-gui';
 
-enum MenuPosition {
-    TOP_LEFT = 0,
-    TOP_RIGHT,
-    BOTTOM_LEFT,
-    BOTTOM_RIGHT
-};
+
 
 export enum MenuState
 {
@@ -45,20 +40,14 @@ export class PieMenuElement extends SceneElement
     menuActiveItem : TextMeshNumberGenerator;
     
     activeItemIndex : number = 0;
-    menuPosition: MenuPosition = MenuPosition.TOP_LEFT;
-    startMenuIndex: number = 0;
 
     firstItemIndexOffset : number = 2; //Rotate the menu two places so the active its is in the right place
     currentMenuRotation : number = 0;
     targetMenuRotation : number = 0;
 
     //testItems : Array<string> = [ 'BIBOX', 'BITFINEX','BITSTAMP','COINBASEPRO', 'BITMART', 'BITTREX', 'HITBTC', 'HUOBI', 'KRAKEN',  'KUKOIN', 'OKEX', 'POLONIEX' ];
-    testItems : Array<string> = [ '1', 'TWO','THREE','FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE',  'TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN' ];
+    testItems : Array<string> = [ 'ONE', 'TWO','THREE','FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE',  'TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN' ];
 
-    // Mouse pointer capture
-    isMouseDown: boolean = false;
-    originalX: number = 0;
-    originalY: number = 0;
 
     constructor(name: string,
                 public x: number,
@@ -108,12 +97,6 @@ export class PieMenuElement extends SceneElement
         });
         */
 
-
-        // Put test item data
-        this.testItems = [];
-        for(let i=0; i<50; i++) {
-            this.testItems.push(i.toString());
-        }
     }
 
     protected async buildMenu()
@@ -136,59 +119,6 @@ export class PieMenuElement extends SceneElement
         this.targetMenuRotation = this.firstItemIndexOffset * itemAngleIncrement;
         this.currentMenuRotation = this.targetMenuRotation;
         this.axle.rotation = new bjs.Vector3(0,0,this.currentMenuRotation);
-
-        this.scene.bjsScene.onPointerObservable.add((pointerInfo) => {
-            switch (pointerInfo.type) {
-                case bjs.PointerEventTypes.POINTERDOWN:
-                    this.isMouseDown = true;
-                    this.originalX = pointerInfo.event.clientX;
-                    this.originalY = pointerInfo.event.clientY;
-                    break;
-                case bjs.PointerEventTypes.POINTERUP:
-                    this.isMouseDown = false;
-                    break;
-                case bjs.PointerEventTypes.POINTERMOVE:
-                    if (this.isMouseDown) {
-                        const deltaX = pointerInfo.event.clientX - this.originalX;
-                        const deltaY = pointerInfo.event.clientY - this.originalY;
-
-                        if ((this.menuState === MenuState.Open) || (this.menuState === MenuState.Rotating)) {
-                            let itemAngleIncrement = -(2 * Math.PI) / this.itemCount;
-
-                            if (Math.abs(deltaY) > 25) {
-                                if (deltaY >= 0) {
-                                    this.targetMenuRotation -= itemAngleIncrement;
-                                    this.activeItemIndex --;
-
-                                    if (this.startMenuIndex > 0) {
-                                        this.startMenuIndex --;
-                                    }
-                                } else {
-                                    this.targetMenuRotation += itemAngleIncrement;
-                                    this.activeItemIndex ++;
-
-                                    if (this.startMenuIndex < this.testItems.length - 2) {
-                                        this.startMenuIndex ++;
-                                    }
-                                }
-
-                                this.menuState = MenuState.Rotating;
-                                this.originalY = pointerInfo.event.clientY;
-                                this.activeItemIndex = this.activeItemIndex % 12;
-
-                                if (this.activeItemIndex < 0) {
-                                    this.activeItemIndex = 12 + this.activeItemIndex;
-                                }
-
-                                for (let i=0; i<this.itemCount; i++) {
-                                    // this.menuItems[i].setText(this.testItems[this.startMenuIndex + i]);
-                                }
-                            }
-                        }
-                    }
-                    break;
-            }
-        });
     }
 
     protected buildCenterButton()
@@ -209,6 +139,7 @@ export class PieMenuElement extends SceneElement
 
         centerButton.pointerDownAnimation = () =>
         {
+            
             if (this.menuState === MenuState.Closed)
                 this.open();
             else if ( (this.menuState === MenuState.Open) || (this.menuState === MenuState.Rotating))
@@ -232,21 +163,17 @@ export class PieMenuElement extends SceneElement
     {
         for( var i = 0; i < this.itemCount; i++)
         {
-            let itemScale = 0.15 + (6 - Math.abs(this.activeItemIndex - i) % 6) * 0.05;
-            if (i === this.activeItemIndex) {
-                itemScale = 0.55;
-            }
             let item :PieMenuItemElement = new PieMenuItemElement("item" + i,
                                                                 this.x,
                                                                 this.y,
                                                                 this.z,
                                                                 this.scene,
                                                                 this.itemModel,
-                                                                itemScale,
+                                                                0.618,
                                                                 this.axle,
                                                                 this.testItems[i]);
             await item.create();
-            this.controlContainer.addControl(item.button);
+            this.controlContainer.addControl(item.button);                                                     
             this.menuItems.push(item);
             this.addChild(item);
             item.button.linkToTransformNode(this.axle);
@@ -274,18 +201,6 @@ export class PieMenuElement extends SceneElement
     private nextItem()
     {
 
-    }
-
-    public setMenuPosition(menuPosition) {
-        if (menuPosition === MenuPosition.TOP_LEFT) {
-            this.activeItemIndex = this.activeItemIndex + 10;
-        } else if (menuPosition === MenuPosition.TOP_RIGHT) {
-            this.activeItemIndex = this.activeItemIndex + 7;
-        } else if (menuPosition === MenuPosition.BOTTOM_LEFT) {
-            this.activeItemIndex = this.activeItemIndex + 1;
-        } else {
-            this.activeItemIndex = this.activeItemIndex + 4;
-        }
     }
 
     protected onPreRender()
@@ -329,27 +244,27 @@ export class PieMenuElement extends SceneElement
         }
         else if (this.menuState === MenuState.Rotating)
         {
-            this.currentMenuRotation = bjs.Scalar.Lerp(this.currentMenuRotation, this.targetMenuRotation, 0.1);
-            this.axle.rotation = new bjs.Vector3(0, 0, this.currentMenuRotation);
+            this.currentMenuRotation = bjs.Scalar.Lerp(this.currentMenuRotation,this.targetMenuRotation,0.1);
+            this.axle.rotation = new bjs.Vector3(0,0,this.currentMenuRotation);
 
-            if (Math.abs(this.currentMenuRotation - this.targetMenuRotation) < 0.01)
+            if (this.currentMenuRotation - this.targetMenuRotation < 0.01)
             {
                 this.currentMenuRotation = this.targetMenuRotation;
 
-                // if (this.activeItemIndex < (this.itemCount - 1))
-                // {
-                //     this.activeItemIndex ++;
-                // }
-                // else
-                // {
-                //     this.activeItemIndex = 0;
-                // }
+                if (this.activeItemIndex < (this.itemCount - 1))
+                {
+                    this.activeItemIndex ++;
+                }
+                else
+                {
+                    this.activeItemIndex = 0;
+                }
 
                 this.menuState = MenuState.Open;
             }
-
-            this.scaleMenuItems();
         }
+        
+        
     }
     
     private positionMenuItems()
@@ -369,25 +284,8 @@ export class PieMenuElement extends SceneElement
             item.position.y = translationVector.y;
             item.button.position.x= translationVector.x;
             item.button.position.y = translationVector.y;
+
+
         }     
-    }
-
-    private scaleMenuItems() {
-        const halfCount = Math.floor(this.itemCount / 2);
-
-        for( var i = 0; i < this.itemCount; i++)
-        {
-            let item :PieMenuItemElement = this.menuItems[i];
-            let itemScale = 0.15 + (halfCount - Math.abs(this.activeItemIndex - i) % halfCount) * 0.05;
-            if (Math.abs(this.activeItemIndex - i) >= halfCount) {
-                itemScale = 0.15 + (halfCount - (this.itemCount - Math.abs(this.activeItemIndex - i)) % halfCount) * 0.05;
-            }
-
-            if (this.activeItemIndex === i) {
-                itemScale = 0.55;
-            }
-
-            item.setScale(itemScale);
-        }
     }
 }

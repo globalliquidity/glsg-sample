@@ -47,11 +47,6 @@ export class SceneElement extends bjs.TransformNode implements ISceneElement
         this.sceneElements.push(element);
     }
 
-    public removeChild(element: SceneElement) {
-        element.parent = null;
-        this.sceneElements.filter(ele => ele.name !== element.name);
-    }
-
     public dispose()
     {
         this.onDisposing();
