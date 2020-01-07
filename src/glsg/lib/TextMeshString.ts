@@ -14,6 +14,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString
      characterSpacing : number = 1.;
     
      box : bjs.Mesh;
+     initialPos: bjs.Vector3;
 
     constructor(name:string, 
                 public x: number,
@@ -46,16 +47,24 @@ export class TextMeshString extends SceneElement implements ITextMeshString
         let horizontalOffset : number = 0;
         let verticalOffset : number = 0;
 
+        let boundingWidth: number = 0;
+
+        let mat : bjs.StandardMaterial = new bjs.StandardMaterial("mat", this.scene.bjsScene);
+        mat.diffuseColor = bjs.Color3.White();
+        mat.ambientColor = bjs.Color3.White();
+        mat.alpha = 0.3;
+    
         this.box = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1, }, this.scene.bjsScene);
         this.box.setParent(this);
         this.box.parent = this;
-        this.box.position = this.position;
+        // this.box.position = this.position;
+        this.box.material = mat;
 
-        console.log("TextMeshString : Creating Meshes for : " + this.text);
+        // console.log("TextMeshString : Creating Meshes for : " + this.text);
         for( var i = 0; i < this.text.length; i++)
         {
             let currentCharacter : string = this.text[i];
-            console.log("TextMeshString : Current Character : " + currentCharacter);
+            // console.log("TextMeshString : Current Character : " + currentCharacter);
             let characterMesh : InstancedMesh = TextMeshModelLoader.Instance.getCharacterMesh(currentCharacter).createInstance(currentCharacter);
 
             if (characterMesh != null)
@@ -80,10 +89,12 @@ export class TextMeshString extends SceneElement implements ITextMeshString
             //this.characterMeshes[i].position.x += i;
             let currentCharacter : bjs.InstancedMesh = this.characterMeshes[i];
             let characterWidth = currentCharacter.getBoundingInfo().boundingBox.extendSize.x * 2;
-            console.log("TextMeshString : Character - " + currentCharacter + " is " + characterWidth + " wide.");
+            // console.log("TextMeshString : Character - " + currentCharacter + " is " + characterWidth + " wide.");
             let characterHeight = currentCharacter.getBoundingInfo().boundingBox.extendSize.y * 2;
-            console.log("TextMeshString : Character - " + currentCharacter + " is " + characterHeight + " high.");
+            // console.log("TextMeshString : Character - " + currentCharacter + " is " + characterHeight + " high.");
             
+            boundingWidth += characterWidth;
+
             //let characterSpacing : number = 1;
             //let offset : number = 
             //let horizontalOffset : number = 0;
@@ -134,7 +145,14 @@ export class TextMeshString extends SceneElement implements ITextMeshString
             this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + characterOffset,0,verticalOffset));
         }
 
-        this.box.scaling = new Vector3(10, 1, 1);
+        boundingWidth += (this.characterMeshes.length - 1) * this.characterSpacing;
+
+        this.box.scaling = new Vector3(boundingWidth, 1, 0.2);
+        this.box.position.x = horizontalOffset + (boundingWidth / 2);
+        this.box.position.y = verticalOffset;
+        this.box.position.z = 0.1;
+
+        this.initialPos = new Vector3(this.box.position.x, this.box.position.y, this.box.position.z);
     }
 
     protected onPreRender()
@@ -181,5 +199,12 @@ export class TextMeshString extends SceneElement implements ITextMeshString
         {
             this.characterMeshes[i].isVisible = isVisible;
         }
+    }
+
+    public setBoxPosition(x: number, y: number, z: number)
+    {
+        this.box.position.x = x;
+        this.box.position.y = y;
+        this.box.position.z = z;
     }
 }

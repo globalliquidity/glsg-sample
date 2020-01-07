@@ -40,7 +40,7 @@ export class PieMenuItemElement extends SceneElement
         //this.mesh.position.y = 1.618;
         //this.mesh.position.z = 0;
 
-        this.button = new bjsgui.MeshButton3D(this.mesh, "itemButton");
+        //this.button = new bjsgui.MeshButton3D(this.mesh, "itemButton");
         //this.button.parent = this;
         //this.button.position = new bjs.Vector3(0,0,0);
     
@@ -57,12 +57,13 @@ export class PieMenuItemElement extends SceneElement
         this.itemText = new TextMeshString("ActiveItem", 0,0,0,this.scene,this.text);
         //this.itemText.setVisibility(false);
 
-
         //await this.itemText.create();
         //this.itemText.setText("237.15");
         this.itemText.scaling = new bjs.Vector3(0.33,0.33,0.33);
-        //this.itemText.setPosition(-1,0,-10.05);
         //this.itemText.setPivotPoint(new bjs.Vector3(0.75,-0.25,0));
+        this.itemText.box.scaling = this.itemText.box.scaling.multiply(new bjs.Vector3(0.33,0.33,0.33));
+        this.button = new bjsgui.MeshButton3D(this.itemText.box, "itemButton");
+        
         
         this.addChild(this.itemText);
         //this.itemText.parent = this.button;
@@ -74,8 +75,11 @@ export class PieMenuItemElement extends SceneElement
     protected onRender()
     {
         let axleRotation : bjs.Vector3 = this.axle.rotation;
+        
+        
         this.itemText.rotation = new Vector3(0,0,-axleRotation.z);
-
+        // this.itemText.box.rotation = new Vector3(0,0,-axleRotation.z);
+        
         //if (this.itemText.rotation.z < (-Math.PI/2))
          //   this.itemText.setVisibility(false);
         //else   

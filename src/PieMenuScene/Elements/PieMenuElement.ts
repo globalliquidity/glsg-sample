@@ -275,17 +275,22 @@ export class PieMenuElement extends SceneElement
         for( var i = 0; i < this.itemCount; i++)
         {
             let item :PieMenuItemElement = this.menuItems[i];
+            let initialOffset: bjs.Vector3 = this.menuItems[i].itemText.initialPos;
 
-            let translationVector : bjs.Vector3 = new bjs.Vector3(Math.sin(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
-            Math.cos(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
+            let translationVector : bjs.Vector3 = new bjs.Vector3(Math.cos(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
+            Math.sin(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
             0);
 
             item.position.x = translationVector.x;
             item.position.y = translationVector.y;
-            item.button.position.x= translationVector.x;
-            item.button.position.y = translationVector.y;
+            // item.button.position.x = translationVector.x;
+            // item.button.position.y = translationVector.y;
+            
+            item.button.position.x = initialOffset.x * 0.33 + translationVector.x;
+            item.button.position.y = initialOffset.y * 0.33 + translationVector.y;
+            item.button.position.z = initialOffset.z * 0.33;
 
-
+            //item.button.position.multiply(translationVector);
         }     
     }
 }
