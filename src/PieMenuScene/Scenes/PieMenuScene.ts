@@ -83,8 +83,10 @@ export class PieMenuScene extends Scene {
             this.menuPosition.y,
             this.menuPosition.z,
             this,
-            this.itemCount);
-        //this.menu.rotation.y = Math.PI/8;  
+            this.itemCount,
+            this.menuPositionType);
+        //this.menu.rotation.y = Math.PI/8;
+        // this.menu.setMenuPosition(this.menuPositionType);
         this.AddSceneElement(this.menu);
         this.camera.wheelPrecision = 15;
         //this.centerBox = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1 }, this.bjsScene);
@@ -99,6 +101,8 @@ export class PieMenuScene extends Scene {
             let menuOffsetY = ((this.menuPositionType === MenuPosition.TOP_LEFT || this.menuPositionType === MenuPosition.TOP_RIGHT) 
                             ? this.cornerMarginY : this.canvas.clientHeight - this.cornerMarginY)
             let menuRay = this.bjsScene.createPickingRay(
+                // this.canvas.clientWidth / 2,
+                // this.canvas.clientHeight / 2,
                 menuOffsetX,
                 menuOffsetY,
                 null,

@@ -62,13 +62,18 @@ export class PieMenuItemElement extends SceneElement {
 
         this.addChild(this.itemText);
         //this.itemText.parent = this.button;
-
-
-
     }
 
-    public setText(name: string) {
-        this.itemText.setText(name);
+    public setScale(itemScale: number) {
+        this.mesh.scaling.x = .01 * itemScale;
+        this.mesh.scaling.y = .01 * itemScale;
+        this.mesh.scaling.z = .01 * itemScale;
+
+        this.itemScale = itemScale;
+    }
+
+    public setText(text: string) {
+        this.itemText.setText(text);
         this.itemText.scaling = new bjs.Vector3(0.33, 0.33, 0.33);
     }
 
@@ -81,6 +86,5 @@ export class PieMenuItemElement extends SceneElement {
         //else   
         //this.itemText.setVisibility(true);
         //this.mesh.rotation = new Vector3(0,0,-axleRotation);
-
     }
 }
