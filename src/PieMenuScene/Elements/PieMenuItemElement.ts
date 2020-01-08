@@ -13,15 +13,14 @@ export class PieMenuItemElement extends SceneElement
     angle: number;
     
     constructor(name: string,
-                public x: number,
-                public y: number,
-                public z: number,
-                scene: Scene,
-                public model : bjs.Mesh,
-                public itemScale : number,
-                public axle : bjs.Mesh,
-                public text : string)
-    {
+        public x: number,
+        public y: number,
+        public z: number,
+        scene: Scene,
+        public model: bjs.Mesh,
+        public itemScale: number,
+        public axle: bjs.Mesh,
+        public text: string) {
         super(
             name,
             x,
@@ -31,10 +30,8 @@ export class PieMenuItemElement extends SceneElement
         );
         //this.create();
     }
-    
 
-    protected async onCreate()
-    {
+    protected async onCreate() {
         this.mesh = this.model.clone("item");
         this.mesh.parent = this;
         this.mesh.isVisible = false;
@@ -46,12 +43,12 @@ export class PieMenuItemElement extends SceneElement
         this.mesh.scaling.z = .01 * this.itemScale;
         this.mesh.position.z = .05;
 
-        let textMaterial : PBRMetallicRoughnessMaterial = new PBRMetallicRoughnessMaterial("text",this.scene.bjsScene);
-       
-        textMaterial.baseColor = new bjs.Color3(0.15, 0.6, 0.87); 
+        let textMaterial: PBRMetallicRoughnessMaterial = new PBRMetallicRoughnessMaterial("text", this.scene.bjsScene);
+
+        textMaterial.baseColor = new bjs.Color3(0.15, 0.6, 0.87);
 
         //this.itemText = new TextMeshNumberGenerator("ActiveItem", 0,0,0,this.scene,textMaterial);
-        this.itemText = new TextMeshString("ActiveItem", 0,0,0,this.scene,this.text);
+        this.itemText = new TextMeshString("ActiveItem", 0, 0, 0, this.scene, this.text);
         //this.itemText.setVisibility(false);
 
         //await this.itemText.create();
@@ -69,9 +66,19 @@ export class PieMenuItemElement extends SceneElement
         this.addChild(this.itemText);
        
         //this.itemText.parent = this.button;
-
         this.angle = 0;
-        
+    }
+
+    public setScale(itemScale: number) {
+        this.mesh.scaling.x = .01 * itemScale;
+        this.mesh.scaling.y = .01 * itemScale;
+        this.mesh.scaling.z = .01 * itemScale;
+        this.itemScale = itemScale;
+    }
+
+    public setText(text: string) {
+        this.itemText.setText(text);
+        this.itemText.scaling = new bjs.Vector3(0.33, 0.33, 0.33);
     }
 
     protected onRender()
@@ -85,10 +92,9 @@ export class PieMenuItemElement extends SceneElement
         }
         
         //if (this.itemText.rotation.z < (-Math.PI/2))
-         //   this.itemText.setVisibility(false);
+        //   this.itemText.setVisibility(false);
         //else   
-            //this.itemText.setVisibility(true);
+        //this.itemText.setVisibility(true);
         //this.mesh.rotation = new Vector3(0,0,-axleRotation);
-        
     }
 }
