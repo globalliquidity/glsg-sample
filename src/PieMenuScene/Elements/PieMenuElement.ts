@@ -283,14 +283,9 @@ export class PieMenuElement extends SceneElement
 
             item.position.x = translationVector.x;
             item.position.y = translationVector.y;
-            // item.button.position.x = translationVector.x;
-            // item.button.position.y = translationVector.y;
             
-            item.button.position.x = initialOffset.x * 0.33 + translationVector.x;
-            item.button.position.y = initialOffset.y * 0.33 + translationVector.y;
-            item.button.position.z = initialOffset.z * 0.33;
-
-            //item.button.position.multiply(translationVector);
+            item.button.position.x = translationVector.x;
+            item.button.position.y = translationVector.y;
         }     
     }
 }

@@ -15,6 +15,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString
     
      box : bjs.Mesh;
      initialPos: bjs.Vector3;
+     pivot: bjs.Mesh;
 
     constructor(name:string, 
                 public x: number,
@@ -52,13 +53,20 @@ export class TextMeshString extends SceneElement implements ITextMeshString
         let mat : bjs.StandardMaterial = new bjs.StandardMaterial("mat", this.scene.bjsScene);
         mat.diffuseColor = bjs.Color3.White();
         mat.ambientColor = bjs.Color3.White();
-        mat.alpha = 0.3;
-    
+        mat.alpha = 0.1;
+        
+        this.pivot = bjs.MeshBuilder.CreateBox("box", { height: 0, width: 0, depth: 0 }, this.scene.bjsScene);
+        this.pivot.setParent(this);
+        this.pivot.parent = this;
+        // this.pivot.position = this.position;
+        
         this.box = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1, }, this.scene.bjsScene);
-        this.box.setParent(this);
-        this.box.parent = this;
+        // this.box.setParent(this);
+        // this.box.parent = this;
         // this.box.position = this.position;
         this.box.material = mat;
+        this.pivot.addChild(this.box);
+        this.pivot.isVisible = false;
 
         // console.log("TextMeshString : Creating Meshes for : " + this.text);
         for( var i = 0; i < this.text.length; i++)
@@ -81,7 +89,6 @@ export class TextMeshString extends SceneElement implements ITextMeshString
             {
                 console.log("TextMeshString : No Character Mesh For : " + currentCharacter);
             }
-           
         }
 
         for( var i = 0; i < this.characterMeshes.length; i++)
@@ -94,10 +101,6 @@ export class TextMeshString extends SceneElement implements ITextMeshString
             // console.log("TextMeshString : Character - " + currentCharacter + " is " + characterHeight + " high.");
             
             boundingWidth += characterWidth;
-
-            //let characterSpacing : number = 1;
-            //let offset : number = 
-            //let horizontalOffset : number = 0;
 
             // Calculate offset of each character
             characterOffset += prevCharacterWidth + ((characterWidth - prevCharacterWidth) / 2) + ((i == 0) ? 0 : this.characterSpacing);
@@ -125,8 +128,6 @@ export class TextMeshString extends SceneElement implements ITextMeshString
                 horizontalOffset = -(this.characterMeshes.length * this.characterSpacing);
             }
 
-            //let verticalOffset : number = 0;
-
             if (this.verticalAlignment === VerticalAlignment.Bottom)
             {
                 verticalOffset = -(characterHeight * 0.5);
@@ -140,8 +141,6 @@ export class TextMeshString extends SceneElement implements ITextMeshString
                 verticalOffset = (characterHeight *2);
             }
 
-
-            //this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + ( characterSpacing * i),0,verticalOffset));
             this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + characterOffset,0,verticalOffset));
         }
 
@@ -150,7 +149,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString
         this.box.scaling = new Vector3(boundingWidth, 1, 0.2);
         this.box.position.x = horizontalOffset + (boundingWidth / 2);
         this.box.position.y = verticalOffset;
-        this.box.position.z = 0.1;
+        this.box.position.z = 0.2;
 
         this.initialPos = new Vector3(this.box.position.x, this.box.position.y, this.box.position.z);
     }
