@@ -427,9 +427,11 @@ export class PieMenuElement extends SceneElement {
         for (var i = 0; i < this.itemCount; i++) {
             let item: PieMenuItemElement = this.menuItems[i];
 
-            let translationVector: bjs.Vector3 = new bjs.Vector3(Math.cos(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
+            let translationVector: bjs.Vector3 = new bjs.Vector3(
                 Math.sin(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
-                0);
+                Math.cos(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
+                0
+            );
 
             item.position.x = translationVector.x;
             item.position.y = translationVector.y;
