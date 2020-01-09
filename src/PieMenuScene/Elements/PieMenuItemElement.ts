@@ -10,6 +10,7 @@ export class PieMenuItemElement extends SceneElement {
     public button: bjsgui.MeshButton3D;
     itemText: TextMeshString;
     angle: number;
+    action: Function;
 
     constructor(name: string,
         public x: number,
@@ -67,6 +68,10 @@ export class PieMenuItemElement extends SceneElement {
         
         this.button.onPointerDownObservable.add(() => {
             console.log(this.button.name + " pushed.");
+
+            if (this.action) {
+                this.action();
+            }
         });
 
 

@@ -29,6 +29,7 @@ export class PieMenuScene extends Scene {
     angleY0: number;
     cornerMarginX: number = 40;
     cornerMarginY: number = 0;
+    menuItemList = [];
 
 
     constructor(public title: string, public canvas: HTMLElement, hdrSkyboxTexture: string) {
@@ -44,8 +45,8 @@ export class PieMenuScene extends Scene {
         if (this.glowEnabled)
             this.glowLayer = new bjs.GlowLayer("glow", this.bjsScene, { mainTextureSamples: 2 });
 
-        var helper = this.bjsScene.createDefaultEnvironment();
-        helper.setMainColor(BABYLON.Color3.Gray());
+        // var helper = this.bjsScene.createDefaultEnvironment();
+        // helper.setMainColor(BABYLON.Color3.Gray());
 
 
         await TextMeshModelLoader.Instance.init(this);
@@ -88,6 +89,11 @@ export class PieMenuScene extends Scene {
         //this.menu.rotation.y = Math.PI/8;
         // this.menu.setMenuPosition(this.menuPositionType);
         this.AddSceneElement(this.menu);
+
+        if (this.menuItemList.length > 0) {
+            this.menu.setMenuItemList(this.menuItemList);
+        }
+        
         this.camera.wheelPrecision = 15;
         //this.centerBox = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1 }, this.bjsScene);
         this.angleY0 = this.camera.alpha;
@@ -136,5 +142,9 @@ export class PieMenuScene extends Scene {
         this.camera.orthoRight = 5;
         this.camera.setTarget(bjs.Vector3.Zero());
         */
+    }
+
+    public setMenuItemList(menuList) {
+        this.menuItemList = menuList;
     }
 }
