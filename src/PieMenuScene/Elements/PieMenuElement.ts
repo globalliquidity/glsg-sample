@@ -119,7 +119,7 @@ export class PieMenuElement extends SceneElement {
             this.itemModel = newMeshes[0];
         });
         */
-       this.scaleMenuItems();
+    //    this.scaleMenuItems();
     }
 
     protected async buildMenu() {
@@ -404,19 +404,19 @@ export class PieMenuElement extends SceneElement {
             {
                 this.currentMenuRotation = this.targetMenuRotation;
 
-                // if (this.activeItemIndex < (this.itemCount - 1))
-                // {
-                //     this.activeItemIndex ++;
-                // }
-                // else
-                // {
-                //     this.activeItemIndex = 0;
-                // }
+                if (this.activeItemIndex < (this.itemCount - 1))
+                {
+                    this.activeItemIndex ++;
+                }
+                else
+                {
+                    this.activeItemIndex = 0;
+                }
 
                 this.menuState = MenuState.Open;
             }
 
-            this.scaleMenuItems();
+            // this.scaleMenuItems();
         }
     }
 
@@ -427,9 +427,11 @@ export class PieMenuElement extends SceneElement {
         for (var i = 0; i < this.itemCount; i++) {
             let item: PieMenuItemElement = this.menuItems[i];
 
-            let translationVector: bjs.Vector3 = new bjs.Vector3(Math.sin(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
+            let translationVector: bjs.Vector3 = new bjs.Vector3(
+                Math.sin(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
                 Math.cos(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
-                0);
+                0
+            );
 
             item.position.x = translationVector.x;
             item.position.y = translationVector.y;

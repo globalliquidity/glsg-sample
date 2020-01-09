@@ -9,6 +9,7 @@ export class PieMenuItemElement extends SceneElement {
     mesh: bjs.Mesh;
     public button: bjsgui.MeshButton3D;
     itemText: TextMeshString;
+    angle: number;
 
     constructor(name: string,
         public x: number,
@@ -32,11 +33,11 @@ export class PieMenuItemElement extends SceneElement {
     protected async onCreate() {
         this.mesh = this.model.clone("item");
         this.mesh.parent = this;
-        this.mesh.isVisible = true;
+        this.mesh.isVisible = false;
         //this.mesh.position.y = 1.618;
         //this.mesh.position.z = 0;
 
-        this.button = new bjsgui.MeshButton3D(this.mesh, "itemButton");
+        // this.button = new bjsgui.MeshButton3D(this.mesh, "itemButton");
         //this.button.parent = this;
         //this.button.position = new bjs.Vector3(0,0,0);
 
@@ -59,9 +60,20 @@ export class PieMenuItemElement extends SceneElement {
         this.itemText.scaling = new bjs.Vector3(0.33, 0.33, 0.33);
         //this.itemText.setPosition(-1,0,-10.05);
         //this.itemText.setPivotPoint(new bjs.Vector3(0.75,-0.25,0));
+        this.itemText.pivot.scaling = this.itemText.pivot.scaling.multiply(new bjs.Vector3(0.33,0.33,0.33));
+
+        this.button = new bjsgui.MeshButton3D(this.itemText.pivot, "itemButton");
+        this.button.name = this.text;
+        
+        this.button.onPointerDownObservable.add(() => {
+            console.log(this.button.name + " pushed.");
+        });
+
 
         this.addChild(this.itemText);
         //this.itemText.parent = this.button;
+
+        this.angle = 0;
     }
 
     public setScale(itemScale: number) {
@@ -74,13 +86,18 @@ export class PieMenuItemElement extends SceneElement {
 
     public setText(text: string) {
         this.itemText.setText(text);
+        this.button.name = text;
         this.itemText.scaling = new bjs.Vector3(0.33, 0.33, 0.33);
     }
 
     protected onRender() {
-        let axleRotation: bjs.Vector3 = this.axle.rotation;
-        this.itemText.rotation = new Vector3(0, 0, -axleRotation.z);
-
+        let axleRotation : bjs.Vector3 = this.axle.rotation;
+        
+        if (-axleRotation.z != this.angle) {
+            this.angle = -axleRotation.z;
+            this.itemText.rotation = new Vector3(0,0,this.angle);
+            this.itemText.pivot.rotation = new Vector3(0,0,this.angle);
+        }
         //if (this.itemText.rotation.z < (-Math.PI/2))
         //   this.itemText.setVisibility(false);
         //else   

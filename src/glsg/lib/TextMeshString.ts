@@ -12,7 +12,8 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
     characterMeshes: Array<InstancedMesh> = [];
     characterSpacing: number = 1.;
 
-    box: bjs.Mesh;
+    box: bjs.Mesh = null;
+    pivot: bjs.Mesh = null;
 
     constructor(name: string,
         public x: number,
@@ -43,7 +44,35 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         let characterOffset: number = 0;
         let prevCharacterWidth: number = 0;
         //let maxCharacterWidth: number = 1;
+        let horizontalOffset : number = 0;
+        let verticalOffset : number = 0;
 
+        let boundingWidth: number = 0;
+
+        let mat : bjs.StandardMaterial = new bjs.StandardMaterial("mat", this.scene.bjsScene);
+        mat.diffuseColor = bjs.Color3.White();
+        mat.ambientColor = bjs.Color3.White();
+        mat.alpha = 0.1;
+        
+        if (!this.pivot) {
+            this.pivot = bjs.MeshBuilder.CreateBox("pivot", { height: 0, width: 0, depth: 0 }, this.scene.bjsScene);
+            this.pivot.setParent(this);
+            this.pivot.parent = this;
+        }
+        
+        // this.pivot.position = this.position;
+        
+        if (!this.box) {
+            this.box = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1, }, this.scene.bjsScene);
+            this.box.material = mat;
+            this.pivot.addChild(this.box);
+            this.pivot.isVisible = false;
+        }
+        // this.box.setParent(this);
+        // this.box.parent = this;
+        // this.box.position = this.position;
+        
+        
         console.log("TextMeshString : Creating Meshes for : " + this.text);
         for (var i = 0; i < this.text.length; i++) {
             let currentCharacter: string = this.text[i];
@@ -73,9 +102,11 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
             let characterHeight = currentCharacter.getBoundingInfo().boundingBox.extendSize.y * 2;
             console.log("TextMeshString : Character - " + currentCharacter + " is " + characterHeight + " high.");
 
+            boundingWidth += characterWidth;
+            
             //let characterSpacing : number = 1;
             //let offset : number = 
-            let horizontalOffset: number = 0;
+            // let horizontalOffset: number = 0;
 
             // Calculate offset of each character
             characterOffset += prevCharacterWidth + ((characterWidth - prevCharacterWidth) / 2) + ((i == 0) ? 0 : this.characterSpacing);
@@ -100,7 +131,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
                 horizontalOffset = -(this.characterMeshes.length * this.characterSpacing);
             }
 
-            let verticalOffset: number = 0;
+            // let verticalOffset: number = 0;
 
             if (this.verticalAlignment === VerticalAlignment.Bottom) {
                 verticalOffset = -(characterHeight * 0.5);
@@ -116,12 +147,20 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
             //this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + ( characterSpacing * i),0,verticalOffset));
             this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + characterOffset, 0, verticalOffset));
         }
+
+        boundingWidth += (this.characterMeshes.length - 1) * this.characterSpacing;
+
+        this.box.scaling = new Vector3(boundingWidth, 1, 0.2);
+        this.box.position.x = horizontalOffset + (boundingWidth / 2);
+        this.box.position.y = verticalOffset;
+        this.box.position.z = 0.2;
     }
 
     public setText(name: string) {
         for (var i = 0; i < this.characterMeshes.length; i++) {
             this.characterMeshes[i].dispose();
         }
+
         this.text = name;
         this.characterMeshes = new Array<InstancedMesh>();
         this.create();
