@@ -52,6 +52,7 @@ export class PieMenuElement extends SceneElement {
 
     //testItems : Array<string> = [ 'BIBOX', 'BITFINEX','BITSTAMP','COINBASEPRO', 'BITMART', 'BITTREX', 'HITBTC', 'HUOBI', 'KRAKEN',  'KUKOIN', 'OKEX', 'POLONIEX' ];
     testItems: Array<string> = [];
+    menuItemList = [];
     currentClickNum: number = 0;
     //clockwise : 0
     //anti-clockwise : 1
@@ -189,6 +190,11 @@ export class PieMenuElement extends SceneElement {
 
                                 for (let i=0; i<this.itemCount; i++) {
                                     this.menuItems[i].setText(this.currentQueue[i]);
+
+                                    const actionIndex = this.menuItemList.findIndex(m => m.label === this.currentQueue[i].toLowerCase());
+                                    if (actionIndex >= 0) {
+                                        this.menuItems[i].action = this.menuItemList[actionIndex].action;
+                                    }
                                 }
 
                                 this.currentClickNum = this.currentClickNum % this.testItems.length;
@@ -330,6 +336,11 @@ export class PieMenuElement extends SceneElement {
             this.addChild(item);
             item.button.linkToTransformNode(this.axle);
             item.parent = this.axle;
+
+            const actionIndex = this.menuItemList.findIndex(m => m.label === this.currentQueue[i].toLowerCase());
+            if (actionIndex >= 0) {
+                item.action = this.menuItemList[actionIndex].action;
+            }
         }
     }
 
@@ -457,5 +468,11 @@ export class PieMenuElement extends SceneElement {
 
             item.setScale(itemScale);
         }
+    }
+
+    public setMenuItemList(menuItemList) {
+        this.testItems = menuItemList.map(menu => menu.label.toUpperCase());
+        this.menuItemList = menuItemList;
+        this.buildNewQueue();
     }
 }
