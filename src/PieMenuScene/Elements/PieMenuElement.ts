@@ -63,6 +63,7 @@ export class PieMenuElement extends SceneElement {
     originalX: number = 0;
     originalY: number = 0;
     currentQueue: Array<string> = [];
+    openMenuCallback: Function = null;
 
     constructor(name: string,
         public x: number,
@@ -191,7 +192,8 @@ export class PieMenuElement extends SceneElement {
                                 for (let i=0; i<this.itemCount; i++) {
                                     this.menuItems[i].setText(this.currentQueue[i]);
 
-                                    const actionIndex = this.menuItemList.findIndex(m => m.label === this.currentQueue[i].toLowerCase());
+                                    const actionIndex = this.menuItemList.findIndex(m => m.label.toLowerCase() === this.currentQueue[i].toLowerCase());
+
                                     if (actionIndex >= 0) {
                                         this.menuItems[i].action = this.menuItemList[actionIndex].action;
                                     }
@@ -337,7 +339,7 @@ export class PieMenuElement extends SceneElement {
             item.button.linkToTransformNode(this.axle);
             item.parent = this.axle;
 
-            const actionIndex = this.menuItemList.findIndex(m => m.label === this.currentQueue[i].toLowerCase());
+            const actionIndex = this.menuItemList.findIndex(m => m.label.toLowerCase() === this.currentQueue[i].toLowerCase());
             if (actionIndex >= 0) {
                 item.action = this.menuItemList[actionIndex].action;
             }
@@ -351,6 +353,10 @@ export class PieMenuElement extends SceneElement {
     public open() {
         console.log("opening menu");
         this.menuState = MenuState.Opening;
+
+        if (this.openMenuCallback) {
+            this.openMenuCallback();
+        }
     }
 
     public close() {

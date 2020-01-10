@@ -30,7 +30,7 @@ export class PieMenuScene extends Scene {
     cornerMarginX: number = 40;
     cornerMarginY: number = 0;
     menuItemList = [];
-
+    openMenuAction: Function = null;
 
     constructor(public title: string, public canvas: HTMLElement, hdrSkyboxTexture: string) {
         super(title, canvas, hdrSkyboxTexture);
@@ -86,10 +86,11 @@ export class PieMenuScene extends Scene {
             this,
             this.itemCount,
             this.menuPositionType);
+        this.menu.openMenuCallback = this.onOpenMenu;
         //this.menu.rotation.y = Math.PI/8;
         // this.menu.setMenuPosition(this.menuPositionType);
         this.AddSceneElement(this.menu);
-
+        
         if (this.menuItemList.length > 0) {
             this.menu.setMenuItemList(this.menuItemList);
         }
@@ -146,5 +147,15 @@ export class PieMenuScene extends Scene {
 
     public setMenuItemList(menuList) {
         this.menuItemList = menuList;
+    }
+
+    public onOpenMenu = () => {
+        if (this.openMenuAction) {
+            this.openMenuAction(this.title);
+        }
+    }
+
+    public closeMenu() {
+        this.menu.close();
     }
 }

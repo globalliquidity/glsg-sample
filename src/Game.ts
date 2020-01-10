@@ -8,7 +8,7 @@ import DataDrivenSceneAssetManager from './DataDrivenScene/AssetManager';
 import PieMenuSceneAssetManager from './PieMenuScene/AssetManager';
 import { Experience } from "./glsg/lib/Experience";
 import { PieMenuExperience } from "./PieMenuScene";
-
+import { PieMenuScene } from "./PieMenuScene/Scenes/PieMenuScene";
 
 export default class Game
 {
@@ -38,6 +38,14 @@ export default class Game
             case '/PieMenuScene':
                 this.experience = new PieMenuExperience('PieMenuScene', this.canvas);
                 this.experience.load();
+                this.experience.load();
+                this.experience.load();
+                this.experience.load();
+
+                this.experience.scenes.forEach((scene, index) => {
+                    const pieMenuScene = scene as PieMenuScene;
+                    pieMenuScene.menuPositionType = index;
+                });
                 break;
             default:
                 break;
