@@ -63,6 +63,7 @@ export class PieMenuElement extends SceneElement {
     originalX: number = 0;
     originalY: number = 0;
     currentQueue: Array<string> = [];
+    openMenuCallback: Function = null;
 
     constructor(name: string,
         public x: number,
@@ -146,12 +147,19 @@ export class PieMenuElement extends SceneElement {
         this.scene.bjsScene.onPointerObservable.add((pointerInfo) => {
             switch (pointerInfo.type) {
                 case bjs.PointerEventTypes.POINTERDOWN:
-                    this.isMouseDown = true;
-                    this.originalX = pointerInfo.event.clientX;
-                    this.originalY = pointerInfo.event.clientY;
+                    if (pointerInfo.pickInfo && pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
+                        this.isMouseDown = true;
+                        this.originalX = pointerInfo.event.clientX;
+                        this.originalY = pointerInfo.event.clientY;
+                    }
                     break;
                 case bjs.PointerEventTypes.POINTERUP:
                     this.isMouseDown = false;
+                    if (pointerInfo.pickInfo && pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
+                        let menuItemName = pointerInfo.pickInfo.pickedMesh.name;
+                        menuItemName = menuItemName.replace('textMeshBox', '');
+                        console.log(`Button ${menuItemName} has clicked!!!!`);
+                    }
                     break;
                 case bjs.PointerEventTypes.POINTERMOVE:
                     if (this.isMouseDown) {
@@ -191,7 +199,8 @@ export class PieMenuElement extends SceneElement {
                                 for (let i=0; i<this.itemCount; i++) {
                                     this.menuItems[i].setText(this.currentQueue[i]);
 
-                                    const actionIndex = this.menuItemList.findIndex(m => m.label === this.currentQueue[i].toLowerCase());
+                                    const actionIndex = this.menuItemList.findIndex(m => m.label.toLowerCase() === this.currentQueue[i].toLowerCase());
+
                                     if (actionIndex >= 0) {
                                         this.menuItems[i].action = this.menuItemList[actionIndex].action;
                                     }
@@ -331,13 +340,13 @@ export class PieMenuElement extends SceneElement {
                                                                 this.axle,
                                                                 this.currentQueue[i]);
             await item.create();
-            this.controlContainer.addControl(item.button);
+            // this.controlContainer.addControl(item.button);
             this.menuItems.push(item);
             this.addChild(item);
-            item.button.linkToTransformNode(this.axle);
+            // item.button.linkToTransformNode(this.axle);
             item.parent = this.axle;
 
-            const actionIndex = this.menuItemList.findIndex(m => m.label === this.currentQueue[i].toLowerCase());
+            const actionIndex = this.menuItemList.findIndex(m => m.label.toLowerCase() === this.currentQueue[i].toLowerCase());
             if (actionIndex >= 0) {
                 item.action = this.menuItemList[actionIndex].action;
             }
@@ -351,6 +360,10 @@ export class PieMenuElement extends SceneElement {
     public open() {
         console.log("opening menu");
         this.menuState = MenuState.Opening;
+
+        if (this.openMenuCallback) {
+            this.openMenuCallback();
+        }
     }
 
     public close() {

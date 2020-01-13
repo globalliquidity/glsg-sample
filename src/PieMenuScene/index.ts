@@ -11,9 +11,20 @@ export class PieMenuExperience extends Experience
 {
     protected onLoad()
     {
-        let scene:Scene = new PieMenuScene('PieMenuScene', this.canvas, PieMenuSceneAssetManager.ddsGc256SpecularHDR);
+        let scene: PieMenuScene = new PieMenuScene(`PieMenuScene${this.scenes.length}`, this.canvas, null);
         this.AddScene(scene);
         
         SceneManager.Instance.LoadScene(scene, this.canvas, ViewportPosition.Full);
+        scene.openMenuAction = this.onOpenMenu;
+    }
+
+    public onOpenMenu = (sceneTitle) => {
+        this.scenes.forEach(scene => {
+            const pieMenuScene = scene as PieMenuScene;
+
+            if (pieMenuScene.title !== sceneTitle) {
+                pieMenuScene.closeMenu();
+            }
+        });
     }
 }
