@@ -11,6 +11,10 @@ export class PieMenuItemElement extends SceneElement {
     itemText: TextMeshString;
     angle: number;
     action: Function;
+    isClicked: boolean = false;
+    isMouseDown: boolean = false;
+    originalX: number = 0;
+    originalY: number = 0;
 
     constructor(name: string,
         public x: number,
@@ -64,16 +68,8 @@ export class PieMenuItemElement extends SceneElement {
         this.itemText.pivot.scaling = this.itemText.pivot.scaling.multiply(new bjs.Vector3(0.33,0.33,0.33));
 
         this.button = new bjsgui.MeshButton3D(this.itemText.pivot, "itemButton");
-        this.button.name = this.text;
-        
-        this.button.onPointerDownObservable.add(() => {
-            console.log(this.button.name + " pushed.");
-
-            if (this.action) {
-                this.action();
-            }
-        });
-
+        this.button.isVisible = false;
+        // this.button.name = this.text;
 
         this.addChild(this.itemText);
         //this.itemText.parent = this.button;
@@ -91,16 +87,17 @@ export class PieMenuItemElement extends SceneElement {
 
     public setText(text: string) {
         this.itemText.setText(text);
-        this.button.name = text;
+        // this.button.name = text;
         this.itemText.scaling = new bjs.Vector3(0.33, 0.33, 0.33);
     }
 
     protected onRender() {
         let axleRotation : bjs.Vector3 = this.axle.rotation;
         
-        if (-axleRotation.z != this.angle) {
+        if (-axleRotation.z !== this.angle) {
             this.angle = -axleRotation.z;
             this.itemText.rotation = new Vector3(0,0,this.angle);
+            // this.itemText.box.rotation = new Vector3(0,0,Math.PI - (this.angle % Math.PI));
             this.itemText.pivot.rotation = new Vector3(0,0,this.angle);
         }
         //if (this.itemText.rotation.z < (-Math.PI/2))

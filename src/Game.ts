@@ -38,9 +38,9 @@ export default class Game
             case '/PieMenuScene':
                 this.experience = new PieMenuExperience('PieMenuScene', this.canvas);
                 this.experience.load();
-                this.experience.load();
-                this.experience.load();
-                this.experience.load();
+                // this.experience.load();
+                // this.experience.load();
+                // this.experience.load();
 
                 this.experience.scenes.forEach((scene, index) => {
                     const pieMenuScene = scene as PieMenuScene;

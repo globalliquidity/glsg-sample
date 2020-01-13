@@ -147,12 +147,19 @@ export class PieMenuElement extends SceneElement {
         this.scene.bjsScene.onPointerObservable.add((pointerInfo) => {
             switch (pointerInfo.type) {
                 case bjs.PointerEventTypes.POINTERDOWN:
-                    this.isMouseDown = true;
-                    this.originalX = pointerInfo.event.clientX;
-                    this.originalY = pointerInfo.event.clientY;
+                    if (pointerInfo.pickInfo && pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
+                        this.isMouseDown = true;
+                        this.originalX = pointerInfo.event.clientX;
+                        this.originalY = pointerInfo.event.clientY;
+                    }
                     break;
                 case bjs.PointerEventTypes.POINTERUP:
                     this.isMouseDown = false;
+                    if (pointerInfo.pickInfo && pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
+                        let menuItemName = pointerInfo.pickInfo.pickedMesh.name;
+                        menuItemName = menuItemName.replace('textMeshBox', '');
+                        console.log(`Button ${menuItemName} has clicked!!!!`);
+                    }
                     break;
                 case bjs.PointerEventTypes.POINTERMOVE:
                     if (this.isMouseDown) {
@@ -333,10 +340,10 @@ export class PieMenuElement extends SceneElement {
                                                                 this.axle,
                                                                 this.currentQueue[i]);
             await item.create();
-            this.controlContainer.addControl(item.button);
+            // this.controlContainer.addControl(item.button);
             this.menuItems.push(item);
             this.addChild(item);
-            item.button.linkToTransformNode(this.axle);
+            // item.button.linkToTransformNode(this.axle);
             item.parent = this.axle;
 
             const actionIndex = this.menuItemList.findIndex(m => m.label.toLowerCase() === this.currentQueue[i].toLowerCase());

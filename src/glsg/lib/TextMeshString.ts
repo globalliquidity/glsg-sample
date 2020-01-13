@@ -52,7 +52,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         let mat : bjs.StandardMaterial = new bjs.StandardMaterial("mat", this.scene.bjsScene);
         mat.diffuseColor = bjs.Color3.White();
         mat.ambientColor = bjs.Color3.White();
-        mat.alpha = 0.1;
+        mat.alpha = 0;
         
         if (!this.pivot) {
             this.pivot = bjs.MeshBuilder.CreateBox("pivot", { height: 0, width: 0, depth: 0 }, this.scene.bjsScene);
@@ -63,7 +63,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         // this.pivot.position = this.position;
         
         if (!this.box) {
-            this.box = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1, }, this.scene.bjsScene);
+            this.box = bjs.MeshBuilder.CreateBox("textMeshBox" + this.text, { height: 1, width: 1, depth: 1, }, this.scene.bjsScene);
             this.box.material = mat;
             this.pivot.addChild(this.box);
             this.pivot.isVisible = false;
@@ -72,12 +72,11 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         // this.box.parent = this;
         // this.box.position = this.position;
         
-        
-        console.log("TextMeshString : Creating Meshes for : " + this.text);
+        // console.log("TextMeshString : Creating Meshes for : " + this.text);
         for (var i = 0; i < this.text.length; i++) {
             let currentCharacter: string = this.text[i];
-            console.log("TextMeshString : Current Character : " + currentCharacter);
-            let characterMesh: InstancedMesh = TextMeshModelLoader.Instance.getCharacterMesh(currentCharacter).createInstance(currentCharacter);
+            // console.log("TextMeshString : Current Character : " + currentCharacter);
+            let characterMesh: InstancedMesh = TextMeshModelLoader.Instance.getCharacterMesh(currentCharacter).createInstance('characterMesh' + currentCharacter);
 
             if (characterMesh != null) {
                 characterMesh.parent = this;
@@ -98,9 +97,9 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
             //this.characterMeshes[i].position.x += i;
             let currentCharacter: bjs.InstancedMesh = this.characterMeshes[i];
             let characterWidth = currentCharacter.getBoundingInfo().boundingBox.extendSize.x * 2;
-            console.log("TextMeshString : Character - " + currentCharacter + " is " + characterWidth + " wide.");
+            // console.log("TextMeshString : Character - " + currentCharacter + " is " + characterWidth + " wide.");
             let characterHeight = currentCharacter.getBoundingInfo().boundingBox.extendSize.y * 2;
-            console.log("TextMeshString : Character - " + currentCharacter + " is " + characterHeight + " high.");
+            // console.log("TextMeshString : Character - " + currentCharacter + " is " + characterHeight + " high.");
 
             boundingWidth += characterWidth;
             
@@ -109,7 +108,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
             // let horizontalOffset: number = 0;
 
             // Calculate offset of each character
-            characterOffset += prevCharacterWidth + ((characterWidth - prevCharacterWidth) / 2) + ((i == 0) ? 0 : this.characterSpacing);
+            characterOffset += prevCharacterWidth + ((characterWidth - prevCharacterWidth) / 2) + ((i === 0) ? 0 : this.characterSpacing);
 
             // Above equation is equal to following calculation
             //characterOffset += prevCharacterWidth + ((maxCharacterWidth - prevCharacterWidth) / 2) - ((maxCharacterWidth - characterWidth) / 2) + ((i == 0) ? 0 : characterSpacing);
@@ -153,7 +152,8 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         this.box.scaling = new Vector3(boundingWidth, 1, 0.2);
         this.box.position.x = horizontalOffset + (boundingWidth / 2);
         this.box.position.y = verticalOffset;
-        this.box.position.z = 0.2;
+        this.box.position.z = -0.2;
+        this.box.parent = this;
     }
 
     public setText(name: string) {

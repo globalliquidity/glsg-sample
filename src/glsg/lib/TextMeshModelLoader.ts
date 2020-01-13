@@ -99,12 +99,7 @@ export class TextMeshModelLoader
             this.characterMeshes.set(currentLetter, fontMeshes.meshes[i] as bjs.Mesh);
         }
 
-
-
-
         this.isLoaded = true;
-
-
     }
 
     public getCharacterMesh(character : string) : bjs.Mesh
@@ -117,9 +112,7 @@ export class TextMeshModelLoader
                 return null
         }
         else return null;
-            
     }
-
 
     public static get Instance()
     {
