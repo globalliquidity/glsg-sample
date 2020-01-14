@@ -85,6 +85,12 @@ export class PieMenuItemElement extends SceneElement {
         this.itemScale = itemScale;
     }
 
+    public setVisible(isVisible: boolean) {
+        this.mesh.isVisible = isVisible;
+        this.itemText.characterMeshes.forEach(cm => cm.isVisible = isVisible);
+        this.itemText.box.isVisible = isVisible;
+    }
+
     public setText(text: string) {
         this.itemText.setText(text);
         // this.button.name = text;
