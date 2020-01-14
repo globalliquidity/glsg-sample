@@ -158,6 +158,14 @@ export class PieMenuElement extends SceneElement {
                     if (pointerInfo.pickInfo && pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
                         let menuItemName = pointerInfo.pickInfo.pickedMesh.name;
                         menuItemName = menuItemName.replace('textMeshBox', '');
+
+                        if (this.menuItemList) {
+                            const menuItem = this.menuItemList.find(mi => mi.label.toLowerCase() === menuItemName.toLowerCase());
+
+                            if (menuItem && menuItem.action) {
+                                menuItem.action();
+                            }
+                        }
                     }
                     break;
                 case bjs.PointerEventTypes.POINTERMOVE:
