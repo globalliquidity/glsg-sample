@@ -158,7 +158,6 @@ export class PieMenuElement extends SceneElement {
                     if (pointerInfo.pickInfo && pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
                         let menuItemName = pointerInfo.pickInfo.pickedMesh.name;
                         menuItemName = menuItemName.replace('textMeshBox', '');
-                        console.log(`Button ${menuItemName} has clicked!!!!`);
                     }
                     break;
                 case bjs.PointerEventTypes.POINTERMOVE:
@@ -196,6 +195,19 @@ export class PieMenuElement extends SceneElement {
                                     this.activeItemIndex = this.itemCount + this.activeItemIndex;
                                 }
 
+                                const quarterCount = Math.floor(this.itemCount / 4) + 2;
+                                const displayIdxs = [];
+
+                                for(let i=-1 * Math.floor(quarterCount / 2); i <= Math.floor(quarterCount / 2); i ++) {
+                                    let realIndex = (this.activeItemIndex + i) % this.itemCount;
+
+                                    if (realIndex < 0) {
+                                        realIndex = this.itemCount + realIndex;
+                                    }
+
+                                    displayIdxs.push(realIndex);
+                                }
+
                                 for (let i=0; i<this.itemCount; i++) {
                                     this.menuItems[i].setText(this.currentQueue[i]);
 
@@ -203,6 +215,12 @@ export class PieMenuElement extends SceneElement {
 
                                     if (actionIndex >= 0) {
                                         this.menuItems[i].action = this.menuItemList[actionIndex].action;
+                                    }
+
+                                    if (displayIdxs.includes(i)) {
+                                        this.menuItems[i].itemText.setVisibility(true);
+                                    } else {
+                                        this.menuItems[i].itemText.setVisibility(false);
                                     }
                                 }
 
@@ -299,16 +317,16 @@ export class PieMenuElement extends SceneElement {
             if (this.menuState === MenuState.Closed)
                 this.open();
             else if ((this.menuState === MenuState.Open) || (this.menuState === MenuState.Rotating)) {
-                let itemAngleIncrement = -(2 * Math.PI) / this.itemCount;
-                if (this.swipeDirection === 0) {
-                    this.targetMenuRotation += itemAngleIncrement;
-                } else {
-                    this.targetMenuRotation -= itemAngleIncrement;
-                }
+                // let itemAngleIncrement = -(2 * Math.PI) / this.itemCount;
+                // if (this.swipeDirection === 0) {
+                //     this.targetMenuRotation += itemAngleIncrement;
+                // } else {
+                //     this.targetMenuRotation -= itemAngleIncrement;
+                // }
 
-                this.menuState = MenuState.Rotating;
-                this.activeItemIndex --;
-                this.updateMenuItems();
+                // this.menuState = MenuState.Rotating;
+                // this.activeItemIndex --;
+                // this.updateMenuItems();
             }
         }
         centerButton.pointerUpAnimation = () => {
@@ -428,14 +446,14 @@ export class PieMenuElement extends SceneElement {
             {
                 this.currentMenuRotation = this.targetMenuRotation;
 
-                if (this.activeItemIndex < (this.itemCount - 1))
-                {
-                    this.activeItemIndex ++;
-                }
-                else
-                {
-                    this.activeItemIndex = 0;
-                }
+                // if (this.activeItemIndex < (this.itemCount - 1))
+                // {
+                //     this.activeItemIndex ++;
+                // }
+                // else
+                // {
+                //     this.activeItemIndex = 0;
+                // }
 
                 this.menuState = MenuState.Open;
             }

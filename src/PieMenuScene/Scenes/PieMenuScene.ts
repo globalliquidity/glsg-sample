@@ -21,7 +21,7 @@ export class PieMenuScene extends Scene {
     //menuPosition : Vector3 = new Vector3(-4,3.15,0);
     //menuPosition : Vector3 = new Vector3(-4.25,4.25,10);
     menuPosition: Vector3 = new Vector3(-1.5, 0, 0);
-    menuPositionType: number = MenuPosition.TOP_LEFT;
+    menuPositionType: number = MenuPosition.BOTTOM_LEFT;
     centerBox: bjs.Mesh;
     glowLayer: bjs.GlowLayer;
     glowEnabled: boolean = false;

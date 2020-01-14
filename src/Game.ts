@@ -44,7 +44,7 @@ export default class Game
 
                 this.experience.scenes.forEach((scene, index) => {
                     const pieMenuScene = scene as PieMenuScene;
-                    pieMenuScene.menuPositionType = index;
+                    // pieMenuScene.menuPositionType = index;
                 });
                 break;
             default:
