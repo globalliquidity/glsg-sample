@@ -1,5 +1,5 @@
 import * as bjs from 'babylonjs';
-import { Scene, SolidParticleSystemElement } from '../../glsg';
+import { Scene, SolidParticleSystemElement, SolidParticleMaterial } from '../../glsg';
 
 export class DataDrivenSceneElement extends SolidParticleSystemElement
 {
@@ -18,7 +18,7 @@ export class DataDrivenSceneElement extends SolidParticleSystemElement
             z,
             scene,
             bjs.Mesh.CreateSphere("particle", 16, Math.floor(size / 100), scene.bjsScene),
-            new bjs.PBRMaterial(name + "-material", scene.bjsScene),
+            new SolidParticleMaterial(name + "-material", scene),
             1
         );
         this.create();

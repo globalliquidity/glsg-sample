@@ -1,5 +1,5 @@
 import * as bjs from 'babylonjs';
-import { Scene, SolidParticleSystemElement } from '../../glsg';
+import { Scene, SolidParticleSystemElement, SolidParticleMaterial } from '../../glsg';
 
 export class SpinningCylinderThing extends SolidParticleSystemElement
 {
@@ -18,12 +18,11 @@ export class SpinningCylinderThing extends SolidParticleSystemElement
             z,
             scene,
             bjs.MeshBuilder.CreateCylinder("particle", { diameter: 3.2, height: 20, tessellation: 12 }, scene.bjsScene),
-            new bjs.PBRMaterial(name + "-material", scene.bjsScene),
+            new SolidParticleMaterial(name + "-material", scene),
             64
         );
         this.create();
     }
-    
 
     protected onCreate()
     {

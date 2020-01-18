@@ -3,6 +3,7 @@ import { Scene } from './Scene'
 import { IVectorFieldUpdateStrategy } from './SceneGraphInterfaces';
 import { SolidParticleSystemElement } from './SolidParticleSystemElement';
 import { IDepthFinderElement } from './SceneGraphInterfaces';
+import { SolidParticleMaterial } from './SolidParticleMaterial';
 import Logger from './Logger';
 
 export class VectorField extends SolidParticleSystemElement implements IDepthFinderElement
@@ -32,7 +33,7 @@ export class VectorField extends SolidParticleSystemElement implements IDepthFin
             z,
             scene,
             mesh,
-            scene.bjsScene ? new bjs.PBRMaterial(name + "-material", scene.bjsScene) : undefined,
+            scene.bjsScene ? new SolidParticleMaterial(name + "-material", scene) : undefined,
             (rowCount * columnCount * 2) + (rowCount * 2),
         );
 

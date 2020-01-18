@@ -1,6 +1,7 @@
 import * as bjs from 'babylonjs';
 import { SceneElement } from './SceneElement';
 import { Scene } from './Scene';
+import { SolidParticleMaterial } from "./SolidParticleMaterial";
 import Logger from './Logger';
 
 export class SolidParticleSystemElement extends SceneElement
@@ -8,7 +9,7 @@ export class SolidParticleSystemElement extends SceneElement
     public sps: bjs.SolidParticleSystem | undefined;
     public mesh: bjs.Mesh | undefined;
     public meshBase: bjs.Mesh;
-    public material: bjs.PBRMaterial | undefined;
+    public material: SolidParticleMaterial | undefined;
     public amount: number;
     public spsOptions?: {
         updatable?: boolean;
@@ -30,7 +31,7 @@ export class SolidParticleSystemElement extends SceneElement
         z: number,
         scene : Scene,
         meshBase: bjs.Mesh,
-        material: bjs.PBRMaterial | undefined,
+        material: SolidParticleMaterial | undefined,
         amount: number, 
         spsOptions?: {
             updatable?: boolean;
