@@ -90,7 +90,6 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
             else {
                 console.log("TextMeshString : No Character Mesh For : " + currentCharacter);
             }
-
         }
 
         for (var i = 0; i < this.characterMeshes.length; i++) {
@@ -200,5 +199,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         for (var i = 0; i < this.characterMeshes.length; i++) {
             this.characterMeshes[i].isVisible = isVisible;
         }
+
+        this.box.isVisible = isVisible;
     }
 }

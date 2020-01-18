@@ -60,6 +60,7 @@ export class PieMenuElement extends SceneElement {
 
     // Mouse pointer capture
     isMouseDown: boolean = false;
+    clickedMeshName: string = '';
     originalX: number = 0;
     originalY: number = 0;
     currentQueue: Array<string> = [];
@@ -149,6 +150,8 @@ export class PieMenuElement extends SceneElement {
                 case bjs.PointerEventTypes.POINTERDOWN:
                     if (pointerInfo.pickInfo && pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
                         this.isMouseDown = true;
+                        this.clickedMeshName = pointerInfo.pickInfo.pickedMesh.name.replace('textMeshBox', '');
+
                         this.originalX = pointerInfo.event.clientX;
                         this.originalY = pointerInfo.event.clientY;
                     }
@@ -159,11 +162,14 @@ export class PieMenuElement extends SceneElement {
                         let menuItemName = pointerInfo.pickInfo.pickedMesh.name;
                         menuItemName = menuItemName.replace('textMeshBox', '');
 
-                        if (this.menuItemList) {
-                            const menuItem = this.menuItemList.find(mi => mi.label.toLowerCase() === menuItemName.toLowerCase());
-
-                            if (menuItem && menuItem.action) {
-                                menuItem.action();
+                        if (this.clickedMeshName === menuItemName) {
+                            this.clickedMeshName = '';
+                            if (this.menuItemList) {
+                                const menuItem = this.menuItemList.find(mi => mi.label.toLowerCase() === menuItemName.toLowerCase());
+    
+                                if (menuItem && menuItem.action) {
+                                    menuItem.action();
+                                }
                             }
                         }
                     }
