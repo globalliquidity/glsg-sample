@@ -15,3 +15,4 @@ export * from './lib/VectorField';
 export * from './lib/VectorFieldPresenter';
 export * from './lib/VectorFieldUpdateStrategy';
 export * from './lib/SceneGraphInterfaces';
+export * from './lib/SolidParticleMaterial';
