@@ -1,5 +1,6 @@
 import * as bjs from 'babylonjs';
 import { Scene, SolidParticleSystemElement, SolidParticleMaterial } from '../../glsg';
+import { GLSGColor } from '../../glsg/lib/Enums';
 
 export class SpinningCylinderThing extends SolidParticleSystemElement
 {
@@ -57,6 +58,8 @@ export class SpinningCylinderThing extends SolidParticleSystemElement
         const cellOffset: number = particle.idx * this.frequency;
         particle.rotation.x += (0.002 * (particle.idx * 0.5));
         particle.scaling.y = 1.5 + (Math.sin(this.sizePhasor + cellOffset));
+
+        particle.uvs = SolidParticleMaterial.getUVSforColor(GLSGColor.Cyan);
 
         return particle;
     }
