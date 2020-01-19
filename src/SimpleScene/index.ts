@@ -10,8 +10,7 @@ export class SimpleScene extends Scene
     cylinders: SpinningCylinderThing;
     field: SineWaveScrollerVectorField;
     text : TextMeshString;
-
-
+    
     cameraOrbitSpeed: number = 0.001;
     private cameraHomeBeta : number = Math.PI / 2  - (Math.PI)/32;
 
