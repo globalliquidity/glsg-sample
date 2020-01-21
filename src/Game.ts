@@ -10,6 +10,9 @@ import { Experience } from "./glsg/lib/Experience";
 import { PieMenuExperience } from "./PieMenuScene";
 import { PieMenuScene } from "./PieMenuScene/Scenes/PieMenuScene";
 
+import GLSGAssetManager from './glsg/AssetManager';
+import { MeshAssetsManager } from "./glsg/lib/MeshAssetsManager";
+
 export default class Game
 {
     private canvas: HTMLCanvasElement;
@@ -22,6 +25,16 @@ export default class Game
 
         // Clear all existing scenes
         SceneManager.Instance.clear();
+
+        // Create Mesh Asset Manager
+        console.log(MeshAssetsManager.Instance.addMeshTask);
+
+        MeshAssetsManager.Instance.init(this.scene);
+        MeshAssetsManager.Instance.addMeshTask("fontModel", "", "", GLSGAssetManager.FontModel,null, null);
+        MeshAssetsManager.Instance.load(function(tasks) {
+            console.log("success");
+            console.log(tasks.length);
+        });
 
         switch (path) {
             case '/':
