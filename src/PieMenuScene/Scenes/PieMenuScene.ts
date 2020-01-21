@@ -21,7 +21,7 @@ export class PieMenuScene extends Scene {
     //menuPosition : Vector3 = new Vector3(-4,3.15,0);
     //menuPosition : Vector3 = new Vector3(-4.25,4.25,10);
     menuPosition: Vector3 = new Vector3(-1.5, 0, 0);
-    menuPositionType: number = MenuPosition.BOTTOM_LEFT;
+    menuPositionType: number = MenuPosition.TOP_LEFT;
     centerBox: bjs.Mesh;
     glowLayer: bjs.GlowLayer;
     glowEnabled: boolean = false;
@@ -108,13 +108,13 @@ export class PieMenuScene extends Scene {
             let menuOffsetY = ((this.menuPositionType === MenuPosition.TOP_LEFT || this.menuPositionType === MenuPosition.TOP_RIGHT) 
                             ? this.cornerMarginY : this.canvas.clientHeight - this.cornerMarginY)
             let menuRay = this.bjsScene.createPickingRay(
-                // this.canvas.clientWidth / 2,
-                // this.canvas.clientHeight / 2,
-                menuOffsetX,
-                menuOffsetY,
+                this.canvas.clientWidth / 2,
+                this.canvas.clientHeight / 2,
+                // menuOffsetX,
+                // menuOffsetY,
                 null,
                 this.camera
-            )
+            );
 
             this.menuPosition = menuRay.origin.add(menuRay.direction.scale(15))
 

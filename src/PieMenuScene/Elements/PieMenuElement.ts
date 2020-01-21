@@ -148,6 +148,11 @@ export class PieMenuElement extends SceneElement {
         this.scene.bjsScene.onPointerObservable.add((pointerInfo) => {
             switch (pointerInfo.type) {
                 case bjs.PointerEventTypes.POINTERDOWN:
+                    if (this.menuState === MenuState.Open) {
+                    } else {
+                        this.open();
+                    }
+
                     if (pointerInfo.pickInfo && pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
                         this.isMouseDown = true;
                         this.clickedMeshName = pointerInfo.pickInfo.pickedMesh.name.replace('textMeshBox', '');
@@ -164,6 +169,8 @@ export class PieMenuElement extends SceneElement {
 
                         if (this.clickedMeshName === menuItemName) {
                             this.clickedMeshName = '';
+                            this.close();
+                            
                             if (this.menuItemList) {
                                 const menuItem = this.menuItemList.find(mi => mi.label.toLowerCase() === menuItemName.toLowerCase());
     
@@ -341,6 +348,7 @@ export class PieMenuElement extends SceneElement {
                 // this.menuState = MenuState.Rotating;
                 // this.activeItemIndex --;
                 // this.updateMenuItems();
+                this.close();
             }
         }
         centerButton.pointerUpAnimation = () => {
@@ -432,6 +440,17 @@ export class PieMenuElement extends SceneElement {
                                                                         
         }   
         */
+
+        for (let i=0; i < this.itemCount; i += 1) {
+            if (this.menuItems[i]) {
+                if (this.menuState === MenuState.Closed && i !== this.activeItemIndex) {
+                    this.menuItems[i].setVisible(false);
+                } else {
+                    // console.log('active index: ', this.activeItemIndex);
+                    this.menuItems[i].setVisible(true);
+                }
+            }
+        }
     }
 
     protected onRender() {
@@ -445,10 +464,10 @@ export class PieMenuElement extends SceneElement {
             this.positionMenuItems();
         }
         else if (this.menuState === MenuState.Closing) {
-            this.radiusMultiplier = bjs.Scalar.Lerp(this.radiusMultiplier, 0, 0.1);
+            this.radiusMultiplier = bjs.Scalar.Lerp(this.radiusMultiplier, 0.3, 0.1);
 
-            if (this.radiusMultiplier < 0.01) {
-                this.radiusMultiplier = 0;
+            if (this.radiusMultiplier < 0.31) {
+                this.radiusMultiplier = 0.3;
                 this.menuState = MenuState.Closed;
             }
             this.positionMenuItems();
