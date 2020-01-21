@@ -52,6 +52,7 @@ export class PieMenuElement extends SceneElement {
 
     //testItems : Array<string> = [ 'BIBOX', 'BITFINEX','BITSTAMP','COINBASEPRO', 'BITMART', 'BITTREX', 'HITBTC', 'HUOBI', 'KRAKEN',  'KUKOIN', 'OKEX', 'POLONIEX' ];
     testItems: Array<string> = [];
+    displayIdxs: Array<number> = [];
     menuItemList = [];
     currentClickNum: number = 0;
     //clockwise : 0
@@ -65,6 +66,7 @@ export class PieMenuElement extends SceneElement {
     originalY: number = 0;
     currentQueue: Array<string> = [];
     openMenuCallback: Function = null;
+    menuUpdatedTimeStamp = 0;
 
     constructor(name: string,
         public x: number,
@@ -123,6 +125,8 @@ export class PieMenuElement extends SceneElement {
         });
         */
     //    this.scaleMenuItems();
+        this.calcDisplayIdxs();
+        this.positionMenuItems();
     }
 
     protected async buildMenu() {
@@ -149,6 +153,13 @@ export class PieMenuElement extends SceneElement {
             switch (pointerInfo.type) {
                 case bjs.PointerEventTypes.POINTERDOWN:
                     if (pointerInfo.pickInfo && pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
+                        if (this.menuState === MenuState.Open) {
+                        } else {
+                            this.open();
+                        }
+
+                        this.menuUpdatedTimeStamp = Date.now();
+
                         this.isMouseDown = true;
                         this.clickedMeshName = pointerInfo.pickInfo.pickedMesh.name.replace('textMeshBox', '');
 
@@ -161,14 +172,19 @@ export class PieMenuElement extends SceneElement {
                     if (pointerInfo.pickInfo && pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
                         let menuItemName = pointerInfo.pickInfo.pickedMesh.name;
                         menuItemName = menuItemName.replace('textMeshBox', '');
+                        this.menuUpdatedTimeStamp = Date.now();
 
                         if (this.clickedMeshName === menuItemName) {
                             this.clickedMeshName = '';
-                            if (this.menuItemList) {
-                                const menuItem = this.menuItemList.find(mi => mi.label.toLowerCase() === menuItemName.toLowerCase());
-    
-                                if (menuItem && menuItem.action) {
-                                    menuItem.action();
+                            this.close();
+                            
+                            if (this.menuState === MenuState.Open) {
+                                if (this.menuItemList) {
+                                    const menuItem = this.menuItemList.find(mi => mi.label.toLowerCase() === menuItemName.toLowerCase());
+        
+                                    if (menuItem && menuItem.action) {
+                                        menuItem.action();
+                                    }
                                 }
                             }
                         }
@@ -178,6 +194,7 @@ export class PieMenuElement extends SceneElement {
                     if (this.isMouseDown) {
                         const deltaX = pointerInfo.event.clientX - this.originalX;
                         const deltaY = pointerInfo.event.clientY - this.originalY;
+                        this.menuUpdatedTimeStamp = Date.now();
 
                         if ((this.menuState === MenuState.Open) || (this.menuState === MenuState.Rotating)) {
                             let itemAngleIncrement = -(2 * Math.PI) / this.itemCount;
@@ -209,18 +226,7 @@ export class PieMenuElement extends SceneElement {
                                     this.activeItemIndex = this.itemCount + this.activeItemIndex;
                                 }
 
-                                const quarterCount = Math.floor(this.itemCount / 4) + 2;
-                                const displayIdxs = [];
-
-                                for(let i=-1 * Math.floor(quarterCount / 2); i <= Math.floor(quarterCount / 2); i ++) {
-                                    let realIndex = (this.activeItemIndex + i) % this.itemCount;
-
-                                    if (realIndex < 0) {
-                                        realIndex = this.itemCount + realIndex;
-                                    }
-
-                                    displayIdxs.push(realIndex);
-                                }
+                                this.calcDisplayIdxs();
 
                                 for (let i=0; i<this.itemCount; i++) {
                                     this.menuItems[i].setText(this.currentQueue[i]);
@@ -231,10 +237,10 @@ export class PieMenuElement extends SceneElement {
                                         this.menuItems[i].action = this.menuItemList[actionIndex].action;
                                     }
 
-                                    if (displayIdxs.includes(i)) {
-                                        this.menuItems[i].itemText.setVisibility(true);
+                                    if (this.displayIdxs.includes(i)) {
+                                        this.menuItems[i].setVisible(true);
                                     } else {
-                                        this.menuItems[i].itemText.setVisibility(false);
+                                        this.menuItems[i].setVisible(false);
                                     }
                                 }
 
@@ -324,6 +330,9 @@ export class PieMenuElement extends SceneElement {
 
         var centerButton = new bjsgui.MeshButton3D(centerMesh, "centerButton");
         centerButton.position = new bjs.Vector3(0, 0, 0);
+        this.scaling = new bjs.Vector3(0.5, 0.5, 0.5);
+        centerButton.isVisible = false;
+        centerMesh.isVisible = false;
         //centerButton.scaling = new bjs.Vector3(0.75,0.75,0.75);
 
         centerButton.pointerDownAnimation = () =>
@@ -341,6 +350,7 @@ export class PieMenuElement extends SceneElement {
                 // this.menuState = MenuState.Rotating;
                 // this.activeItemIndex --;
                 // this.updateMenuItems();
+                this.close();
             }
         }
         centerButton.pointerUpAnimation = () => {
@@ -386,7 +396,6 @@ export class PieMenuElement extends SceneElement {
     }
 
     protected buildItemsindex(index: number) {
-
     }
 
     public open() {
@@ -396,6 +405,8 @@ export class PieMenuElement extends SceneElement {
         if (this.openMenuCallback) {
             this.openMenuCallback();
         }
+
+        this.menuUpdatedTimeStamp = Date.now();
     }
 
     public close() {
@@ -405,6 +416,15 @@ export class PieMenuElement extends SceneElement {
 
     private nextItem() {
 
+    }
+
+    public setActiveMenuItem(menuItemString: string) {
+        const findIndex = this.testItems.findIndex(ti => ti.toLowerCase() === menuItemString);
+
+        if (findIndex >= 0) {
+            this.currentClickNum = findIndex;
+            this.buildNewQueue();
+        }
     }
 
     public setMenuPosition(menuPosition) {
@@ -432,6 +452,27 @@ export class PieMenuElement extends SceneElement {
                                                                         
         }   
         */
+
+        const currentTimeStamp = Date.now();
+        const timeDelay = Math.abs(this.menuUpdatedTimeStamp - currentTimeStamp);
+
+        if ((timeDelay >= 5000) && (this.menuState === MenuState.Open)) {
+            this.close();
+        }
+
+        for (let i=0; i < this.itemCount; i += 1) {
+            if (this.menuItems[i]) {
+                if (this.menuState === MenuState.Closed && i !== this.activeItemIndex) {
+                    this.menuItems[i].setVisible(false);
+                } else {
+                    // console.log('active index: ', this.activeItemIndex);
+
+                    if (this.displayIdxs.includes(i)) {
+                        this.menuItems[i].setVisible(true);
+                    }
+                }
+            }
+        }
     }
 
     protected onRender() {
@@ -445,10 +486,10 @@ export class PieMenuElement extends SceneElement {
             this.positionMenuItems();
         }
         else if (this.menuState === MenuState.Closing) {
-            this.radiusMultiplier = bjs.Scalar.Lerp(this.radiusMultiplier, 0, 0.1);
+            this.radiusMultiplier = bjs.Scalar.Lerp(this.radiusMultiplier, 0.3, 0.1);
 
-            if (this.radiusMultiplier < 0.01) {
-                this.radiusMultiplier = 0;
+            if (this.radiusMultiplier < 0.31) {
+                this.radiusMultiplier = 0.3;
                 this.menuState = MenuState.Closed;
             }
             this.positionMenuItems();
@@ -476,16 +517,30 @@ export class PieMenuElement extends SceneElement {
         }
     }
 
-    private positionMenuItems() {
+    private calcDisplayIdxs() {
+        const quarterCount = Math.floor(this.itemCount / 4) + 2;
+        this.displayIdxs = [];
 
+        for(let i=-1 * Math.floor(quarterCount / 2); i <= Math.floor(quarterCount / 2); i ++) {
+            let realIndex = (this.activeItemIndex + i) % this.itemCount;
+
+            if (realIndex < 0) {
+                realIndex = this.itemCount + realIndex;
+            }
+
+            this.displayIdxs.push(realIndex);
+        }
+    }
+
+    private positionMenuItems() {
         let itemAngleIncrement = -((2 * Math.PI) / this.itemCount);
 
         for (var i = 0; i < this.itemCount; i++) {
             let item: PieMenuItemElement = this.menuItems[i];
 
             let translationVector: bjs.Vector3 = new bjs.Vector3(
-                Math.sin(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
-                Math.cos(itemAngleIncrement * i) * this.itemRadius * this.radiusMultiplier,
+                Math.sin(itemAngleIncrement * i) * this.itemRadius * Math.max(this.radiusMultiplier, 0.3),
+                Math.cos(itemAngleIncrement * i) * this.itemRadius * Math.max(this.radiusMultiplier, 0.3),
                 0
             );
 
@@ -493,7 +548,7 @@ export class PieMenuElement extends SceneElement {
             item.position.y = translationVector.y;
             item.button.position.x = translationVector.x;
             item.button.position.y = translationVector.y;
-        }     
+        }
     }
 
     private scaleMenuItems() {
