@@ -31,6 +31,7 @@ export class PieMenuScene extends Scene {
     cornerMarginY: number = 0;
     menuItemList = [];
     openMenuAction: Function = null;
+    activeMenuItemText: string = '';
 
     constructor(public title: string, public canvas: HTMLElement, hdrSkyboxTexture: string) {
         super(title, canvas, hdrSkyboxTexture);
@@ -93,6 +94,10 @@ export class PieMenuScene extends Scene {
         
         if (this.menuItemList.length > 0) {
             this.menu.setMenuItemList(this.menuItemList);
+        }
+
+        if (this.activeMenuItemText !== '') {
+            this.menu.setActiveMenuItem(this.activeMenuItemText);
         }
 
         this.menu.setActiveMenuItem('43');
@@ -159,5 +164,9 @@ export class PieMenuScene extends Scene {
 
     public closeMenu() {
         this.menu.close();
+    }
+
+    public setActiveMenuItem(activeMenuItemText: string) {
+        this.activeMenuItemText = activeMenuItemText;
     }
 }
