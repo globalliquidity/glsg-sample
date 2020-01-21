@@ -94,6 +94,8 @@ export class PieMenuScene extends Scene {
         if (this.menuItemList.length > 0) {
             this.menu.setMenuItemList(this.menuItemList);
         }
+
+        this.menu.setActiveMenuItem('43');
         
         this.camera.wheelPrecision = 15;
         //this.centerBox = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1 }, this.bjsScene);
