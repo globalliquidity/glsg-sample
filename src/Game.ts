@@ -113,7 +113,7 @@ export default class Game
                     // pieMenuScene.menuPositionType = index;
                     
                     if (index == 0) {
-                        
+                        console.log("Instantiate MeshAssetManager");
                         MeshAssetsManager.Instance.init(pieMenuScene);
                         MeshAssetsManager.Instance.addMeshTask("fontModel", "", "", GLSGAssetManager.FontModel,null,null);
                         MeshAssetsManager.Instance.load(function(tasks) {

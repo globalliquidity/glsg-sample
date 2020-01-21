@@ -12,7 +12,8 @@ export class MeshAssetsManager
     private static _instance: MeshAssetsManager;
     
     private assetsManager: bjs.AssetsManager;
-    
+    public meshesMap: Map<string,bjs.AbstractMesh[]> = new Map<string,bjs.AbstractMesh[]>();
+
     private constructor()
     {
 
@@ -38,7 +39,9 @@ export class MeshAssetsManager
 
         meshTask.onSuccess = function (task) {
             //task.loadedMeshes[0].position = bjs.Vector3.Zero();
-            console.log(task);
+            this.meshesMap.set(taskName, task.loadedMeshes); 
+            //task.loadedMeshes
+            
             if (success) {
                 success(task);
             }
