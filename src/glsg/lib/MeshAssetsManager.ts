@@ -20,7 +20,7 @@ export class MeshAssetsManager
 
     public async init(scene : Scene)
     {
-        this.assetsManager = new bjs.AssetsManager(null);
+        this.assetsManager = new bjs.AssetsManager(scene.bjsScene);
     }
 
     public async load(finishHandler: LoadAssetHandler)
@@ -37,12 +37,17 @@ export class MeshAssetsManager
         var meshTask = this.assetsManager.addMeshTask(taskName, meshesNames, rootUrl, sceneFileName);
 
         meshTask.onSuccess = function (task) {
-            // task.loadedMeshes[0].position = bjs.Vector3.Zero();
-            success(task);
+            //task.loadedMeshes[0].position = bjs.Vector3.Zero();
+            console.log(task);
+            if (success) {
+                success(task);
+            }
         }
         meshTask.onError = function (task, message, exception) {
-            // console.log(message, exception);
-            error(task, message, exception);
+            console.log(message, exception);
+            if (error) {
+                error(task, message, exception);
+            }
         }
     }
 
