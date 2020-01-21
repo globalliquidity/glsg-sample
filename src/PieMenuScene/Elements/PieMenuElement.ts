@@ -178,11 +178,13 @@ export class PieMenuElement extends SceneElement {
                             this.clickedMeshName = '';
                             this.close();
                             
-                            if (this.menuItemList) {
-                                const menuItem = this.menuItemList.find(mi => mi.label.toLowerCase() === menuItemName.toLowerCase());
-    
-                                if (menuItem && menuItem.action) {
-                                    menuItem.action();
+                            if (this.menuState === MenuState.Open) {
+                                if (this.menuItemList) {
+                                    const menuItem = this.menuItemList.find(mi => mi.label.toLowerCase() === menuItemName.toLowerCase());
+        
+                                    if (menuItem && menuItem.action) {
+                                        menuItem.action();
+                                    }
                                 }
                             }
                         }
