@@ -38,7 +38,7 @@ export class PieMenuItemElement extends SceneElement {
     protected async onCreate() {
         this.mesh = this.model.clone("item");
         this.mesh.parent = this;
-        this.mesh.isVisible = false;
+        // this.mesh.isVisible = false;
         //this.mesh.position.y = 1.618;
         //this.mesh.position.z = 0;
 
@@ -68,7 +68,7 @@ export class PieMenuItemElement extends SceneElement {
         this.itemText.pivot.scaling = this.itemText.pivot.scaling.multiply(new bjs.Vector3(0.33,0.33,0.33));
 
         this.button = new bjsgui.MeshButton3D(this.itemText.pivot, "itemButton");
-        this.button.isVisible = false;
+        // this.button.isVisible = false;
         // this.button.name = this.text;
 
         this.addChild(this.itemText);

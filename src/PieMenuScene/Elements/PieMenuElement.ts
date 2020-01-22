@@ -369,6 +369,7 @@ export class PieMenuElement extends SceneElement {
         for( var i = 0; i < this.itemCount; i++)
         {
             let itemScale = 0.15 + (halfCount - Math.abs(this.activeItemIndex - i) % halfCount) * 0.05;
+            // let itemScale = 0.55;
             if (i === this.activeItemIndex) {
                 itemScale = 0.55;
             }
@@ -477,10 +478,10 @@ export class PieMenuElement extends SceneElement {
 
     protected onRender() {
         if (this.menuState === MenuState.Opening) {
-            this.radiusMultiplier = bjs.Scalar.Lerp(this.radiusMultiplier, 1, 0.1);
+            this.radiusMultiplier = bjs.Scalar.Lerp(this.radiusMultiplier, 1.5, 0.1);
 
             if (this.radiusMultiplier > 0.99) {
-                this.radiusMultiplier = 1;
+                this.radiusMultiplier = 1.5;
                 this.menuState = MenuState.Open;
             }
             this.positionMenuItems();
