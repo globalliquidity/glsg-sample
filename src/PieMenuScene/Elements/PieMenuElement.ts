@@ -457,7 +457,7 @@ export class PieMenuElement extends SceneElement {
         const currentTimeStamp = Date.now();
         const timeDelay = Math.abs(this.menuUpdatedTimeStamp - currentTimeStamp);
 
-        if ((timeDelay >= 5000) && (this.menuState === MenuState.Open)) {
+        if ((timeDelay >= 8000) && (this.menuState === MenuState.Open)) {
             this.close();
         }
 
@@ -480,7 +480,7 @@ export class PieMenuElement extends SceneElement {
         if (this.menuState === MenuState.Opening) {
             this.radiusMultiplier = bjs.Scalar.Lerp(this.radiusMultiplier, 1.5, 0.1);
 
-            if (this.radiusMultiplier > 0.99) {
+            if (this.radiusMultiplier > 1.48) {
                 this.radiusMultiplier = 1.5;
                 this.menuState = MenuState.Open;
             }
