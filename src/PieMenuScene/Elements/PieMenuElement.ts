@@ -478,7 +478,7 @@ export class PieMenuElement extends SceneElement {
 
     protected onRender() {
         if (this.menuState === MenuState.Opening) {
-            this.radiusMultiplier = bjs.Scalar.Lerp(this.radiusMultiplier, 1.5, 0.1);
+            this.radiusMultiplier = bjs.Scalar.Lerp(this.radiusMultiplier, 1.5, 0.2);
 
             if (this.radiusMultiplier > 1.48) {
                 this.radiusMultiplier = 1.5;
@@ -487,7 +487,7 @@ export class PieMenuElement extends SceneElement {
             this.positionMenuItems();
         }
         else if (this.menuState === MenuState.Closing) {
-            this.radiusMultiplier = bjs.Scalar.Lerp(this.radiusMultiplier, 0.3, 0.1);
+            this.radiusMultiplier = bjs.Scalar.Lerp(this.radiusMultiplier, 0.3, 0.2);
 
             if (this.radiusMultiplier < 0.31) {
                 this.radiusMultiplier = 0.3;
