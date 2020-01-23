@@ -115,10 +115,10 @@ export class PieMenuScene extends Scene {
             let menuOffsetY = ((this.menuPositionType === MenuPosition.TOP_LEFT || this.menuPositionType === MenuPosition.TOP_RIGHT) 
                             ? this.cornerMarginY : this.canvas.clientHeight - this.cornerMarginY)
             let menuRay = this.bjsScene.createPickingRay(
-                this.canvas.clientWidth / 2,
-                this.canvas.clientHeight / 2,
-                // menuOffsetX,
-                // menuOffsetY,
+                // this.canvas.clientWidth / 2,
+                // this.canvas.clientHeight / 2,
+                menuOffsetX,
+                menuOffsetY,
                 null,
                 this.camera
             );
