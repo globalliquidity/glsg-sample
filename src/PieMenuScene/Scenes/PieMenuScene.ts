@@ -21,16 +21,17 @@ export class PieMenuScene extends Scene {
     //menuPosition : Vector3 = new Vector3(-4,3.15,0);
     //menuPosition : Vector3 = new Vector3(-4.25,4.25,10);
     menuPosition: Vector3 = new Vector3(-1.5, 0, 0);
-    menuPositionType: number = MenuPosition.BOTTOM_LEFT;
+    menuPositionType: number = MenuPosition.TOP_LEFT;
     centerBox: bjs.Mesh;
     glowLayer: bjs.GlowLayer;
     glowEnabled: boolean = false;
     angleX0: number;
     angleY0: number;
-    cornerMarginX: number = 40;
-    cornerMarginY: number = 0;
+    cornerMarginX: number = -20;
+    cornerMarginY: number = 120;
     menuItemList = [];
     openMenuAction: Function = null;
+    activeMenuItemText: string = '';
 
     constructor(public title: string, public canvas: HTMLElement, hdrSkyboxTexture: string) {
         super(title, canvas, hdrSkyboxTexture);
@@ -94,6 +95,12 @@ export class PieMenuScene extends Scene {
         if (this.menuItemList.length > 0) {
             this.menu.setMenuItemList(this.menuItemList);
         }
+
+        if (this.activeMenuItemText !== '') {
+            this.menu.setActiveMenuItem(this.activeMenuItemText);
+        }
+
+        // this.menu.setActiveMenuItem('43');
         
         this.camera.wheelPrecision = 15;
         //this.centerBox = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1 }, this.bjsScene);
@@ -114,7 +121,7 @@ export class PieMenuScene extends Scene {
                 menuOffsetY,
                 null,
                 this.camera
-            )
+            );
 
             this.menuPosition = menuRay.origin.add(menuRay.direction.scale(15))
 
@@ -157,5 +164,9 @@ export class PieMenuScene extends Scene {
 
     public closeMenu() {
         this.menu.close();
+    }
+
+    public setActiveMenuItem(activeMenuItemText: string) {
+        this.activeMenuItemText = activeMenuItemText;
     }
 }
