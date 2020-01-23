@@ -67,6 +67,13 @@ export class PieMenuElement extends SceneElement {
     currentQueue: Array<string> = [];
     openMenuCallback: Function = null;
     menuUpdatedTimeStamp = 0;
+    originalStates = {
+        activeIndex: 0,
+        clickNum: 0,
+        startMenuIndex: 0,
+        currentRotation: 0,
+        targetRotation: 0
+    };
 
     constructor(name: string,
         public x: number,
@@ -96,7 +103,7 @@ export class PieMenuElement extends SceneElement {
         // Put test item data
         this.testItems = [];
         for (let i=0; i<50; i++) {
-            this.testItems.push(i.toString());
+            this.testItems.push(`BINANCE${i.toString()}`);
         }
 
         this.buildNewQueue();
@@ -176,6 +183,7 @@ export class PieMenuElement extends SceneElement {
 
                         if (this.clickedMeshName === menuItemName) {
                             this.clickedMeshName = '';
+                            this.saveCurrentStates();
                             this.close();
                             
                             if (this.menuState === MenuState.Open) {
@@ -369,6 +377,7 @@ export class PieMenuElement extends SceneElement {
         for( var i = 0; i < this.itemCount; i++)
         {
             let itemScale = 0.15 + (halfCount - Math.abs(this.activeItemIndex - i) % halfCount) * 0.05;
+            // let itemScale = 0.55;
             if (i === this.activeItemIndex) {
                 itemScale = 0.55;
             }
@@ -407,11 +416,50 @@ export class PieMenuElement extends SceneElement {
         }
 
         this.menuUpdatedTimeStamp = Date.now();
+        this.saveCurrentStates();
+    }
+
+    private saveCurrentStates() {
+        this.originalStates.clickNum = this.currentClickNum;
+        this.originalStates.activeIndex = this.activeItemIndex;
+        this.originalStates.startMenuIndex = this.startMenuIndex;
+        this.originalStates.currentRotation = this.currentMenuRotation;
+        this.originalStates.targetRotation = this.targetMenuRotation;
+    }
+
+    private loadCurrentStates() {
+        this.currentClickNum = this.originalStates.clickNum;
+        this.activeItemIndex = this.originalStates.activeIndex;
+        this.startMenuIndex = this.originalStates.startMenuIndex;
+        this.currentMenuRotation = this.originalStates.currentRotation;
+        this.targetMenuRotation = this.originalStates.targetRotation;
+        this.calcDisplayIdxs();
+        this.buildNewQueue();
+
+        for (let i=0; i<this.itemCount; i++) {
+            this.menuItems[i].setText(this.currentQueue[i]);
+
+            const actionIndex = this.menuItemList.findIndex(m => m.label.toLowerCase() === this.currentQueue[i].toLowerCase());
+
+            if (actionIndex >= 0) {
+                this.menuItems[i].action = this.menuItemList[actionIndex].action;
+            }
+
+            if (this.displayIdxs.includes(i)) {
+                this.menuItems[i].setVisible(true);
+            } else {
+                this.menuItems[i].setVisible(false);
+            }
+        }
+
+        this.axle.rotation = new bjs.Vector3(0, 0, this.currentMenuRotation);
     }
 
     public close() {
         console.log("closing menu");
+        this.menuUpdatedTimeStamp = Date.now();
         this.menuState = MenuState.Closing;
+        this.loadCurrentStates();
     }
 
     private nextItem() {
@@ -429,7 +477,7 @@ export class PieMenuElement extends SceneElement {
 
     public setMenuPosition(menuPosition) {
         if (menuPosition === MenuPosition.TOP_LEFT) {
-            this.activeItemIndex = this.activeItemIndex + 8;
+            this.activeItemIndex = this.activeItemIndex + 0;
         } else if (menuPosition === MenuPosition.TOP_RIGHT) {
             this.activeItemIndex = this.activeItemIndex + 6;
         } else if (menuPosition === MenuPosition.BOTTOM_LEFT) {
@@ -456,7 +504,7 @@ export class PieMenuElement extends SceneElement {
         const currentTimeStamp = Date.now();
         const timeDelay = Math.abs(this.menuUpdatedTimeStamp - currentTimeStamp);
 
-        if ((timeDelay >= 5000) && (this.menuState === MenuState.Open)) {
+        if ((timeDelay >= 8000) && (this.menuState === MenuState.Open)) {
             this.close();
         }
 
@@ -465,8 +513,6 @@ export class PieMenuElement extends SceneElement {
                 if (this.menuState === MenuState.Closed && i !== this.activeItemIndex) {
                     this.menuItems[i].setVisible(false);
                 } else {
-                    // console.log('active index: ', this.activeItemIndex);
-
                     if (this.displayIdxs.includes(i)) {
                         this.menuItems[i].setVisible(true);
                     }

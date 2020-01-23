@@ -10,7 +10,7 @@ import { HorizontalAlignment, VerticalAlignment } from './Enums';
 
 export class TextMeshString extends SceneElement implements ITextMeshString {
     characterMeshes: Array<InstancedMesh> = [];
-    characterSpacing: number = 1.;
+    characterSpacing: number = 0.1;
 
     box: bjs.Mesh = null;
     pivot: bjs.Mesh = null;
@@ -82,7 +82,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
                 characterMesh.parent = this;
                 characterMesh.isVisible = true;
                 characterMesh.position = this.position;
-                characterMesh.scaling = new Vector3(1, 1, 1);
+                characterMesh.scaling = new Vector3(1.5, 1.5, 1.5);
                 characterMesh.showBoundingBox = false;
                 //characterMesh.position.x = characterMesh.position.x + (i * 10);
                 this.characterMeshes.push(characterMesh);

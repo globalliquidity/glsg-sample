@@ -27,8 +27,8 @@ export class PieMenuScene extends Scene {
     glowEnabled: boolean = false;
     angleX0: number;
     angleY0: number;
-    cornerMarginX: number = 40;
-    cornerMarginY: number = 0;
+    cornerMarginX: number = -20;
+    cornerMarginY: number = 120;
     menuItemList = [];
     openMenuAction: Function = null;
     activeMenuItemText: string = '';
@@ -100,7 +100,7 @@ export class PieMenuScene extends Scene {
             this.menu.setActiveMenuItem(this.activeMenuItemText);
         }
 
-        this.menu.setActiveMenuItem('43');
+        // this.menu.setActiveMenuItem('43');
         
         this.camera.wheelPrecision = 15;
         //this.centerBox = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1 }, this.bjsScene);
