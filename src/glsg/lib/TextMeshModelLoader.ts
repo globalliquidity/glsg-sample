@@ -77,7 +77,6 @@ export class TextMeshModelLoader
 
         // const fontMeshes = await bjs.SceneLoader.ImportMeshAsync(null, '', GLSGAssetManager.FontModel, scene);
         const fontMeshes = MeshAssetsManager.Instance.meshesMap.get("fontModel");
-        console.log('fontMeshes: ', fontMeshes);
         
         for (var i = 0; i < 10; i++)
         {
