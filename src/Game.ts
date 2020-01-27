@@ -30,10 +30,9 @@ export default class Game
 
         // Create Mesh Asset Manager
         // console.log(MeshAssetsManager.Instance.addMeshTask);
-        var thiz = this;
 
         this.customizedLoading();
-        this.initMeshAssetsManager(function(tasks) {
+        this.initMeshAssetsManager((tasks) => {
             //MeshAssetsManager.Instance.meshesMap.set("fontModel", tasks[0].loadedMeshes); 
 
             switch (path) {
@@ -41,21 +40,21 @@ export default class Game
                     // Handler for root route
                     break;
                 case '/SimpleScene':
-                    thiz.scene = new SimpleScene('SimpleScene', thiz.canvas, SimpleSceneAssetManager.ddsGc256SpecularHDR);
-                    SceneManager.Instance.LoadScene(thiz.scene, thiz.canvas, ViewportPosition.Full);
+                    this.scene = new SimpleScene('SimpleScene', this.canvas, SimpleSceneAssetManager.ddsGc256SpecularHDR);
+                    SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
                     break;
                 case '/DataDrivenScene':
-                    thiz.scene = new DataDrivenScene('DataDrivenScene', thiz.canvas, DataDrivenSceneAssetManager.ddsGc256SpecularHDR);
-                    SceneManager.Instance.LoadScene(thiz.scene, thiz.canvas, ViewportPosition.Full);
+                    this.scene = new DataDrivenScene('DataDrivenScene', this.canvas, DataDrivenSceneAssetManager.ddsGc256SpecularHDR);
+                    SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
                     break;
                 case '/PieMenuScene':
-                    thiz.experience = new PieMenuExperience('PieMenuScene', thiz.canvas);
-                    thiz.experience.load();
+                    this.experience = new PieMenuExperience('PieMenuScene', this.canvas);
+                    this.experience.load();
                     // this.experience.load();
                     // this.experience.load();
                     // this.experience.load();
     
-                    thiz.experience.scenes.forEach((scene, index) => {
+                    this.experience.scenes.forEach((scene, index) => {
                         const pieMenuScene = scene as PieMenuScene;
                         // pieMenuScene.menuPositionType = index;
                     });
@@ -90,47 +89,34 @@ export default class Game
                 // Do not add a loading screen if there is already one
                 return;
             }
+
             this._loadingDiv = document.createElement("div");
-            this._loadingDiv.id = "babylonjsLoadingDiv";
-            this._loadingDiv.style.opacity = "0";
-            this._loadingDiv.style.transition = "opacity 1.5s ease";
-            this._loadingDiv.style.pointerEvents = "none";
+            this._loadingDiv.id = "glsgLoadingDiv";
+            
             // Loading text
             this._loadingTextDiv = document.createElement("div");
-            this._loadingTextDiv.style.position = "absolute";
-            this._loadingTextDiv.style.left = "0";
-            this._loadingTextDiv.style.top = "50%";
-            this._loadingTextDiv.style.marginTop = "80px";
-            this._loadingTextDiv.style.width = "100%";
-            this._loadingTextDiv.style.height = "20px";
-            this._loadingTextDiv.style.fontFamily = "Arial";
-            this._loadingTextDiv.style.fontSize = "14px";
-            this._loadingTextDiv.style.color = "white";
-            this._loadingTextDiv.style.textAlign = "center";
+            this._loadingTextDiv.id = "glsgLoadingTextDiv";
             this._loadingTextDiv.innerHTML = "Loading";
             this._loadingDiv.appendChild(this._loadingTextDiv);
+
             //set the predefined text
             this._loadingTextDiv.innerHTML = this._loadingText;
+
             // Generating keyframes
-            var style = document.createElement('style');
+            const style = document.createElement('style');
             style.type = 'text/css';
-            var keyFrames = "@-webkit-keyframes spin1 { 0% { -webkit-transform: rotate(0deg);}\n  100% { -webkit-transform: rotate(360deg);}\n  }   @keyframes spin1 {  0% { transform: rotate(0deg);}\n  100% { transform: rotate(360deg);}\n }";
+            const keyFrames = "@-webkit-keyframes spin1 { 0% { -webkit-transform: rotate(0deg);}\n                    100% { -webkit-transform: rotate(360deg);}\n                }                @keyframes spin1 {                    0% { transform: rotate(0deg);}\n                    100% { transform: rotate(360deg);}\n                }";
             style.innerHTML = keyFrames;
             document.getElementsByTagName('head')[0].appendChild(style);
+
             // Loading img
-            var imgBack = new Image();
+            const imgBack = new Image();
             imgBack.src = "../src/Assets/Logo_spin.png";
-            imgBack.style.position = "absolute";
-            imgBack.style.left = "50%";
-            imgBack.style.top = "50%";
-            imgBack.style.marginLeft = "-56px";
-            imgBack.style.marginTop = "-56px";
-            imgBack.style.animation = "spin1 2s infinite ease-in-out";
-            imgBack.style.webkitAnimation = "spin1 2s infinite ease-in-out";
-            imgBack.style.transformOrigin = "50% 50%";
-            imgBack.style.webkitTransformOrigin = "50% 50%";
+            imgBack.id = "backgroundImage";
             this._loadingDiv.appendChild(imgBack);
+
             this._resizeLoadingUI();
+
             window.addEventListener("resize", this._resizeLoadingUI);
             this._loadingDiv.style.backgroundColor = this._loadingDivBackgroundColor;
             document.body.appendChild(this._loadingDiv);
