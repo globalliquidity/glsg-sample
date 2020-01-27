@@ -1,5 +1,5 @@
 import * as bjs from 'babylonjs';
-import { Scene, SceneElement } from '../../glsg';
+import { Scene, SceneElement, SolidParticleMaterial } from '../../glsg';
 
 export class PhysicsSystemElement extends SceneElement
 {
@@ -56,7 +56,7 @@ export class PhysicsSystemElement extends SceneElement
             this.scene.bjsScene
         );
 
-        const pbr = new bjs.PBRMaterial("pbr", this.scene.bjsScene);
+        const pbr = new SolidParticleMaterial("pbr", this.scene);
         this.mesh.material = pbr;
 
         pbr.albedoColor = new BABYLON.Color3(1.0, 0.766, 0.336);

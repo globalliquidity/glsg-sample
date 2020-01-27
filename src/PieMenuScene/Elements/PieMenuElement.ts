@@ -1,6 +1,6 @@
 import * as bjs from 'babylonjs';
 import * as bjsgui from 'babylonjs-gui';
-import { Scene, SceneElement, TextMeshNumberGenerator } from '../../glsg';
+import { Scene, SceneElement, TextMeshNumberGenerator, SolidParticleMaterial } from '../../glsg';
 import { PieMenuItemElement } from './PieMenuItemElement';
 import PieMenuSceneAssetManager from '../AssetManager';
 import GLSGAssetManager from '../../glsg/AssetManager';
@@ -74,6 +74,7 @@ export class PieMenuElement extends SceneElement {
         currentRotation: 0,
         targetRotation: 0
     };
+    menuItemName = '';
 
     constructor(name: string,
         public x: number,
@@ -177,24 +178,24 @@ export class PieMenuElement extends SceneElement {
                 case bjs.PointerEventTypes.POINTERUP:
                     this.isMouseDown = false;
                     if (pointerInfo.pickInfo && pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
-                        let menuItemName = pointerInfo.pickInfo.pickedMesh.name;
-                        menuItemName = menuItemName.replace('textMeshBox', '');
+                        this.menuItemName = pointerInfo.pickInfo.pickedMesh.name;
+                        this.menuItemName = this.menuItemName.replace('textMeshBox', '');
                         this.menuUpdatedTimeStamp = Date.now();
 
-                        if (this.clickedMeshName === menuItemName) {
+                        if (this.clickedMeshName === this.menuItemName) {
                             this.clickedMeshName = '';
-                            this.saveCurrentStates();
-                            this.close();
+                            // this.saveCurrentStates();
+                            // this.close();
                             
-                            if (this.menuState === MenuState.Open) {
-                                if (this.menuItemList) {
-                                    const menuItem = this.menuItemList.find(mi => mi.label.toLowerCase() === menuItemName.toLowerCase());
+                            // if (this.menuState === MenuState.Open) {
+                            //     if (this.menuItemList) {
+                            //         const menuItem = this.menuItemList.find(mi => mi.label.toLowerCase() === menuItemName.toLowerCase());
         
-                                    if (menuItem && menuItem.action) {
-                                        menuItem.action();
-                                    }
-                                }
-                            }
+                            //         if (menuItem && menuItem.action) {
+                            //             menuItem.action();
+                            //         }
+                            //     }
+                            // }
                         }
                     }
                     break;
@@ -208,7 +209,7 @@ export class PieMenuElement extends SceneElement {
                             let itemAngleIncrement = -(2 * Math.PI) / this.itemCount;
 
                             if (Math.abs(deltaY) > 25) {
-                                if (deltaY >= 0) {
+                                if (deltaY < 0) {
                                     this.targetMenuRotation -= itemAngleIncrement;
                                     this.currentClickNum --;
                                     this.activeItemIndex --;
@@ -249,6 +250,13 @@ export class PieMenuElement extends SceneElement {
                                         this.menuItems[i].setVisible(true);
                                     } else {
                                         this.menuItems[i].setVisible(false);
+                                    }
+
+                                    // Change colors for active item
+                                    if (i === this.activeItemIndex) {
+                                        this.menuItems[i].setHighlight(true);
+                                    } else {
+                                        this.menuItems[i].setHighlight(false);
                                     }
                                 }
 
@@ -326,7 +334,7 @@ export class PieMenuElement extends SceneElement {
     }
 
     protected buildCenterButton() {
-        let centerButtonMaterial = new bjs.PBRMaterial("centerButton", this.scene.bjsScene);
+        let centerButtonMaterial = new SolidParticleMaterial("centerButton", this.scene);
         centerButtonMaterial.roughness = 0.8;
 
         this.itemModel.material = centerButtonMaterial;
@@ -358,7 +366,7 @@ export class PieMenuElement extends SceneElement {
                 // this.menuState = MenuState.Rotating;
                 // this.activeItemIndex --;
                 // this.updateMenuItems();
-                this.close();
+                // this.close();
             }
         }
         centerButton.pointerUpAnimation = () => {
@@ -416,7 +424,7 @@ export class PieMenuElement extends SceneElement {
         }
 
         this.menuUpdatedTimeStamp = Date.now();
-        this.saveCurrentStates();
+        // this.saveCurrentStates();
     }
 
     private saveCurrentStates() {
@@ -459,7 +467,7 @@ export class PieMenuElement extends SceneElement {
         console.log("closing menu");
         this.menuUpdatedTimeStamp = Date.now();
         this.menuState = MenuState.Closing;
-        this.loadCurrentStates();
+        // this.loadCurrentStates();
     }
 
     private nextItem() {
@@ -467,6 +475,7 @@ export class PieMenuElement extends SceneElement {
     }
 
     public setActiveMenuItem(menuItemString: string) {
+        this.menuItemName = menuItemString;
         const findIndex = this.testItems.findIndex(ti => ti.toLowerCase() === menuItemString);
 
         if (findIndex >= 0) {
@@ -504,8 +513,16 @@ export class PieMenuElement extends SceneElement {
         const currentTimeStamp = Date.now();
         const timeDelay = Math.abs(this.menuUpdatedTimeStamp - currentTimeStamp);
 
-        if ((timeDelay >= 8000) && (this.menuState === MenuState.Open)) {
+        if ((timeDelay >= 2000) && (this.menuState === MenuState.Open)) {
             this.close();
+
+            if (this.menuItemList) {
+                const menuItem = this.menuItemList.find(mi => mi.label.toLowerCase() === this.menuItemName.toLowerCase());
+
+                if (menuItem && menuItem.action) {
+                    menuItem.action();
+                }
+            }
         }
 
         for (let i=0; i < this.itemCount; i += 1) {
@@ -528,16 +545,18 @@ export class PieMenuElement extends SceneElement {
             if (this.radiusMultiplier > 0.99) {
                 this.radiusMultiplier = 1;
                 this.menuState = MenuState.Open;
+                this.menuUpdatedTimeStamp = Date.now();
             }
+
             this.positionMenuItems();
-        }
-        else if (this.menuState === MenuState.Closing) {
+        } else if (this.menuState === MenuState.Closing) {
             this.radiusMultiplier = bjs.Scalar.Lerp(this.radiusMultiplier, 0.3, 0.1);
 
             if (this.radiusMultiplier < 0.31) {
                 this.radiusMultiplier = 0.3;
                 this.menuState = MenuState.Closed;
             }
+
             this.positionMenuItems();
         } else if (this.menuState === MenuState.Rotating) {
             this.currentMenuRotation = bjs.Scalar.Lerp(this.currentMenuRotation, this.targetMenuRotation, 0.1);
@@ -557,6 +576,7 @@ export class PieMenuElement extends SceneElement {
                 // }
 
                 this.menuState = MenuState.Open;
+                this.menuUpdatedTimeStamp = Date.now();
             }
 
             // this.scaleMenuItems();

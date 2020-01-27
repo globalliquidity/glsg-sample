@@ -14,6 +14,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
 
     box: bjs.Mesh = null;
     pivot: bjs.Mesh = null;
+    isHighlighted: boolean = false;
 
     constructor(name: string,
         public x: number,
@@ -84,6 +85,9 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
                 characterMesh.position = this.position;
                 characterMesh.scaling = new Vector3(1.5, 1.5, 1.5);
                 characterMesh.showBoundingBox = false;
+                // characterMesh.material.alpha = 0;
+                // characterMesh.overlayColor = bjs.Color3.Red();
+                // characterMesh.renderOverlay = true;
                 //characterMesh.position.x = characterMesh.position.x + (i * 10);
                 this.characterMeshes.push(characterMesh);
             }
@@ -148,8 +152,8 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
 
         boundingWidth += (this.characterMeshes.length - 1) * this.characterSpacing;
 
-        this.box.scaling = new Vector3(boundingWidth, 1, 0.2);
-        this.box.position.x = horizontalOffset + (boundingWidth / 2);
+        this.box.scaling = new Vector3(boundingWidth * 1.5, 1, 0.2);
+        this.box.position.x = horizontalOffset + (boundingWidth / 2) + 1.8;
         this.box.position.y = verticalOffset;
         this.box.position.z = -0.2;
         this.box.parent = this;
@@ -201,5 +205,17 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         }
 
         this.box.isVisible = isVisible;
+    }
+
+    public setHighlight(isHighlighted: boolean) {
+        if (isHighlighted) {
+            for (var i = 0; i < this.characterMeshes.length; i++) {
+                this.characterMeshes[i].scaling = new bjs.Vector3(1.7, 1.7 , 1.7);
+            }
+        } else {
+            for (var i = 0; i < this.characterMeshes.length; i++) {
+                this.characterMeshes[i].scaling = new bjs.Vector3(1.5, 1.5 , 1.5);
+            }
+        }
     }
 }

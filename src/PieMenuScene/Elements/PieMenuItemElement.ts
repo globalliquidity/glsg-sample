@@ -91,6 +91,10 @@ export class PieMenuItemElement extends SceneElement {
         // this.itemText.box.isVisible = isVisible;
     }
 
+    public setHighlight(isHighlighted: boolean) {
+        this.itemText.setHighlight(isHighlighted);
+    }
+
     public setText(text: string) {
         this.itemText.setText(text);
         // this.button.name = text;
