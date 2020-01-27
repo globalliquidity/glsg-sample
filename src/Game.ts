@@ -13,6 +13,8 @@ import { PieMenuScene } from "./PieMenuScene/Scenes/PieMenuScene";
 import GLSGAssetManager from './glsg/AssetManager';
 import { MeshAssetsManager } from "./glsg/lib/MeshAssetsManager";
 
+type LoadAssetHandler = (arg1: bjs.AbstractAssetTask[]) => void;
+
 export default class Game
 {
     private canvas: HTMLCanvasElement;
@@ -28,15 +30,61 @@ export default class Game
 
         // Create Mesh Asset Manager
         // console.log(MeshAssetsManager.Instance.addMeshTask);
+        var thiz = this;
 
-        // MeshAssetsManager.Instance.init(this.scene);
-        // MeshAssetsManager.Instance.addMeshTask("fontModel", "", "", GLSGAssetManager.FontModel,null, null);
-        // MeshAssetsManager.Instance.load(function(tasks) {
-        //     console.log("success");
-        //     console.log(tasks.length);
-        // });
+        this.customizedLoading();
+        this.initMeshAssetsManager(function(tasks) {
+            //MeshAssetsManager.Instance.meshesMap.set("fontModel", tasks[0].loadedMeshes); 
 
+            switch (path) {
+                case '/':
+                    // Handler for root route
+                    break;
+                case '/SimpleScene':
+                    thiz.scene = new SimpleScene('SimpleScene', thiz.canvas, SimpleSceneAssetManager.ddsGc256SpecularHDR);
+                    SceneManager.Instance.LoadScene(thiz.scene, thiz.canvas, ViewportPosition.Full);
+                    break;
+                case '/DataDrivenScene':
+                    thiz.scene = new DataDrivenScene('DataDrivenScene', thiz.canvas, DataDrivenSceneAssetManager.ddsGc256SpecularHDR);
+                    SceneManager.Instance.LoadScene(thiz.scene, thiz.canvas, ViewportPosition.Full);
+                    break;
+                case '/PieMenuScene':
+                    thiz.experience = new PieMenuExperience('PieMenuScene', thiz.canvas);
+                    thiz.experience.load();
+                    // this.experience.load();
+                    // this.experience.load();
+                    // this.experience.load();
+    
+                    thiz.experience.scenes.forEach((scene, index) => {
+                        const pieMenuScene = scene as PieMenuScene;
+                        // pieMenuScene.menuPositionType = index;
+                    });
+                    break;
+                default:
+                    break;
+            }
+        });
+        
+        
+        // Listen for browser/canvas resize events
+        window.addEventListener("resize", ()=> {
+            // Handle changes for resize
+        });
+    }
 
+    public initMeshAssetsManager(finishHandler: LoadAssetHandler)
+    {
+        let emptyScene: Scene = new Scene('emptryScene', this.canvas, null);
+
+        SceneManager.Instance.LoadScene(emptyScene, this.canvas, ViewportPosition.Full);
+
+        MeshAssetsManager.Instance.init(emptyScene);
+        MeshAssetsManager.Instance.addMeshTask("fontModel", "", "", GLSGAssetManager.FontModel,null, null);
+        MeshAssetsManager.Instance.loadWithHandler(finishHandler);
+    }
+
+    public customizedLoading()
+    {
         bjs.DefaultLoadingScreen.prototype.displayLoadingUI = function () {
             if (this._loadingDiv) {
                 // Do not add a loading screen if there is already one
@@ -88,47 +136,5 @@ export default class Game
             document.body.appendChild(this._loadingDiv);
             this._loadingDiv.style.opacity = "1";
         };
-
-        switch (path) {
-            case '/':
-                // Handler for root route
-                break;
-            case '/SimpleScene':
-                this.scene = new SimpleScene('SimpleScene', this.canvas, SimpleSceneAssetManager.ddsGc256SpecularHDR);
-                SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
-                break;
-            case '/DataDrivenScene':
-                this.scene = new DataDrivenScene('DataDrivenScene', this.canvas, DataDrivenSceneAssetManager.ddsGc256SpecularHDR);
-                SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
-                break;
-            case '/PieMenuScene':
-                this.experience = new PieMenuExperience('PieMenuScene', this.canvas);
-                this.experience.load();
-                // this.experience.load();
-                // this.experience.load();
-                // this.experience.load();
-
-                this.experience.scenes.forEach((scene, index) => {
-                    const pieMenuScene = scene as PieMenuScene;
-                    // pieMenuScene.menuPositionType = index;
-                    
-                    if (index == 0) {
-                        console.log("Instantiate MeshAssetManager");
-                        MeshAssetsManager.Instance.init(pieMenuScene);
-                        MeshAssetsManager.Instance.addMeshTask("fontModel", "", "", GLSGAssetManager.FontModel,null,null);
-                        MeshAssetsManager.Instance.load(function(tasks) {
-                            console.log("success");
-                        });
-                    }
-                });
-                break;
-            default:
-                break;
-        }
-
-        // Listen for browser/canvas resize events
-        window.addEventListener("resize", ()=> {
-            // Handle changes for resize
-        });
     }
 }

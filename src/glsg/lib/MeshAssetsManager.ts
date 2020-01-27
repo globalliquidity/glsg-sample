@@ -24,7 +24,12 @@ export class MeshAssetsManager
         this.assetsManager = new bjs.AssetsManager(scene.bjsScene);
     }
 
-    public async load(finishHandler: LoadAssetHandler)
+    public async load() 
+    {
+        this.assetsManager.load();
+    }
+
+    public loadWithHandler(finishHandler: LoadAssetHandler)
     {
         this.assetsManager.load();
         
@@ -36,10 +41,11 @@ export class MeshAssetsManager
     public addMeshTask(taskName: string, meshesNames: any, rootUrl: string, sceneFileName: string, success: MeshTaskSuccessHandler, error: MeshTaskErrorHandler) 
     {
         var meshTask = this.assetsManager.addMeshTask(taskName, meshesNames, rootUrl, sceneFileName);
+        var thiz = this;
 
         meshTask.onSuccess = function (task) {
             //task.loadedMeshes[0].position = bjs.Vector3.Zero();
-            this.meshesMap.set(taskName, task.loadedMeshes); 
+            thiz.meshesMap.set(taskName, task.loadedMeshes); 
             //task.loadedMeshes
             
             if (success) {
@@ -47,11 +53,13 @@ export class MeshAssetsManager
             }
         }
         meshTask.onError = function (task, message, exception) {
-            console.log(message, exception);
+            //console.log(message, exception);
+            
             if (error) {
                 error(task, message, exception);
             }
         }
+        
     }
 
     public static get Instance()
