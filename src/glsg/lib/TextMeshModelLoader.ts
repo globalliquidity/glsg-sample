@@ -75,8 +75,9 @@ export class TextMeshModelLoader
 
         console.log('TextMeshModelLoader :  Loading Meshes ');
 
-        //const fontMeshes = await bjs.SceneLoader.ImportMeshAsync(null, '', GLSGAssetManager.FontModel, scene);
+        // const fontMeshes = await bjs.SceneLoader.ImportMeshAsync(null, '', GLSGAssetManager.FontModel, scene);
         const fontMeshes = MeshAssetsManager.Instance.meshesMap.get("fontModel");
+        console.log('fontMeshes: ', fontMeshes);
         
         for (var i = 0; i < 10; i++)
         {
@@ -88,11 +89,20 @@ export class TextMeshModelLoader
             fontMeshes[i].material = this.textMaterial;
             fontMeshes[i].rotation.x = -Math.PI/2;
             fontMeshes[i].isVisible = false;
+            fontMeshes[i]._scene = scene;
             this.characterMeshes.set((i).toString(), fontMeshes[i] as bjs.Mesh);
         }
 
         // this.characterMeshes.set("/", fontMeshes.meshes[10] as bjs.Mesh);
         // this.characterMeshes.set(".", fontMeshes.meshes[11] as bjs.Mesh);
+        if (fontMeshes[10]) {
+            fontMeshes[10]._scene = scene;
+        }
+
+        if (fontMeshes[11]) {
+            fontMeshes[11]._scene = scene;
+        }
+
         this.characterMeshes.set("/", fontMeshes[10] as bjs.Mesh);
         this.characterMeshes.set(".", fontMeshes[11] as bjs.Mesh);
 
@@ -108,6 +118,7 @@ export class TextMeshModelLoader
             fontMeshes[i].material = this.textMaterial;
             fontMeshes[i].rotation.x = -Math.PI/2;
             fontMeshes[i].isVisible = false;
+            fontMeshes[i]._scene = scene;
             this.characterMeshes.set(currentLetter, fontMeshes[i] as bjs.Mesh);
         }
 
