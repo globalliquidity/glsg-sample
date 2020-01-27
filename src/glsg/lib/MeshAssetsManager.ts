@@ -40,19 +40,19 @@ export class MeshAssetsManager
 
     public addMeshTask(taskName: string, meshesNames: any, rootUrl: string, sceneFileName: string, success: MeshTaskSuccessHandler, error: MeshTaskErrorHandler) 
     {
-        var meshTask = this.assetsManager.addMeshTask(taskName, meshesNames, rootUrl, sceneFileName);
-        var thiz = this;
-
-        meshTask.onSuccess = function (task) {
+        const meshTask = this.assetsManager.addMeshTask(taskName, meshesNames, rootUrl, sceneFileName);
+        
+        meshTask.onSuccess = (task) => {
             //task.loadedMeshes[0].position = bjs.Vector3.Zero();
-            thiz.meshesMap.set(taskName, task.loadedMeshes); 
+            this.meshesMap.set(taskName, task.loadedMeshes); 
             //task.loadedMeshes
             
             if (success) {
                 success(task);
             }
         }
-        meshTask.onError = function (task, message, exception) {
+        
+        meshTask.onError = (task, message, exception) => {
             //console.log(message, exception);
             
             if (error) {
