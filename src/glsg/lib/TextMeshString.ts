@@ -6,7 +6,8 @@ import { TextMeshCharacterGenerator } from './TextMeshCharacterGenerator';
 import GLSGAssetManager from '../AssetManager';
 import { TextMeshModelLoader } from './TextMeshModelLoader';
 import { InstancedMesh, Vector3, BackEase } from 'babylonjs';
-import { HorizontalAlignment, VerticalAlignment } from './Enums';
+import { HorizontalAlignment, VerticalAlignment, GLSGColor } from './Enums';
+import { SolidParticleMaterial } from './SolidParticleMaterial';
 
 export class TextMeshString extends SceneElement implements ITextMeshString {
     characterMeshes: Array<InstancedMesh> = [];
@@ -208,13 +209,21 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
     }
 
     public setHighlight(isHighlighted: boolean) {
-        if (isHighlighted) {
-            for (var i = 0; i < this.characterMeshes.length; i++) {
+        for (var i = 0; i < this.characterMeshes.length; i++) {
+            // this.characterMeshes[i].scaling = new bjs.Vector3(1.7, 1.7 , 1.7);
+            const uvsColor = SolidParticleMaterial.getUVSforColor(GLSGColor.Red);
+            const uvsArray = new Float32Array();
+            uvsColor.toArray(uvsArray);
+            const verticeData = <Float32Array>this.characterMeshes[i].getVerticesData(bjs.VertexBuffer.UVKind);
+
+            if (isHighlighted) {
                 this.characterMeshes[i].scaling = new bjs.Vector3(1.7, 1.7 , 1.7);
-            }
-        } else {
-            for (var i = 0; i < this.characterMeshes.length; i++) {
+                this.characterMeshes[i].updateVerticesData(bjs.VertexBuffer.UVKind, uvsArray, false, false);
+                console.log('vertice data: ', verticeData);
+                console.log('uvsArray: ', uvsArray);
+            } else {
                 this.characterMeshes[i].scaling = new bjs.Vector3(1.5, 1.5 , 1.5);
+                this.characterMeshes[i].updateVerticesData(bjs.VertexBuffer.UVKind, uvsArray, false, false);
             }
         }
     }

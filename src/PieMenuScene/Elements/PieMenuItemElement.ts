@@ -51,9 +51,9 @@ export class PieMenuItemElement extends SceneElement {
         this.mesh.scaling.z = .01 * this.itemScale;
         this.mesh.position.z = .05;
 
-        let textMaterial: PBRMetallicRoughnessMaterial = new PBRMetallicRoughnessMaterial("text", this.scene.bjsScene);
+        // let textMaterial: PBRMetallicRoughnessMaterial = new PBRMetallicRoughnessMaterial("text", this.scene.bjsScene);
 
-        textMaterial.baseColor = new bjs.Color3(0.15, 0.6, 0.87);
+        // textMaterial.baseColor = new bjs.Color3(0.15, 0.6, 0.87);
 
         //this.itemText = new TextMeshNumberGenerator("ActiveItem", 0,0,0,this.scene,textMaterial);
         this.itemText = new TextMeshString("ActiveItem", 0, 0, 0, this.scene, this.text);

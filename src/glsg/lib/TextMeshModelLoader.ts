@@ -21,7 +21,7 @@ export class TextMeshModelLoader
     {
         if (! this.isLoaded)
         {
-            this.textMaterial = new bjs.PBRMaterial("text", scene.bjsScene);
+            this.textMaterial = new SolidParticleMaterial("text", scene);
             this.textMaterial.albedoColor = new bjs.Color3(0.1, 0.6, 0.47);
             //this.textMaterial.emissiveColor = new bjs.Color3(0.1, 0.1, 1);
             //this.textMaterial.emissiveIntensity = 1;
