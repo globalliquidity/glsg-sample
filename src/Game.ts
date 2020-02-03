@@ -73,12 +73,14 @@ export default class Game
 
     public initMeshAssetsManager(finishHandler: LoadAssetHandler)
     {
-        let emptyScene: Scene = new Scene('emptryScene', this.canvas, null);
+        let emptyScene: Scene = new Scene('emptyScene', this.canvas, null);
 
         SceneManager.Instance.LoadScene(emptyScene, this.canvas, ViewportPosition.Full);
 
         MeshAssetsManager.Instance.init(emptyScene);
         MeshAssetsManager.Instance.addMeshTask("fontModel", "", "", GLSGAssetManager.FontModel,null, null);
+        MeshAssetsManager.Instance.addMeshTask("SimpleCube", "", "", "SimpleCube.babylon",null, null);
+        MeshAssetsManager.Instance.addMeshTask("discModel", "", "", PieMenuSceneAssetManager.discModel,null, null);
         MeshAssetsManager.Instance.loadWithHandler(finishHandler);
     }
 

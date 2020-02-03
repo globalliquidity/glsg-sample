@@ -7,6 +7,7 @@ import GLSGAssetManager from '../../glsg/AssetManager';
 
 import { CannonJSPlugin, PBRMetallicRoughnessMaterial } from 'babylonjs';
 import { Vector3WithInfo } from 'babylonjs-gui';
+import { MeshAssetsManager } from '../../glsg/lib/MeshAssetsManager';
 
 enum MenuPosition {
     TOP_LEFT = 0,
@@ -112,9 +113,12 @@ export class PieMenuElement extends SceneElement {
         this.controlContainer.linkToTransformNode(this);
         this.controlContainer.position.z = 0;
 
-        const model = await bjs.SceneLoader.ImportMeshAsync(null, '', PieMenuSceneAssetManager.discModel, this.scene.bjsScene);
+        //const model = await bjs.SceneLoader.ImportMeshAsync(null, '', PieMenuSceneAssetManager.discModel, this.scene.bjsScene);
+        const model = MeshAssetsManager.Instance.meshesMap.get("discModel");
 
-        this.itemModel = model.meshes[0] as bjs.Mesh;
+        //this.itemModel = model.meshes[0] as bjs.Mesh;
+        this.itemModel = model[0] as bjs.Mesh;
+        
         await this.buildMenu();
         this.itemModel.setEnabled(false);
 
