@@ -3,15 +3,15 @@ import { DataDrivenScene } from "./DataDrivenScene";
 import * as bjs from "babylonjs";
 import { SceneManager, Scene } from "./glsg";
 import { ViewportPosition } from "./glsg/lib/Enums";
-import SimpleSceneAssetManager from './SimpleScene/AssetManager';
-import DataDrivenSceneAssetManager from './DataDrivenScene/AssetManager';
-import PieMenuSceneAssetManager from './PieMenuScene/AssetManager';
+import SimpleSceneConstants from './SimpleScene/constants';
+import DataDrivenSceneConstants from './DataDrivenScene/constants';
+import PieMenuSceneConstants from './PieMenuScene/constants';
 import { Experience } from "./glsg/lib/Experience";
 import { PieMenuExperience } from "./PieMenuScene";
 import { PieMenuScene } from "./PieMenuScene/Scenes/PieMenuScene";
+import GLSGConstants from './glsg/constants';
 
-import GLSGAssetManager from './glsg/AssetManager';
-import { MeshAssetsManager } from "./glsg/lib/MeshAssetsManager";
+import { AssetManager } from "./glsg/lib/AssetManager";
 
 type LoadAssetHandler = (arg1: bjs.AbstractAssetTask[]) => void;
 
@@ -29,22 +29,22 @@ export default class Game
         SceneManager.Instance.clear();
 
         // Create Mesh Asset Manager
-        // console.log(MeshAssetsManager.Instance.addMeshTask);
+        // console.log(AssetManager.Instance.addMeshTask);
 
         this.customizedLoading();
-        this.initMeshAssetsManager((tasks) => {
-            //MeshAssetsManager.Instance.meshesMap.set("fontModel", tasks[0].loadedMeshes); 
+        this.initAssetManager((tasks) => {
+            //AssetManager.Instance.meshesMap.set("fontModel", tasks[0].loadedMeshes); 
 
             switch (path) {
                 case '/':
                     // Handler for root route
                     break;
                 case '/SimpleScene':
-                    this.scene = new SimpleScene('SimpleScene', this.canvas, SimpleSceneAssetManager.ddsGc256SpecularHDR);
+                    this.scene = new SimpleScene('SimpleScene', this.canvas, SimpleSceneConstants.ddsGc256SpecularHDR);
                     SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
                     break;
                 case '/DataDrivenScene':
-                    this.scene = new DataDrivenScene('DataDrivenScene', this.canvas, DataDrivenSceneAssetManager.ddsGc256SpecularHDR);
+                    this.scene = new DataDrivenScene('DataDrivenScene', this.canvas, DataDrivenSceneConstants.ddsGc256SpecularHDR);
                     SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
                     break;
                 case '/PieMenuScene':
@@ -71,17 +71,17 @@ export default class Game
         });
     }
 
-    public initMeshAssetsManager(finishHandler: LoadAssetHandler)
+    public initAssetManager(finishHandler: LoadAssetHandler)
     {
         let emptyScene: Scene = new Scene('emptyScene', this.canvas, null);
 
         SceneManager.Instance.LoadScene(emptyScene, this.canvas, ViewportPosition.Full);
 
-        MeshAssetsManager.Instance.init(emptyScene);
-        MeshAssetsManager.Instance.addMeshTask("fontModel", "", "", GLSGAssetManager.FontModel,null, null);
-        MeshAssetsManager.Instance.addMeshTask("SimpleCube", "", "", "SimpleCube.babylon",null, null);
-        MeshAssetsManager.Instance.addMeshTask("discModel", "", "", PieMenuSceneAssetManager.discModel,null, null);
-        MeshAssetsManager.Instance.loadWithHandler(finishHandler);
+        AssetManager.Instance.init(emptyScene);
+        AssetManager.Instance.addMeshTask("fontModel", "", "", GLSGConstants.FontModel,null, null);
+        AssetManager.Instance.addMeshTask("SimpleCube", "", "", "SimpleCube.babylon",null, null);
+        AssetManager.Instance.addMeshTask("discModel", "", "", PieMenuSceneConstants.discModel,null, null);
+        AssetManager.Instance.loadWithHandler(finishHandler);
     }
 
     public customizedLoading()
