@@ -1,7 +1,6 @@
 import * as bjs from 'babylonjs';
-import GLSGAssetManager from '../../glsg/AssetManager';
 import { Scene } from './Scene';
-import { MeshAssetsManager } from './MeshAssetsManager';
+import { AssetManager } from './AssetManager';
 
 
 export class TextMeshModelLoader 
@@ -76,7 +75,7 @@ export class TextMeshModelLoader
         console.log('TextMeshModelLoader :  Loading Meshes ');
 
         // const fontMeshes = await bjs.SceneLoader.ImportMeshAsync(null, '', GLSGAssetManager.FontModel, scene);
-        const fontMeshes = MeshAssetsManager.Instance.meshesMap.get("fontModel");
+        const fontMeshes = AssetManager.Instance.meshesMap.get("fontModel");
         
         for (var i = 0; i < 10; i++)
         {

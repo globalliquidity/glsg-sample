@@ -3,7 +3,6 @@ import { Scene } from './Scene'
 import { ITextMeshNumberGenerator } from './SceneGraphInterfaces';
 import { SceneElement } from './SceneElement';
 import { TextMeshCharacterGenerator } from './TextMeshCharacterGenerator';
-import GLSGAssetManager from '../AssetManager';
 import { TextMeshModelLoader } from './TextMeshModelLoader';
 
 export class TextMeshNumberGenerator extends SceneElement implements ITextMeshNumberGenerator

@@ -78,9 +78,9 @@ export default class Game
         SceneManager.Instance.LoadScene(emptyScene, this.canvas, ViewportPosition.Full);
 
         AssetManager.Instance.init(emptyScene);
-        AssetManager.Instance.addMeshTask("fontModel", "", "", GLSGConstants.FontModel,null, null);
-        AssetManager.Instance.addMeshTask("SimpleCube", "", "", "SimpleCube.babylon",null, null);
-        AssetManager.Instance.addMeshTask("discModel", "", "", PieMenuSceneConstants.discModel,null, null);
+        AssetManager.Instance.addMeshTask("fontModel", "", GLSGConstants.RootURL, GLSGConstants.FontModel,null, null);
+        // AssetManager.Instance.addMeshTask("SimpleCube", "", "", "SimpleCube.babylon",null, null);
+        AssetManager.Instance.addMeshTask("discModel", "", PieMenuSceneConstants.rootURL, PieMenuSceneConstants.discModel,null, null);
         AssetManager.Instance.loadWithHandler(finishHandler);
     }
 

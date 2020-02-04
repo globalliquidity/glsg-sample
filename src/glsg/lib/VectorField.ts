@@ -5,7 +5,7 @@ import { SolidParticleSystemElement } from './SolidParticleSystemElement';
 import { IDepthFinderElement } from './SceneGraphInterfaces';
 import { SolidParticleMaterial } from './SolidParticleMaterial';
 import Logger from './Logger';
-import { MeshAssetsManager } from './MeshAssetsManager';
+import { AssetManager } from './AssetManager';
 
 export class VectorField extends SolidParticleSystemElement implements IDepthFinderElement
 {
@@ -78,7 +78,7 @@ export class VectorField extends SolidParticleSystemElement implements IDepthFin
         //bj.OBJFileLoader.
         Logger.log("Loading Smooth Cube");
         //const newMeshes = await bjs.SceneLoader.ImportMeshAsync(null, "/", 'SimpleCube.babylon', this.scene.bjsScene);
-        const newMeshes = MeshAssetsManager.Instance.meshesMap.get("SimpleCube");
+        const newMeshes = AssetManager.Instance.meshesMap.get("SimpleCube");
         
         //newMeshes.meshes[0].position.set(0, 0, 0);
         //newMeshes.meshes[0].rotation.y = 0;
@@ -89,7 +89,7 @@ export class VectorField extends SolidParticleSystemElement implements IDepthFin
         newMeshes[0].rotation.y = 0;
         
         newMeshes[0].scaling.set(0.01, 0.01, 0.01);
-
+        newMeshes[0]._scene = this.scene.bjsScene;
 
         if (this.material) {
             //newMeshes.meshes[0].material = this.material;

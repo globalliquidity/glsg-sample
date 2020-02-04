@@ -3,7 +3,7 @@ import { Scene } from './Scene'
 import { ITextMeshNumberGenerator, ITextMeshString } from './SceneGraphInterfaces';
 import { SceneElement } from './SceneElement';
 import { TextMeshCharacterGenerator } from './TextMeshCharacterGenerator';
-import GLSGAssetManager from '../AssetManager';
+// import GLSGConstants from '../constants';
 import { TextMeshModelLoader } from './TextMeshModelLoader';
 import { InstancedMesh, Vector3, BackEase } from 'babylonjs';
 import { HorizontalAlignment, VerticalAlignment } from './Enums';
