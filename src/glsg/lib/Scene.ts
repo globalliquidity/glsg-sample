@@ -65,7 +65,10 @@ export class Scene implements IScene
             console.log(this.hdrSkyboxTexture);
             console.log(this.hdrTexture);
             this.bjsScene.environmentTexture = this.hdrTexture;
-            this.bjsScene.createDefaultSkybox(this.hdrTexture, true, 1000, 0.7);
+
+            if (this.hdrTexture) {
+                this.bjsScene.createDefaultSkybox(this.hdrTexture, true, 1000, 0.7);
+            }
             // Skybox
             //this.hdrSkybox = generateSkybox(1000.0, this.hdrTexture, this.bjsScene);
         }
