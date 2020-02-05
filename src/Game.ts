@@ -79,12 +79,12 @@ export default class Game
 
         AssetManager.Instance.init(emptyScene);
         
+        AssetManager.Instance.addCubeTextureTask("datadrivenDDS1", DataDrivenSceneConstants.rootURL + DataDrivenSceneConstants.ddsGc256SpecularHDR ,null, null);
+        AssetManager.Instance.addCubeTextureTask("simpleDDS1", SimpleSceneConstants.rootURL + SimpleSceneConstants.ddsGc256SpecularHDR ,null, null);
+        
         AssetManager.Instance.addMeshTask("fontModel", "", GLSGConstants.rootURL, GLSGConstants.FontModel,null, null);
         // AssetManager.Instance.addMeshTask("SimpleCube", "", "", "SimpleCube.babylon",null, null);
         AssetManager.Instance.addMeshTask("discModel", "", PieMenuSceneConstants.rootURL, PieMenuSceneConstants.discModel,null, null);
-        
-        AssetManager.Instance.addCubeTextureTask("datadrivenDDS1", DataDrivenSceneConstants.rootURL + DataDrivenSceneConstants.ddsGc256SpecularHDR ,null, null);
-        AssetManager.Instance.addCubeTextureTask("simpleDDS1", SimpleSceneConstants.rootURL + SimpleSceneConstants.ddsGc256SpecularHDR ,null, null);
         
         AssetManager.Instance.loadWithHandler(finishHandler);
     }
