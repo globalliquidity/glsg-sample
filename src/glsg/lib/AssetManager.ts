@@ -15,6 +15,8 @@ export class AssetManager
     public meshesMap: Map<string,bjs.AbstractMesh[]> = new Map<string, bjs.AbstractMesh[]>();
     public imageMap: Map<string, HTMLElement> = new Map<string, HTMLElement>();
     public textureMap: Map<string, bjs.Texture> = new Map<string, bjs.Texture>();
+    public cubeTextureMap: Map<string, bjs.CubeTexture> = new Map<string, bjs.CubeTexture>();
+    public hdrCubeTextureMap: Map<string, bjs.HDRCubeTexture> = new Map<string, bjs.HDRCubeTexture>();
     public binaryMap: Map<string, ArrayBuffer> = new Map<string, ArrayBuffer>();
 
     private constructor()
@@ -97,6 +99,48 @@ export class AssetManager
         }
         
         textureTask.onError = (task, message, exception) => {
+            
+            if (error) {
+                error(task, message, exception);
+            }
+        }
+    }
+
+    public addCubeTextureTask(taskName: string, url: string, success: TaskSuccessHandler, error: TaskErrorHandler) 
+    {
+        const cubeTextureTask = this.assetsManager.addCubeTextureTask(taskName, url);
+        
+        cubeTextureTask.onSuccess = (task) => {
+            
+            this.cubeTextureMap.set(taskName, task.texture); 
+            
+            if (success) {
+                success(task);
+            }
+        }
+        
+        cubeTextureTask.onError = (task, message, exception) => {
+            
+            if (error) {
+                error(task, message, exception);
+            }
+        }
+    }
+
+    public addHDRCubeTextureTask(taskName: string, url: string, success: TaskSuccessHandler, error: TaskErrorHandler) 
+    {
+        const hdrCubeTextureTask = this.assetsManager.addHDRCubeTextureTask(taskName, url, 0);
+        
+        hdrCubeTextureTask.onSuccess = (task) => {
+            
+            this.hdrCubeTextureMap.set(taskName, task.texture); 
+            
+            if (success) {
+                success(task);
+            }
+        }
+        
+        hdrCubeTextureTask.onError = (task, message, exception) => {
             
             if (error) {
                 error(task, message, exception);

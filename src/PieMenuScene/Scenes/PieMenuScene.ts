@@ -35,9 +35,11 @@ export class PieMenuScene extends Scene {
 
     constructor(public title: string, public canvas: HTMLElement, hdrSkyboxTexture: string) {
         super(title, canvas, hdrSkyboxTexture);
+        // console.log("PieMenuScene - init");
     }
 
     protected async createScene() {
+        // console.log("PieMenuScene - createScene");
 
         this.bjsScene.imageProcessingConfiguration.contrast = 1.6;
         this.bjsScene.imageProcessingConfiguration.exposure = 0.6;
@@ -109,7 +111,9 @@ export class PieMenuScene extends Scene {
     }
 
     protected onPreRender() {
+        // console.log("PieMenuScene - onPreRender");
         if (this.menu && this.menu.pivot && this.menu.axle) {
+            // console.log("PieMenuScene - onPreRender - if case");
             let menuOffsetX = ((this.menuPositionType === MenuPosition.TOP_LEFT || this.menuPositionType === MenuPosition.BOTTOM_LEFT) 
                             ? this.cornerMarginX : this.canvas.clientWidth - this.cornerMarginX)
             let menuOffsetY = ((this.menuPositionType === MenuPosition.TOP_LEFT || this.menuPositionType === MenuPosition.TOP_RIGHT) 
@@ -150,6 +154,8 @@ export class PieMenuScene extends Scene {
         this.camera.orthoRight = 5;
         this.camera.setTarget(bjs.Vector3.Zero());
         */
+
+       // console.log("PieMenuScene - onRender");
     }
 
     public setMenuItemList(menuList) {

@@ -1,5 +1,8 @@
-export const ddsGc256SpecularHDR = './Assets/textures/gc256SpecularHDR.dds';
+export const rootURL = "/src/SimpleScene/Assets/textures/";
+
+export const ddsGc256SpecularHDR = 'gc256SpecularHDR.dds';
 
 export default {
+    rootURL,
     ddsGc256SpecularHDR
 };

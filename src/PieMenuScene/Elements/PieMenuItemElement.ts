@@ -98,6 +98,7 @@ export class PieMenuItemElement extends SceneElement {
     }
 
     protected onRender() {
+        // console.log("PieMenuItemElement - onRender");
         let axleRotation : bjs.Vector3 = this.axle.rotation;
         
         if (-axleRotation.z !== this.angle) {

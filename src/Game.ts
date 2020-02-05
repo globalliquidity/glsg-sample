@@ -40,11 +40,11 @@ export default class Game
                     // Handler for root route
                     break;
                 case '/SimpleScene':
-                    this.scene = new SimpleScene('SimpleScene', this.canvas, SimpleSceneConstants.ddsGc256SpecularHDR);
+                    this.scene = new SimpleScene('SimpleScene', this.canvas, "simpleDDS1");
                     SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
                     break;
                 case '/DataDrivenScene':
-                    this.scene = new DataDrivenScene('DataDrivenScene', this.canvas, DataDrivenSceneConstants.ddsGc256SpecularHDR);
+                    this.scene = new DataDrivenScene('DataDrivenScene', this.canvas, "datadrivenDDS1");
                     SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
                     break;
                 case '/PieMenuScene':
@@ -78,9 +78,14 @@ export default class Game
         SceneManager.Instance.LoadScene(emptyScene, this.canvas, ViewportPosition.Full);
 
         AssetManager.Instance.init(emptyScene);
-        AssetManager.Instance.addMeshTask("fontModel", "", GLSGConstants.RootURL, GLSGConstants.FontModel,null, null);
+        
+        AssetManager.Instance.addMeshTask("fontModel", "", GLSGConstants.rootURL, GLSGConstants.FontModel,null, null);
         // AssetManager.Instance.addMeshTask("SimpleCube", "", "", "SimpleCube.babylon",null, null);
         AssetManager.Instance.addMeshTask("discModel", "", PieMenuSceneConstants.rootURL, PieMenuSceneConstants.discModel,null, null);
+        
+        AssetManager.Instance.addCubeTextureTask("datadrivenDDS1", DataDrivenSceneConstants.rootURL + DataDrivenSceneConstants.ddsGc256SpecularHDR ,null, null);
+        AssetManager.Instance.addCubeTextureTask("simpleDDS1", SimpleSceneConstants.rootURL + SimpleSceneConstants.ddsGc256SpecularHDR ,null, null);
+        
         AssetManager.Instance.loadWithHandler(finishHandler);
     }
 
