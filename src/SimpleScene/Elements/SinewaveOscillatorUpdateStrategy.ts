@@ -1,5 +1,6 @@
 import * as bjs from 'babylonjs';
-import { VectorField, VectorFieldUpdateStrategy } from '../../glsg';
+import { VectorField, VectorFieldUpdateStrategy, SolidParticleMaterial } from '../../glsg';
+import { GLSGColor } from '../../glsg/lib/Enums';
 
 export class SineWaveOscillatorUpdateStrategy extends VectorFieldUpdateStrategy
 {
@@ -22,5 +23,7 @@ export class SineWaveOscillatorUpdateStrategy extends VectorFieldUpdateStrategy
         let yOffest: number = Math.abs((Math.sin(this.theta + cellOffset)));
         particle.scaling.y =  yOffest * this.amplitude;
         particle.position.y = particle.scaling.y * 0.5;
+
+        particle.uvs = SolidParticleMaterial.getUVSforColor(GLSGColor.Cyan);
     }
 }
