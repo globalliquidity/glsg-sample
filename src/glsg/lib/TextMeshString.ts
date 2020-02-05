@@ -244,70 +244,72 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         for (var i = 0; i < this.characterMeshes.length; i++) {
             if (isHighlighted) {
                 this.characterMeshes[i].scaling = new bjs.Vector3(1.7, 1.7 , 1.7);
+                SolidParticleMaterial.setUVColorToMesh(this.characterMeshes[i], GLSGColor.Red);
                 // console.log('vertice data: ', verticeData);
                 // console.log('uvsArray: ', uvsArray);
             } else {
                 this.characterMeshes[i].scaling = new bjs.Vector3(1.5, 1.5 , 1.5);
+                SolidParticleMaterial.setUVColorToMesh(this.characterMeshes[i], GLSGColor.Blue);
                 // console.log('uvsArray: ', uvsArray);
             }
 
-            // this.characterMeshes[i].scaling = new bjs.Vector3(1.7, 1.7 , 1.7);
-            const uvsColor = SolidParticleMaterial.getUVSforColor(GLSGColor.Red);
-            let uvsArray = new Float32Array();
-            let positions32 = new Float32Array();
-            const meshPos = <Float32Array>this.characterMeshes[i].getVerticesData(bjs.VertexBuffer.PositionKind);
-            const meshUV = <Float32Array>this.characterMeshes[i].getVerticesData(bjs.VertexBuffer.UVKind);
-            // if (this.characterMeshes[i]._positions) {
-            //     positions32 = this._verctor3ToFloat32Array(this.characterMeshes[i]._positions);
-            //     // console.log('positions32: ', positions32);
+            // // this.characterMeshes[i].scaling = new bjs.Vector3(1.7, 1.7 , 1.7);
+            // const uvsColor = SolidParticleMaterial.getUVSforColor(GLSGColor.Red);
+            // let uvsArray = new Float32Array();
+            // let positions32 = new Float32Array();
+            // const meshPos = <Float32Array>this.characterMeshes[i].getVerticesData(bjs.VertexBuffer.PositionKind);
+            // const meshUV = <Float32Array>this.characterMeshes[i].getVerticesData(bjs.VertexBuffer.UVKind);
+            // // if (this.characterMeshes[i]._positions) {
+            // //     positions32 = this._verctor3ToFloat32Array(this.characterMeshes[i]._positions);
+            // //     // console.log('positions32: ', positions32);
+            // // }
+            // uvsArray = meshUV.copyWithin(-1, 0);
+            // positions32 = meshPos.copyWithin(-1, 0);
+            // // console.log('meshPos: ', meshPos);
+            // // console.log('positions: ', positions32);
+            // this.characterMeshes[0]
+            // const shape = this._posToShape(meshPos);
+            // const shapeUV = this._uvsToShapeUV(meshUV);
+            // // console.log('mesh UV: ', meshUV);
+            // // console.log('shape: ', shape);
+            // // console.log('uvsArray UV: ', uvsArray);
+
+            // // let index = this.characterMeshes[i].pos;
+            // // const vpos = (index / 3) | 0;
+            // // let colorIndex = vpos * 4;
+            // // let uvIndex = vpos * 2;
+            // let index = 0;
+            // const vpos = 0;
+            // let colorIndex = 0;
+            // let uvIndex = 0;
+            // // particle vertex loop
+            // for (let pt = 0; pt < shape.length; pt++) {
+            //     const idx = index + pt * 3;
+            //     const colidx = colorIndex + pt * 4;
+            //     const uvidx = uvIndex + pt * 2;
+
+            //     // Change Postion Array
+            //     if (this.characterMeshes[i]._positions) {
+            //         // positions32[idx] = particleGlobalPosition.x + camAxisX.x * rotatedX + camAxisY.x * rotatedY + camAxisZ.x * rotatedZ;
+            //         // positions32[idx + 1] = particleGlobalPosition.y + camAxisX.y * rotatedX + camAxisY.y * rotatedY + camAxisZ.y * rotatedZ;
+            //         // positions32[idx + 2] = particleGlobalPosition.z + camAxisX.z * rotatedX + camAxisY.z * rotatedY + camAxisZ.z * rotatedZ;
+            //     }
+
+            //     // Change uvsArray
+            //     uvsArray[uvidx] = shapeUV[pt * 2] * (uvsColor.z - uvsColor.x) + uvsColor.x;
+            //     uvsArray[uvidx + 1] = shapeUV[pt * 2 + 1] * (uvsColor.w - uvsColor.y) + uvsColor.y;
+            //     // console.log('uvsArray: ', uvsArray);
+
+            //     // increment indexes for the next particle
+            //     // index = idx + 3;
+            //     // colorIndex = colidx + 4;
+            //     // uvIndex = uvidx + 2;
             // }
-            uvsArray = meshUV.copyWithin(-1, 0);
-            positions32 = meshPos.copyWithin(-1, 0);
-            // console.log('meshPos: ', meshPos);
-            // console.log('positions: ', positions32);
-            this.characterMeshes[0]
-            const shape = this._posToShape(meshPos);
-            const shapeUV = this._uvsToShapeUV(meshUV);
-            // console.log('mesh UV: ', meshUV);
-            // console.log('shape: ', shape);
-            // console.log('uvsArray UV: ', uvsArray);
+            // // End of uvsArray calculation
 
-            // let index = this.characterMeshes[i].pos;
-            // const vpos = (index / 3) | 0;
-            // let colorIndex = vpos * 4;
-            // let uvIndex = vpos * 2;
-            let index = 0;
-            const vpos = 0;
-            let colorIndex = 0;
-            let uvIndex = 0;
-            // particle vertex loop
-            for (let pt = 0; pt < shape.length; pt++) {
-                const idx = index + pt * 3;
-                const colidx = colorIndex + pt * 4;
-                const uvidx = uvIndex + pt * 2;
-
-                // Change Postion Array
-                if (this.characterMeshes[i]._positions) {
-                    // positions32[idx] = particleGlobalPosition.x + camAxisX.x * rotatedX + camAxisY.x * rotatedY + camAxisZ.x * rotatedZ;
-                    // positions32[idx + 1] = particleGlobalPosition.y + camAxisX.y * rotatedX + camAxisY.y * rotatedY + camAxisZ.y * rotatedZ;
-                    // positions32[idx + 2] = particleGlobalPosition.z + camAxisX.z * rotatedX + camAxisY.z * rotatedY + camAxisZ.z * rotatedZ;
-                }
-
-                // Change uvsArray
-                uvsArray[uvidx] = shapeUV[pt * 2] * (uvsColor.z - uvsColor.x) + uvsColor.x;
-                uvsArray[uvidx + 1] = shapeUV[pt * 2 + 1] * (uvsColor.w - uvsColor.y) + uvsColor.y;
-                // console.log('uvsArray: ', uvsArray);
-
-                // increment indexes for the next particle
-                // index = idx + 3;
-                // colorIndex = colidx + 4;
-                // uvIndex = uvidx + 2;
-            }
-            // End of uvsArray calculation
-
-            const originalMesh = this.characterMeshes[i].updateVerticesData(bjs.VertexBuffer.UVKind, uvsArray, false, false);
-            console.log('originalMesh: ', originalMesh);
-            this.characterMeshes[i].updateVerticesData(bjs.VertexBuffer.PositionKind, positions32, false, false);
+            // const originalMesh = this.characterMeshes[i].updateVerticesData(bjs.VertexBuffer.UVKind, uvsArray, false, false);
+            // console.log('originalMesh: ', originalMesh);
+            // this.characterMeshes[i].updateVerticesData(bjs.VertexBuffer.PositionKind, positions32, false, false);
         }
     }
 }
