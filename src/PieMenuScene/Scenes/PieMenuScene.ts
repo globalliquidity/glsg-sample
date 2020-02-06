@@ -40,7 +40,7 @@ export class PieMenuScene extends Scene {
 
     protected async createScene() {
         // console.log("PieMenuScene - createScene");
-
+        
         this.bjsScene.imageProcessingConfiguration.contrast = 1.6;
         this.bjsScene.imageProcessingConfiguration.exposure = 0.6;
         this.bjsScene.imageProcessingConfiguration.toneMappingEnabled = true;
