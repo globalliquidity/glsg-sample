@@ -57,13 +57,9 @@ export class Scene implements IScene
             // Environment Texture
 
             if (this.hdrSkyboxTexture) {
-                console.log("here texture")
                 // this.hdrTexture = bjs.CubeTexture.CreateFromPrefilteredData(this.hdrSkyboxTexture, this.bjsScene);
                 this.hdrTexture = AssetManager.Instance.cubeTextureMap.get(this.hdrSkyboxTexture);
             }
-
-            console.log(this.hdrSkyboxTexture);
-            console.log(this.hdrTexture);
 
             if (this.hdrTexture) {
                 this.bjsScene.environmentTexture = this.hdrTexture;

@@ -81,7 +81,7 @@ export class PieMenuScene extends Scene {
 
 
         var light = new bjs.HemisphericLight("sun", new bjs.Vector3(0, 1, 0), this.bjsScene);
-
+        
         this.menu = new PieMenuElement("menu",
             this.menuPosition.x,
             this.menuPosition.y,
@@ -101,7 +101,7 @@ export class PieMenuScene extends Scene {
         if (this.activeMenuItemText !== '') {
             this.menu.setActiveMenuItem(this.activeMenuItemText);
         }
-
+        
         // this.menu.setActiveMenuItem('43');
         
         this.camera.wheelPrecision = 15;

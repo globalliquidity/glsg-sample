@@ -90,20 +90,27 @@ export class TextMeshModelLoader
             fontMeshes[i]._scene = scene;
             this.characterMeshes.set((i).toString(), fontMeshes[i] as bjs.Mesh);
         }
-
+        
         // this.characterMeshes.set("/", fontMeshes.meshes[10] as bjs.Mesh);
         // this.characterMeshes.set(".", fontMeshes.meshes[11] as bjs.Mesh);
+        
         if (fontMeshes[10]) {
+            fontMeshes[10].material = this.textMaterial;
+            fontMeshes[10].rotation.x = -Math.PI/2;
+            fontMeshes[10].isVisible = false;
             fontMeshes[10]._scene = scene;
+            this.characterMeshes.set("/", fontMeshes[10] as bjs.Mesh);
         }
-
+        
         if (fontMeshes[11]) {
+            fontMeshes[11].material = this.textMaterial;
+            fontMeshes[11].rotation.x = -Math.PI/2;
+            fontMeshes[11].isVisible = false;
             fontMeshes[11]._scene = scene;
+            this.characterMeshes.set(".", fontMeshes[11] as bjs.Mesh);
         }
-
-        this.characterMeshes.set("/", fontMeshes[10] as bjs.Mesh);
-        this.characterMeshes.set(".", fontMeshes[11] as bjs.Mesh);
-
+        
+        
         for (var i = 11; i < 38; i++)
         {
             let currentLetter : string = String.fromCharCode(64+(i-11));
@@ -119,7 +126,7 @@ export class TextMeshModelLoader
             fontMeshes[i]._scene = scene;
             this.characterMeshes.set(currentLetter, fontMeshes[i] as bjs.Mesh);
         }
-
+        
         this.isLoaded = true;
     }
 
