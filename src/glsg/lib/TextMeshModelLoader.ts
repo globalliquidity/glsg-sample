@@ -10,7 +10,7 @@ export class TextMeshModelLoader
     private characterMeshes: Map<string,bjs.Mesh> = new Map<string,bjs.Mesh>();
     public isLoaded : boolean = false;
 
-    private textMaterial : bjs.PBRMaterial;
+    private textMaterial : SolidParticleMaterial;
     
     private constructor()
     {
@@ -35,45 +35,6 @@ export class TextMeshModelLoader
     async loadMeshes(scene : bjs.Scene)
     {
         console.log('TextMeshModelLoader :  Loading Meshes ');
-/*
-        const numberMeshes = await bjs.SceneLoader.ImportMeshAsync(null, '', GLSGAssetManager.NumbersModel, scene);
-
-        //numberMeshes.meshes[0].parent = this;
-        numberMeshes.meshes[0].material = this.textMaterial;
-        //numberMeshes.meshes[0].rotation.x = -Math.PI/2;
-        numberMeshes.meshes[0].isVisible = false;
-
-        this.characterMeshes.set(".", numberMeshes.meshes[0] as bjs.Mesh);
-        //Logger.log('TextMeshCaracterGenerator :  Added period model to charactermeshes');
-        for (var i = 1; i < 11; i++)
-        {
-            //numberMeshes.meshes[i].parent = this;
-            numberMeshes.meshes[i].material = this.textMaterial;
-            //numberMeshes.meshes[i].rotation.x = -Math.PI/2;
-            numberMeshes.meshes[i].isVisible = false;
-            this.characterMeshes.set((10-i).toString(), numberMeshes.meshes[i] as bjs.Mesh);
-        }
-
-        const characterMeshes = await bjs.SceneLoader.ImportMeshAsync(null, '', GLSGAssetManager.CharactersModel, scene);
-
-        for (var i = 0; i < 26; i++)
-        {
-            //characterMeshes.meshes[i].parent = this;
-            characterMeshes.meshes[i].material = this.textMaterial;
-            //characterMeshes.meshes[i].rotation.x = -Math.PI/2;
-            characterMeshes.meshes[i].isVisible = false;
-
-            let currentLetter : string = String.fromCharCode(65+i);
-            console.log(currentLetter);
-            this.characterMeshes.set(currentLetter, characterMeshes.meshes[i] as bjs.Mesh);
-        }
-
-        console.log("Loaded " +  this.characterMeshes.size + " meshes");
-
-*/
-
-        console.log('TextMeshModelLoader :  Loading Meshes ');
-
         const fontMeshes = await bjs.SceneLoader.ImportMeshAsync(null, '', GLSGAssetManager.FontModel, scene);
 
         for (var i = 0; i < 10; i++)
@@ -96,6 +57,8 @@ export class TextMeshModelLoader
             fontMeshes.meshes[i].material = this.textMaterial;
             fontMeshes.meshes[i].rotation.x = -Math.PI/2;
             fontMeshes.meshes[i].isVisible = false;
+            // fontMeshes.meshes[i].registerInstancedBuffer(bjs.VertexBuffer.UVKind, 4);
+            // fontMeshes.meshes[i].instancedBuffers.
             this.characterMeshes.set(currentLetter, fontMeshes.meshes[i] as bjs.Mesh);
         }
 
