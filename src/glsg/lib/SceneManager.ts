@@ -1,4 +1,4 @@
-import * as bjs from 'babylonjs';
+import * as bjs from '@babylonjs/core/legacy/legacy';
 import { Scene } from './Scene';
 import Logger from './Logger';
 import { ViewportPosition } from "./Enums";

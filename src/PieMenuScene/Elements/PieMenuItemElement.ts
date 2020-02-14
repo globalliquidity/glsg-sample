@@ -1,7 +1,7 @@
-import * as bjs from 'babylonjs';
-import * as bjsgui from 'babylonjs-gui';
+import * as bjs from '@babylonjs/core/legacy/legacy';
+import * as bjsgui from '@babylonjs/gui';
 import { Scene, SceneElement, TextMeshNumberGenerator } from '../../glsg';
-import { Vector3, PBRMetallicRoughnessMaterial } from 'babylonjs';
+//import { Vector3, PBRMetallicRoughnessMaterial } from 'babylonjs';
 import { BigIntStats } from 'fs';
 import { TextMeshString } from '../../glsg/lib/TextMeshString';
 
@@ -51,7 +51,7 @@ export class PieMenuItemElement extends SceneElement {
         this.mesh.scaling.z = .01 * this.itemScale;
         this.mesh.position.z = .05;
 
-        let textMaterial: PBRMetallicRoughnessMaterial = new PBRMetallicRoughnessMaterial("text", this.scene.bjsScene);
+        let textMaterial: bjs.PBRMetallicRoughnessMaterial = new bjs.PBRMetallicRoughnessMaterial("text", this.scene.bjsScene);
 
         textMaterial.baseColor = new bjs.Color3(0.15, 0.6, 0.87);
 
@@ -103,9 +103,9 @@ export class PieMenuItemElement extends SceneElement {
         
         if (-axleRotation.z !== this.angle) {
             this.angle = -axleRotation.z;
-            this.itemText.rotation = new Vector3(0,0,this.angle);
+            this.itemText.rotation = new bjs.Vector3(0,0,this.angle);
             // this.itemText.box.rotation = new Vector3(0,0,Math.PI - (this.angle % Math.PI));
-            this.itemText.pivot.rotation = new Vector3(0,0,this.angle);
+            this.itemText.pivot.rotation = new bjs.Vector3(0,0,this.angle);
         }
         //if (this.itemText.rotation.z < (-Math.PI/2))
         //   this.itemText.setVisibility(false);

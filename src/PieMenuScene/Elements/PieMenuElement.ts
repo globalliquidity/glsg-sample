@@ -1,12 +1,12 @@
-import * as bjs from 'babylonjs';
-import * as bjsgui from 'babylonjs-gui';
+import * as bjs from '@babylonjs/core/legacy/legacy';
+import * as bjsgui from '@babylonjs/gui';
 import { Scene, SceneElement, TextMeshNumberGenerator } from '../../glsg';
 import { PieMenuItemElement } from './PieMenuItemElement';
 import PieMenuSceneConstants from '../constants';
 // import GLSGConstants from '../../glsg/constants';
 
-import { CannonJSPlugin, PBRMetallicRoughnessMaterial } from 'babylonjs';
-import { Vector3WithInfo } from 'babylonjs-gui';
+//import { CannonJSPlugin, PBRMetallicRoughnessMaterial } from 'babylonjs';
+import { Vector3WithInfo } from '@babylonjs/gui';
 import { AssetManager } from '../../glsg/lib/AssetManager';
 
 enum MenuPosition {
@@ -121,8 +121,8 @@ export class PieMenuElement extends SceneElement {
         
         await this.buildMenu();
         this.itemModel.setEnabled(false);
-
-        let textMaterial: PBRMetallicRoughnessMaterial = new PBRMetallicRoughnessMaterial("text", this.scene.bjsScene);
+        
+        let textMaterial: bjs.PBRMetallicRoughnessMaterial = new bjs.PBRMetallicRoughnessMaterial("text", this.scene.bjsScene);
 
         //this.menuActiveItem = new TextMeshStringGenerator("ActiveItem", 0,0,0,this.scene,textMaterial);
         //await this.menuActiveItem.create();
