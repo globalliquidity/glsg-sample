@@ -1,6 +1,5 @@
 
-import * as bjs from 'babylonjs';
-import { Vector3 } from 'babylonjs';
+import * as bjs from '@babylonjs/core/legacy/legacy';
 import { Scene } from '../../glsg';
 import { PieMenuElement } from '../Elements/PieMenuElement';
 import { TextMeshModelLoader } from '../../glsg/lib/TextMeshModelLoader';
@@ -20,7 +19,7 @@ export class PieMenuScene extends Scene {
     menu: PieMenuElement
     //menuPosition : Vector3 = new Vector3(-4,3.15,0);
     //menuPosition : Vector3 = new Vector3(-4.25,4.25,10);
-    menuPosition: Vector3 = new Vector3(-1.5, 0, 0);
+    menuPosition: bjs.Vector3 = new bjs.Vector3(-1.5, 0, 0);
     menuPositionType: number = MenuPosition.TOP_LEFT;
     centerBox: bjs.Mesh;
     glowLayer: bjs.GlowLayer;
@@ -35,10 +34,12 @@ export class PieMenuScene extends Scene {
 
     constructor(public title: string, public canvas: HTMLElement, hdrSkyboxTexture: string) {
         super(title, canvas, hdrSkyboxTexture);
+        // console.log("PieMenuScene - init");
     }
 
     protected async createScene() {
-
+        // console.log("PieMenuScene - createScene");
+        
         this.bjsScene.imageProcessingConfiguration.contrast = 1.6;
         this.bjsScene.imageProcessingConfiguration.exposure = 0.6;
         this.bjsScene.imageProcessingConfiguration.toneMappingEnabled = true;
@@ -79,7 +80,7 @@ export class PieMenuScene extends Scene {
 
 
         var light = new bjs.HemisphericLight("sun", new bjs.Vector3(0, 1, 0), this.bjsScene);
-
+        
         this.menu = new PieMenuElement("menu",
             this.menuPosition.x,
             this.menuPosition.y,
@@ -99,7 +100,7 @@ export class PieMenuScene extends Scene {
         if (this.activeMenuItemText !== '') {
             this.menu.setActiveMenuItem(this.activeMenuItemText);
         }
-
+        
         // this.menu.setActiveMenuItem('43');
         
         this.camera.wheelPrecision = 15;
@@ -109,7 +110,9 @@ export class PieMenuScene extends Scene {
     }
 
     protected onPreRender() {
+        // console.log("PieMenuScene - onPreRender");
         if (this.menu && this.menu.pivot && this.menu.axle) {
+            // console.log("PieMenuScene - onPreRender - if case");
             let menuOffsetX = ((this.menuPositionType === MenuPosition.TOP_LEFT || this.menuPositionType === MenuPosition.BOTTOM_LEFT) 
                             ? this.cornerMarginX : this.canvas.clientWidth - this.cornerMarginX)
             let menuOffsetY = ((this.menuPositionType === MenuPosition.TOP_LEFT || this.menuPositionType === MenuPosition.TOP_RIGHT) 
@@ -150,6 +153,8 @@ export class PieMenuScene extends Scene {
         this.camera.orthoRight = 5;
         this.camera.setTarget(bjs.Vector3.Zero());
         */
+
+       // console.log("PieMenuScene - onRender");
     }
 
     public setMenuItemList(menuList) {

@@ -1,4 +1,4 @@
-import * as bjs from 'babylonjs';
+import * as bjs from '@babylonjs/core/legacy/legacy';
 import { SolidParticleMaterial } from './SolidParticleMaterial';
 import { Scene } from './Scene';
 

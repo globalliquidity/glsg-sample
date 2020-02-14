@@ -1,4 +1,4 @@
-import * as bjs from 'babylonjs';
+import * as bjs from '@babylonjs/core/legacy/legacy';
 import { Scene, SceneElement, SolidParticleMaterial } from '../../glsg';
 
 export class PhysicsSystemElement extends SceneElement
@@ -59,7 +59,7 @@ export class PhysicsSystemElement extends SceneElement
         const pbr = new SolidParticleMaterial("pbr", this.scene);
         this.mesh.material = pbr;
 
-        pbr.albedoColor = new BABYLON.Color3(1.0, 0.766, 0.336);
+        pbr.albedoColor = new bjs.Color3(1.0, 0.766, 0.336);
         pbr.metallic = 0.0; // set to 1 to only use it from the metallicRoughnessTexture
         pbr.roughness = 0.01; // set to 1 to only use it from the metallicRoughnessTexture
         pbr.reflectionTexture = this.scene.hdrTexture;

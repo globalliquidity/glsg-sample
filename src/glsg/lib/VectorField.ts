@@ -1,10 +1,11 @@
-import * as bjs from 'babylonjs';
+import * as bjs from '@babylonjs/core/legacy/legacy';
 import { Scene } from './Scene'
 import { IVectorFieldUpdateStrategy } from './SceneGraphInterfaces';
 import { SolidParticleSystemElement } from './SolidParticleSystemElement';
 import { IDepthFinderElement } from './SceneGraphInterfaces';
 import { SolidParticleMaterial } from './SolidParticleMaterial';
 import Logger from './Logger';
+import { AssetManager } from './AssetManager';
 
 export class VectorField extends SolidParticleSystemElement implements IDepthFinderElement
 {
@@ -76,17 +77,27 @@ export class VectorField extends SolidParticleSystemElement implements IDepthFin
       
         //bj.OBJFileLoader.
         Logger.log("Loading Smooth Cube");
-        const newMeshes = await bjs.SceneLoader.ImportMeshAsync(null, "/", 'SimpleCube.babylon', this.scene.bjsScene);
-        newMeshes.meshes[0].position.set(0, 0, 0);
-        newMeshes.meshes[0].rotation.y = 0;
+        //const newMeshes = await bjs.SceneLoader.ImportMeshAsync(null, "/", 'SimpleCube.babylon', this.scene.bjsScene);
+        const newMeshes = AssetManager.Instance.meshesMap.get("SimpleCube");
         
-        newMeshes.meshes[0].scaling.set(0.01, 0.01, 0.01);
+        //newMeshes.meshes[0].position.set(0, 0, 0);
+        //newMeshes.meshes[0].rotation.y = 0;
+        
+        //newMeshes.meshes[0].scaling.set(0.01, 0.01, 0.01);
+
+        newMeshes[0].position.set(0, 0, 0);
+        newMeshes[0].rotation.y = 0;
+        
+        newMeshes[0].scaling.set(0.01, 0.01, 0.01);
+        newMeshes[0]._scene = this.scene.bjsScene;
 
         if (this.material) {
-            newMeshes.meshes[0].material = this.material;
+            //newMeshes.meshes[0].material = this.material;
+            newMeshes[0].material = this.material;
         }
         this.meshBase.dispose();
-         this.meshBase = newMeshes.meshes[0] as bjs.Mesh;
+        //this.meshBase = newMeshes.meshes[0] as bjs.Mesh;
+        this.meshBase = newMeshes[0] as bjs.Mesh;
         //this.meshBase = bjs.MeshBuilder.CreateCylinder("box", { height: 1, diameter:2}, this.scene.bjsScene)
         if (this.material) {
             this.meshBase.material = this.material;
