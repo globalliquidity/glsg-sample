@@ -2,6 +2,8 @@ import * as bjs from '@babylonjs/core/legacy/legacy';
 import { SolidParticleMaterial } from '../../glsg';
 import { Scene } from './Scene';
 import { AssetManager } from './AssetManager';
+import { GLSGColor } from './Enums';
+import { StandardMaterial } from '@babylonjs/core/legacy/legacy';
 
 export class TextMeshModelLoader 
 {
@@ -75,6 +77,7 @@ export class TextMeshModelLoader
 
         // const fontMeshes = await bjs.SceneLoader.ImportMeshAsync(null, '', GLSGAssetManager.FontModel, scene);
         const fontMeshes = AssetManager.Instance.meshesMap.get("fontModel");
+        SolidParticleMaterial.setUVColorToMaterial(this.textMaterial, GLSGColor.Pink);
         
         for (var i = 0; i < 10; i++)
         {
@@ -83,32 +86,22 @@ export class TextMeshModelLoader
             // fontMeshes.meshes[i].rotation.x = -Math.PI/2;
             // fontMeshes.meshes[i].isVisible = false;
             // this.characterMeshes.set((i).toString(), fontMeshes.meshes[i] as bjs.Mesh);
-            fontMeshes[i].material = this.textMaterial;
-            fontMeshes[i].rotation.x = -Math.PI/2;
-            fontMeshes[i].isVisible = false;
-            fontMeshes[i]._scene = scene;
-            this.characterMeshes.set((i).toString(), fontMeshes[i] as bjs.Mesh);
+            const fontMesh = this.configureMesh(fontMeshes[i], scene);
+            this.characterMeshes.set((i).toString(), fontMesh);
         }
         
         // this.characterMeshes.set("/", fontMeshes.meshes[10] as bjs.Mesh);
         // this.characterMeshes.set(".", fontMeshes.meshes[11] as bjs.Mesh);
         
         if (fontMeshes[10]) {
-            fontMeshes[10].material = this.textMaterial;
-            fontMeshes[10].rotation.x = -Math.PI/2;
-            fontMeshes[10].isVisible = false;
-            fontMeshes[10]._scene = scene;
-            this.characterMeshes.set("/", fontMeshes[10] as bjs.Mesh);
+            const fontMesh = this.configureMesh(fontMeshes[10], scene);
+            this.characterMeshes.set("/", fontMesh);
         }
         
         if (fontMeshes[11]) {
-            fontMeshes[11].material = this.textMaterial;
-            fontMeshes[11].rotation.x = -Math.PI/2;
-            fontMeshes[11].isVisible = false;
-            fontMeshes[11]._scene = scene;
-            this.characterMeshes.set(".", fontMeshes[11] as bjs.Mesh);
+            const fontMesh = this.configureMesh(fontMeshes[11], scene);
+            this.characterMeshes.set(".", fontMesh);
         }
-        
         
         for (var i = 11; i < 38; i++)
         {
@@ -119,14 +112,26 @@ export class TextMeshModelLoader
             // fontMeshes.meshes[i].rotation.x = -Math.PI/2;
             // fontMeshes.meshes[i].isVisible = false;
             // this.characterMeshes.set(currentLetter, fontMeshes.meshes[i] as bjs.Mesh);
-            fontMeshes[i].material = this.textMaterial;
-            fontMeshes[i].rotation.x = -Math.PI/2;
-            fontMeshes[i].isVisible = false;
-            fontMeshes[i]._scene = scene;
-            this.characterMeshes.set(currentLetter, fontMeshes[i] as bjs.Mesh);
+            const fontMesh = this.configureMesh(fontMeshes[i], scene);
+            this.characterMeshes.set(currentLetter, fontMesh);
         }
         
         this.isLoaded = true;
+    }
+
+    private configureMesh(abMesh: bjs.AbstractMesh, scene: bjs.Scene) {
+        const mesh = abMesh as bjs.Mesh;
+        mesh.material = new StandardMaterial('fontMaterial', scene);
+        mesh.material['disableLighting'] = true;
+        mesh.material['emissiveColor'] = bjs.Color3.Red();
+        // mesh.material = this.textMaterial;
+        mesh.rotation.x = -Math.PI/2;
+        mesh.isVisible = false;
+        mesh._scene = scene;
+        mesh.alwaysSelectAsActiveMesh = true;
+        mesh.registerInstancedBuffer('color', 4);
+        mesh.instancedBuffers.color = new bjs.Color4(0, 0, 1, 1);
+        return mesh;
     }
 
     public getCharacterMesh(character : string) : bjs.Mesh

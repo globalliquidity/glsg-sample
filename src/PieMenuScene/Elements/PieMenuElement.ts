@@ -138,6 +138,7 @@ export class PieMenuElement extends SceneElement {
     //    this.scaleMenuItems();
         this.calcDisplayIdxs();
         this.positionMenuItems();
+        this.menuItems[this.activeItemIndex].setHighlight(true);
     }
 
     protected async buildMenu() {
@@ -258,8 +259,6 @@ export class PieMenuElement extends SceneElement {
                                     // Change colors for active item
                                     if (i === this.activeItemIndex) {
                                         this.menuItems[i].setHighlight(true);
-                                    } else {
-                                        this.menuItems[i].setHighlight(false);
                                     }
                                 }
 

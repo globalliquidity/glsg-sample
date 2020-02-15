@@ -111,6 +111,18 @@ export class SolidParticleMaterial extends bjs.PBRMaterial
         const textures = mesh.material.getActiveTextures();
         const UVColor = SolidParticleMaterial.getUVSforColor(color);
 
+        textures.forEach((texture: bjs.Texture) => {
+            texture.uScale = UVColor.z - UVColor.x;
+            texture.vScale = UVColor.w - UVColor.y;
+            texture.uOffset = UVColor.x;
+            texture.vOffset = UVColor.y;
+        });
+    }
+
+    static setUVColorToMaterial(material: bjs.Material, color: GLSGColor) {
+        const textures = material.getActiveTextures();
+        const UVColor = SolidParticleMaterial.getUVSforColor(color);
+
         if (textures.length > 0) {
             const activeTexture: bjs.Texture = textures[0] as bjs.Texture;
             activeTexture.uScale = UVColor.z - UVColor.x;
