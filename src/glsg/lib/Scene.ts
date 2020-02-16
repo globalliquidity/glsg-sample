@@ -5,6 +5,8 @@ import Logger from './Logger';
 import { generateSkybox } from './Utils';
 import { ddsGc256SpecularHDR } from './Assets';
 
+import { AssetManager } from './AssetManager';
+
 export class Scene implements IScene
 {
     engine : bjs.Engine | undefined;
@@ -55,12 +57,14 @@ export class Scene implements IScene
             // Environment Texture
 
             if (this.hdrSkyboxTexture) {
-                this.hdrTexture = bjs.CubeTexture.CreateFromPrefilteredData(this.hdrSkyboxTexture, this.bjsScene);
-
+                // this.hdrTexture = bjs.CubeTexture.CreateFromPrefilteredData(this.hdrSkyboxTexture, this.bjsScene);
+                this.hdrTexture = AssetManager.Instance.cubeTextureMap.get(this.hdrSkyboxTexture);
             }
 
-            this.bjsScene.environmentTexture = this.hdrTexture;
-            this.bjsScene.createDefaultSkybox(this.hdrTexture, true, 1000, 0.7);
+            if (this.hdrTexture) {
+                this.bjsScene.environmentTexture = this.hdrTexture;
+                this.bjsScene.createDefaultSkybox(this.hdrTexture, true, 1000, 0.7);
+            }
             // Skybox
             //this.hdrSkybox = generateSkybox(1000.0, this.hdrTexture, this.bjsScene);
         }

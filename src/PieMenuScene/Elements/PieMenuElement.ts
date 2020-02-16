@@ -2,11 +2,12 @@ import * as bjs from 'babylonjs';
 import * as bjsgui from 'babylonjs-gui';
 import { Scene, SceneElement, TextMeshNumberGenerator } from '../../glsg';
 import { PieMenuItemElement } from './PieMenuItemElement';
-import PieMenuSceneAssetManager from '../AssetManager';
-import GLSGAssetManager from '../../glsg/AssetManager';
+import PieMenuSceneConstants from '../constants';
+// import GLSGConstants from '../../glsg/constants';
 
 import { CannonJSPlugin, PBRMetallicRoughnessMaterial } from 'babylonjs';
 import { Vector3WithInfo } from 'babylonjs-gui';
+import { AssetManager } from '../../glsg/lib/AssetManager';
 
 enum MenuPosition {
     TOP_LEFT = 0,
@@ -112,9 +113,12 @@ export class PieMenuElement extends SceneElement {
         this.controlContainer.linkToTransformNode(this);
         this.controlContainer.position.z = 0;
 
-        const model = await bjs.SceneLoader.ImportMeshAsync(null, '', PieMenuSceneAssetManager.discModel, this.scene.bjsScene);
+        //const model = await bjs.SceneLoader.ImportMeshAsync(null, '', PieMenuSceneAssetManager.discModel, this.scene.bjsScene);
+        const model = AssetManager.Instance.meshesMap.get("discModel");
 
-        this.itemModel = model.meshes[0] as bjs.Mesh;
+        //this.itemModel = model.meshes[0] as bjs.Mesh;
+        this.itemModel = model[0] as bjs.Mesh;
+        
         await this.buildMenu();
         this.itemModel.setEnabled(false);
 
