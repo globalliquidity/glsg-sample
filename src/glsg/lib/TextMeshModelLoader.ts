@@ -77,21 +77,13 @@ export class TextMeshModelLoader
 
         // const fontMeshes = await bjs.SceneLoader.ImportMeshAsync(null, '', GLSGAssetManager.FontModel, scene);
         const fontMeshes = AssetManager.Instance.meshesMap.get("fontModel");
-        SolidParticleMaterial.setUVColorToMaterial(this.textMaterial, GLSGColor.Pink);
+        // SolidParticleMaterial.setUVColorToMaterial(this.textMaterial, GLSGColor.Cyan);
         
         for (var i = 0; i < 10; i++)
         {
-            //numberMeshes.meshes[i].parent = this;
-            // fontMeshes.meshes[i].material = this.textMaterial;
-            // fontMeshes.meshes[i].rotation.x = -Math.PI/2;
-            // fontMeshes.meshes[i].isVisible = false;
-            // this.characterMeshes.set((i).toString(), fontMeshes.meshes[i] as bjs.Mesh);
             const fontMesh = this.configureMesh(fontMeshes[i], scene);
             this.characterMeshes.set((i).toString(), fontMesh);
         }
-        
-        // this.characterMeshes.set("/", fontMeshes.meshes[10] as bjs.Mesh);
-        // this.characterMeshes.set(".", fontMeshes.meshes[11] as bjs.Mesh);
         
         if (fontMeshes[10]) {
             const fontMesh = this.configureMesh(fontMeshes[10], scene);
@@ -106,12 +98,6 @@ export class TextMeshModelLoader
         for (var i = 11; i < 38; i++)
         {
             let currentLetter : string = String.fromCharCode(64+(i-11));
-            
-            //numberMeshes.meshes[i].parent = this;
-            // fontMeshes.meshes[i].material = this.textMaterial;
-            // fontMeshes.meshes[i].rotation.x = -Math.PI/2;
-            // fontMeshes.meshes[i].isVisible = false;
-            // this.characterMeshes.set(currentLetter, fontMeshes.meshes[i] as bjs.Mesh);
             const fontMesh = this.configureMesh(fontMeshes[i], scene);
             this.characterMeshes.set(currentLetter, fontMesh);
         }
@@ -121,16 +107,18 @@ export class TextMeshModelLoader
 
     private configureMesh(abMesh: bjs.AbstractMesh, scene: bjs.Scene) {
         const mesh = abMesh as bjs.Mesh;
-        mesh.material = new StandardMaterial('fontMaterial', scene);
+        // mesh.material = new StandardMaterial('fontMaterial', scene);
+        mesh.material = this.textMaterial;
         mesh.material['disableLighting'] = true;
-        mesh.material['emissiveColor'] = bjs.Color3.Red();
-        // mesh.material = this.textMaterial;
+        // mesh.material['emissiveColor'] = bjs.Color3.White();
         mesh.rotation.x = -Math.PI/2;
         mesh.isVisible = false;
         mesh._scene = scene;
         mesh.alwaysSelectAsActiveMesh = true;
-        mesh.registerInstancedBuffer('color', 4);
-        mesh.instancedBuffers.color = new bjs.Color4(0, 0, 1, 1);
+        // mesh.registerInstancedBuffer('color', 4);
+        // mesh.instancedBuffers.color = new bjs.Color4(0, 0, 1, 1);
+        mesh.registerInstancedBuffer('uv', 4);
+        mesh.instancedBuffers.uv = SolidParticleMaterial.getUVSforColor(GLSGColor.Red);
         return mesh;
     }
 

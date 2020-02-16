@@ -243,13 +243,13 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         for (var i = 0; i < this.characterMeshes.length; i++) {
             if (isHighlighted) {
                 this.characterMeshes[i].scaling = new bjs.Vector3(1.7, 1.7 , 1.7);
-                this.characterMeshes[i].instancedBuffers.color = new bjs.Color4(1, 0, 0, 1);
-                // this.characterMeshes[i].instancedBuffers.uv = GLSGColor.Yellow;
+                // this.characterMeshes[i].instancedBuffers.color = new bjs.Color4(1, 0, 0, 1);
+                this.characterMeshes[i].instancedBuffers.uv = SolidParticleMaterial.getUVSforColor(GLSGColor.Lime);
                 // SolidParticleMaterial.setUVColorToMesh(this.characterMeshes[i], GLSGColor.Yellow);
             } else {
                 this.characterMeshes[i].scaling = new bjs.Vector3(1.5, 1.5 , 1.5);
-                this.characterMeshes[i].instancedBuffers.color = new bjs.Color4(0, 0, 1, 1);
-                // this.characterMeshes[i].instancedBuffers.uv = GLSGColor.Yellow;
+                // this.characterMeshes[i].instancedBuffers.color = new bjs.Color4(0, 0, 1, 1);
+                this.characterMeshes[i].instancedBuffers.uv = SolidParticleMaterial.getUVSforColor(GLSGColor.Cyan);
                 // SolidParticleMaterial.setUVColorToMesh(this.characterMeshes[i], GLSGColor.Cyan);
             }
         }

@@ -59,7 +59,7 @@ export class SpinningCylinderThing extends SolidParticleSystemElement
         particle.rotation.x += (0.002 * (particle.idx * 0.5));
         particle.scaling.y = 1.5 + (Math.sin(this.sizePhasor + cellOffset));
 
-        particle.uvs = SolidParticleMaterial.getUVSforColor(GLSGColor.Cyan);
+        particle.uvs = SolidParticleMaterial.getUVSforColor(GLSGColor.Red);
 
         return particle;
     }
