@@ -1,4 +1,4 @@
-import * as bjs from 'babylonjs';
+import * as bjs from '@babylonjs/core/legacy/legacy';
 
 export const generateSkybox = (_size: number, hdrTexture: bjs.CubeTexture, scene: bjs.Scene): bjs.Mesh => {
     const hdrSkybox: bjs.Mesh = bjs.Mesh.CreateBox("hdrSkyBox", 1000.0, scene);

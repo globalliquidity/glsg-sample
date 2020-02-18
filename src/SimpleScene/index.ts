@@ -1,5 +1,6 @@
 import { Scene } from '../glsg';
-import * as bjs from 'babylonjs';
+import * as bjs from '@babylonjs/core/legacy/legacy';
+
 import { SpinningCylinderThing } from './Elements/SpinningCylinderThing';
 import { SineWaveScrollerVectorField } from './Elements/SineWaveScrollerValueField';
 import { TextMeshString } from '../glsg/lib/TextMeshString';
@@ -38,7 +39,8 @@ export class SimpleScene extends Scene
                                                     5);     //amplitude
 
         this.field.rotation.y = Math.PI / 2;
-        this.camera.position = new bjs.Vector3(0, 0, -250);
+        this.camera.position =  new bjs.Vector3(0, 0, -250);
+        
         this.AddSceneElement(this.field);
 
         // cylinders

@@ -1,6 +1,5 @@
 
-import * as bjs from 'babylonjs';
-import { Vector3 } from 'babylonjs';
+import * as bjs from '@babylonjs/core/legacy/legacy';
 import { Scene } from '../../glsg';
 import { PieMenuElement } from '../Elements/PieMenuElement';
 import { TextMeshModelLoader } from '../../glsg/lib/TextMeshModelLoader';
@@ -20,7 +19,7 @@ export class PieMenuScene extends Scene {
     menu: PieMenuElement
     //menuPosition : Vector3 = new Vector3(-4,3.15,0);
     //menuPosition : Vector3 = new Vector3(-4.25,4.25,10);
-    menuPosition: Vector3 = new Vector3(-1.5, 0, 0);
+    menuPosition: bjs.Vector3 = new bjs.Vector3(-1.5, 0, 0);
     menuPositionType: number = MenuPosition.TOP_LEFT;
     centerBox: bjs.Mesh;
     glowLayer: bjs.GlowLayer;

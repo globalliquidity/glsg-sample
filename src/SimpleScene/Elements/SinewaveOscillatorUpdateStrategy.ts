@@ -1,4 +1,4 @@
-import * as bjs from 'babylonjs';
+import * as bjs from '@babylonjs/core/legacy/legacy';
 import { VectorField, VectorFieldUpdateStrategy } from '../../glsg';
 
 export class SineWaveOscillatorUpdateStrategy extends VectorFieldUpdateStrategy

@@ -1,15 +1,15 @@
-import * as bjs from 'babylonjs';
+import * as bjs from '@babylonjs/core/legacy/legacy';
 import { Scene } from './Scene'
 import { ITextMeshNumberGenerator, ITextMeshString } from './SceneGraphInterfaces';
 import { SceneElement } from './SceneElement';
 import { TextMeshCharacterGenerator } from './TextMeshCharacterGenerator';
 // import GLSGConstants from '../constants';
 import { TextMeshModelLoader } from './TextMeshModelLoader';
-import { InstancedMesh, Vector3, BackEase } from 'babylonjs';
+//import { InstancedMesh, Vector3, BackEase } from '@babylonjs/core/legacy/legacy';
 import { HorizontalAlignment, VerticalAlignment } from './Enums';
 
 export class TextMeshString extends SceneElement implements ITextMeshString {
-    characterMeshes: Array<InstancedMesh> = [];
+    characterMeshes: Array<bjs.InstancedMesh> = [];
     characterSpacing: number = 0.1;
 
     box: bjs.Mesh = null;
@@ -31,9 +31,9 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
             scene
         );
 
-        this.characterMeshes = new Array<InstancedMesh>();
+        this.characterMeshes = new Array<bjs.InstancedMesh>();
         this.create();
-
+            
     }
 
     async create() {
@@ -76,13 +76,13 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         for (var i = 0; i < this.text.length; i++) {
             let currentCharacter: string = this.text[i];
             // console.log("TextMeshString : Current Character : " + currentCharacter);
-            let characterMesh: InstancedMesh = TextMeshModelLoader.Instance.getCharacterMesh(currentCharacter).createInstance('characterMesh' + currentCharacter);
+            let characterMesh: bjs.InstancedMesh = TextMeshModelLoader.Instance.getCharacterMesh(currentCharacter).createInstance('characterMesh' + currentCharacter);
 
             if (characterMesh != null) {
                 characterMesh.parent = this;
                 characterMesh.isVisible = true;
                 characterMesh.position = this.position;
-                characterMesh.scaling = new Vector3(1.5, 1.5, 1.5);
+                characterMesh.scaling = new bjs.Vector3(1.5, 1.5, 1.5);
                 characterMesh.showBoundingBox = false;
                 //characterMesh.position.x = characterMesh.position.x + (i * 10);
                 this.characterMeshes.push(characterMesh);
@@ -148,7 +148,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
 
         boundingWidth += (this.characterMeshes.length - 1) * this.characterSpacing;
 
-        this.box.scaling = new Vector3(boundingWidth, 1, 0.2);
+        this.box.scaling = new bjs.Vector3(boundingWidth, 1, 0.2);
         this.box.position.x = horizontalOffset + (boundingWidth / 2);
         this.box.position.y = verticalOffset;
         this.box.position.z = -0.2;
@@ -161,7 +161,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         }
 
         this.text = name;
-        this.characterMeshes = new Array<InstancedMesh>();
+        this.characterMeshes = new Array<bjs.InstancedMesh>();
         this.create();
     }
 
