@@ -188,6 +188,7 @@ export class PieMenuElement extends SceneElement {
 
                         if (this.clickedMeshName === this.menuItemName) {
                             this.clickedMeshName = '';
+
                             // this.saveCurrentStates();
                             // this.close();
                             
@@ -626,6 +627,7 @@ export class PieMenuElement extends SceneElement {
         {
             let item :PieMenuItemElement = this.menuItems[i];
             let itemScale = 0.15 + (halfCount - Math.abs(this.activeItemIndex - i) % halfCount) * 0.05;
+
             if (Math.abs(this.activeItemIndex - i) >= halfCount) {
                 itemScale = 0.15 + (halfCount - (this.itemCount - Math.abs(this.activeItemIndex - i)) % halfCount) * 0.05;
             }
