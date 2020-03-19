@@ -5,15 +5,16 @@ import { SceneElement } from './SceneElement';
 import { TextMeshCharacterGenerator } from './TextMeshCharacterGenerator';
 // import GLSGConstants from '../constants';
 import { TextMeshModelLoader } from './TextMeshModelLoader';
-import { InstancedMesh, Vector3, BackEase } from 'babylonjs';
-import { HorizontalAlignment, VerticalAlignment } from './Enums';
+import { HorizontalAlignment, VerticalAlignment, GLSGColor } from './Enums';
+import { SolidParticleMaterial } from './SolidParticleMaterial';
 
 export class TextMeshString extends SceneElement implements ITextMeshString {
-    characterMeshes: Array<InstancedMesh> = [];
+    characterMeshes: Array<bjs.InstancedMesh> = [];
     characterSpacing: number = 0.1;
 
     box: bjs.Mesh = null;
     pivot: bjs.Mesh = null;
+    isHighlighted: boolean = false;
 
     constructor(name: string,
         public x: number,
@@ -31,9 +32,9 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
             scene
         );
 
-        this.characterMeshes = new Array<InstancedMesh>();
+        this.characterMeshes = new Array<bjs.InstancedMesh>();
         this.create();
-
+            
     }
 
     async create() {
@@ -76,14 +77,17 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         for (var i = 0; i < this.text.length; i++) {
             let currentCharacter: string = this.text[i];
             // console.log("TextMeshString : Current Character : " + currentCharacter);
-            let characterMesh: InstancedMesh = TextMeshModelLoader.Instance.getCharacterMesh(currentCharacter).createInstance('characterMesh' + currentCharacter);
+            let characterMesh: bjs.InstancedMesh = TextMeshModelLoader.Instance.getCharacterMesh(currentCharacter).createInstance('characterMesh' + currentCharacter);
 
             if (characterMesh != null) {
                 characterMesh.parent = this;
                 characterMesh.isVisible = true;
                 characterMesh.position = this.position;
-                characterMesh.scaling = new Vector3(1.5, 1.5, 1.5);
+                characterMesh.scaling = new bjs.Vector3(1.5, 1.5, 1.5);
                 characterMesh.showBoundingBox = false;
+                // characterMesh.material.alpha = 0;
+                // characterMesh.overlayColor = bjs.Color3.Red();
+                // characterMesh.renderOverlay = true;
                 //characterMesh.position.x = characterMesh.position.x + (i * 10);
                 this.characterMeshes.push(characterMesh);
             }
@@ -148,8 +152,8 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
 
         boundingWidth += (this.characterMeshes.length - 1) * this.characterSpacing;
 
-        this.box.scaling = new Vector3(boundingWidth, 1, 0.2);
-        this.box.position.x = horizontalOffset + (boundingWidth / 2);
+        this.box.scaling = new bjs.Vector3(boundingWidth, 1, 0.2);
+        this.box.position.x = horizontalOffset + (boundingWidth / 2) + 1.8;
         this.box.position.y = verticalOffset;
         this.box.position.z = -0.2;
         this.box.parent = this;
@@ -161,7 +165,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         }
 
         this.text = name;
-        this.characterMeshes = new Array<InstancedMesh>();
+        this.characterMeshes = new Array<bjs.InstancedMesh>();
         this.create();
     }
 
@@ -201,5 +205,53 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         }
 
         this.box.isVisible = isVisible;
+    }
+
+    private _posToShape(positions: number[] | Float32Array): bjs.Vector3[] {
+        var shape = [];
+        for (var i = 0; i < positions.length; i += 3) {
+            shape.push(bjs.Vector3.FromArray(positions, i));
+        }
+        
+        return shape;
+    }
+
+    private _uvsToShapeUV(uvs: number[] | Float32Array): number[] {
+        var shapeUV = [];
+        if (uvs) {
+            for (var i = 0; i < uvs.length; i++) {
+                shapeUV.push(uvs[i]);
+            }
+        }
+        return shapeUV;
+    }
+
+    private _verctor3ToFloat32Array(source: bjs.Vector3[]) {
+        console.log('source: ', source);
+        const newFloat32Array = new Float32Array(source.length * 3);
+
+        for (let i=0; i<source.length; i++) {
+            newFloat32Array[i * 3] = source[i].x;
+            newFloat32Array[i * 3 + 1] = source[i].y;
+            newFloat32Array[i * 3 + 2] = source[i].z;
+        }
+
+        return newFloat32Array;
+    }
+
+    public setHighlight(isHighlighted: boolean) {
+        for (var i = 0; i < this.characterMeshes.length; i++) {
+            if (isHighlighted) {
+                this.characterMeshes[i].scaling = new bjs.Vector3(1.7, 1.7 , 1.7);
+                // this.characterMeshes[i].instancedBuffers.color = new bjs.Color4(1, 0, 0, 1);
+                this.characterMeshes[i].instancedBuffers.uv = SolidParticleMaterial.getUVSforColor(GLSGColor.Lime);
+                // SolidParticleMaterial.setUVColorToMesh(this.characterMeshes[i], GLSGColor.Yellow);
+            } else {
+                this.characterMeshes[i].scaling = new bjs.Vector3(1.5, 1.5 , 1.5);
+                // this.characterMeshes[i].instancedBuffers.color = new bjs.Color4(0, 0, 1, 1);
+                this.characterMeshes[i].instancedBuffers.uv = SolidParticleMaterial.getUVSforColor(GLSGColor.Cyan);
+                // SolidParticleMaterial.setUVColorToMesh(this.characterMeshes[i], GLSGColor.Cyan);
+            }
+        }
     }
 }

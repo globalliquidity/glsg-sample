@@ -1,6 +1,6 @@
 import { SimpleScene } from "./SimpleScene";
 import { DataDrivenScene } from "./DataDrivenScene";
-import * as bjs from "babylonjs";
+import * as bjs from 'babylonjs';
 import { SceneManager, Scene } from "./glsg";
 import { ViewportPosition } from "./glsg/lib/Enums";
 import SimpleSceneConstants from './SimpleScene/constants';

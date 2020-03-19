@@ -46,7 +46,7 @@ export class TextMeshCharacterGenerator extends SceneElement implements ITextMes
         let instancedMesh : bjs.InstancedMesh = mesh.createInstance(character);
         instancedMesh.isVisible = false;
         instancedMesh.parent = this;
-        this.characterMeshes.set(character,instancedMesh);
+        this.characterMeshes.set(character, instancedMesh);
     }
 
     public setCharacter(character: string)

@@ -1,8 +1,8 @@
 import * as bjs from 'babylonjs';
-import { SceneElement } from './SceneElement'
+import { SceneElement } from './SceneElement';
 import { IScene, ISceneElement, ISceneDataSource, ISceneDataSink } from './SceneGraphInterfaces';
 import Logger from './Logger';
-import { generateSkybox } from './Utils';
+import { generateSkybox, generateEmptySkybox } from './Utils';
 import { ddsGc256SpecularHDR } from './Assets';
 
 import { AssetManager } from './AssetManager';
@@ -57,8 +57,9 @@ export class Scene implements IScene
             // Environment Texture
 
             if (this.hdrSkyboxTexture) {
-                // this.hdrTexture = bjs.CubeTexture.CreateFromPrefilteredData(this.hdrSkyboxTexture, this.bjsScene);
                 this.hdrTexture = AssetManager.Instance.cubeTextureMap.get(this.hdrSkyboxTexture);
+            } else {
+                this.hdrSkybox = generateEmptySkybox(1000.0, this);
             }
 
             if (this.hdrTexture) {

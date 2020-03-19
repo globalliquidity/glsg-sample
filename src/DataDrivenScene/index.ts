@@ -1,5 +1,5 @@
 import * as bjs from 'babylonjs';
-import { Vector3 } from 'babylonjs';
+import {Vector3} from 'babylonjs/Maths/math';
 import { Scene } from '../glsg';
 import { BlockChainMarketData } from './MarketData/BlockChain';
 import { DataDrivenSceneElement } from './Elements/DataDrivenSceneElement';
@@ -27,10 +27,10 @@ export class DataDrivenScene extends Scene
         this.ground = bjs.MeshBuilder.CreateBox("Ground", { size: 1 }, this.bjsScene);
         this.ground.scaling = new bjs.Vector3(300, 1, 300);
         // this.ground.position = new Vector3(-50, -0.5, -50);
-        this.ground.position = new Vector3(0, 0, 0);
+        this.ground.position = new bjs.Vector3(0, 0, 0);
         const groundMat = new bjs.StandardMaterial("groundMat", this.bjsScene);
-        groundMat.diffuseColor = new BABYLON.Color3(0.5, 0.5, 0.5);
-        groundMat.emissiveColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+        groundMat.diffuseColor = new bjs.Color3(0.5, 0.5, 0.5);
+        groundMat.emissiveColor = new bjs.Color3(0.2, 0.2, 0.2);
         groundMat.backFaceCulling = false;
         this.ground.material = groundMat;
         this.ground.checkCollisions = true;

@@ -86,5 +86,49 @@ export class SolidParticleMaterial extends bjs.PBRMaterial
                 break;
         }
         return uvVector;
-    }  
+    }
+
+    static setUVScale(mesh: bjs.Mesh | bjs.InstancedMesh, uScale: number, vScale: number) {
+		const UVs = mesh.getVerticesData(BABYLON.VertexBuffer.UVKind);
+		const len = UVs.length;
+		
+		if (uScale !== 1) {
+			for (let i = 0; i < len; i += 2) {
+				UVs[i] *= uScale;
+			}
+        }
+        
+		if (vScale !== 1) {
+			for (let i = 1; i < len; i += 2) {
+				UVs[i] *= vScale;
+			}
+		}
+		
+		mesh.setVerticesData(BABYLON.VertexBuffer.UVKind, UVs);
+    }
+    
+    static setUVColorToMesh(mesh: bjs.Mesh | bjs.InstancedMesh, color: GLSGColor) {
+        const textures = mesh.material.getActiveTextures();
+        const UVColor = SolidParticleMaterial.getUVSforColor(color);
+
+        textures.forEach((texture: bjs.Texture) => {
+            texture.uScale = UVColor.z - UVColor.x;
+            texture.vScale = UVColor.w - UVColor.y;
+            texture.uOffset = UVColor.x;
+            texture.vOffset = UVColor.y;
+        });
+    }
+
+    static setUVColorToMaterial(material: bjs.Material, color: GLSGColor) {
+        const textures = material.getActiveTextures();
+        const UVColor = SolidParticleMaterial.getUVSforColor(color);
+
+        if (textures.length > 0) {
+            const activeTexture: bjs.Texture = textures[0] as bjs.Texture;
+            activeTexture.uScale = UVColor.z - UVColor.x;
+            activeTexture.vScale = UVColor.w - UVColor.y;
+            activeTexture.uOffset = UVColor.x;
+            activeTexture.vOffset = UVColor.y;
+        }
+    }
 }

@@ -11,7 +11,7 @@ export class PieMenuExperience extends Experience
 {
     protected onLoad()
     {
-        let scene: PieMenuScene = new PieMenuScene(`PieMenuScene${this.scenes.length}`, this.canvas, null);
+        let scene: PieMenuScene = new PieMenuScene(`PieMenuScene${this.scenes.length}`, this.canvas, "simpleDDS1");
         this.AddScene(scene);
         
         SceneManager.Instance.LoadScene(scene, this.canvas, ViewportPosition.Full);
