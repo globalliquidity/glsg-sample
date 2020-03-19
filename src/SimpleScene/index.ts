@@ -1,5 +1,5 @@
 import { Scene } from '../glsg';
-import * as bjs from '@babylonjs/core/legacy/legacy';
+import * as bjs from 'babylonjs';
 
 import { SpinningCylinderThing } from './Elements/SpinningCylinderThing';
 import { SineWaveScrollerVectorField } from './Elements/SineWaveScrollerValueField';

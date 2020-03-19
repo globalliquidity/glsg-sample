@@ -1,4 +1,4 @@
-import * as bjs from '@babylonjs/core/legacy/legacy';
+import * as bjs from 'babylonjs';
 import { Scene, SolidParticleSystemElement, SolidParticleMaterial } from '../../glsg';
 
 export class DataDrivenSceneElement extends SolidParticleSystemElement

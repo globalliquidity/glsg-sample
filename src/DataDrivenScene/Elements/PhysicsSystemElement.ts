@@ -1,4 +1,4 @@
-import * as bjs from '@babylonjs/core/legacy/legacy';
+import * as bjs from 'babylonjs';
 import { Scene, SceneElement, SolidParticleMaterial } from '../../glsg';
 
 export class PhysicsSystemElement extends SceneElement

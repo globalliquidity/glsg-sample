@@ -1,4 +1,4 @@
-import * as bjs from '@babylonjs/core/legacy/legacy';
+import * as bjs from 'babylonjs';
 import { Scene, VectorField, IVectorFieldUpdateStrategy } from "../../glsg";
 import { SineWaveOscillatorUpdateStrategy } from "./SinewaveOscillatorUpdateStrategy";
 

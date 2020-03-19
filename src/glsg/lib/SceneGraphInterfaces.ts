@@ -1,4 +1,4 @@
-import * as bjs from '@babylonjs/core/legacy/legacy';
+import * as bjs from 'babylonjs';
 import { VectorField } from './VectorField';
 //import { InstancedMesh } from 'babylonjs';
 

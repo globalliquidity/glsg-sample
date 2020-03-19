@@ -1,4 +1,4 @@
-import * as bjs from '@babylonjs/core/legacy/legacy';
+import * as bjs from 'babylonjs';
 import { VectorField } from './VectorField';
 import { IVectorFieldUpdateStrategy } from './SceneGraphInterfaces';
 import Logger from './Logger';

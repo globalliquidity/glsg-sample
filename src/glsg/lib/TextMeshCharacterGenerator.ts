@@ -1,4 +1,4 @@
-import * as bjs from '@babylonjs/core/legacy/legacy';
+import * as bjs from 'babylonjs';
 import { Scene } from './Scene';
 import { SceneElement } from './SceneElement';
 import { ITextMeshCharacterGenerator } from './SceneGraphInterfaces';

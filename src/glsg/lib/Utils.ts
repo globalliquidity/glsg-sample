@@ -1,4 +1,4 @@
-import * as bjs from '@babylonjs/core/legacy/legacy';
+import * as bjs from 'babylonjs';
 import { SolidParticleMaterial } from './SolidParticleMaterial';
 import { Scene } from './Scene';
 import { GLSGColor } from './Enums';

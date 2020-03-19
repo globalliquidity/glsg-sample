@@ -1,9 +1,9 @@
-import * as bjs from '@babylonjs/core/legacy/legacy';
-import { SolidParticleMaterial } from '../../glsg';
+import * as bjs from 'babylonjs';
+import { SolidParticleMaterial } from './SolidParticleMaterial';
 import { Scene } from './Scene';
 import { AssetManager } from './AssetManager';
 import { GLSGColor } from './Enums';
-import { StandardMaterial } from '@babylonjs/core/legacy/legacy';
+import { StandardMaterial } from 'babylonjs';
 
 export class TextMeshModelLoader 
 {

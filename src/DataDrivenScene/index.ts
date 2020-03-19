@@ -1,4 +1,4 @@
-import * as bjs from '@babylonjs/core/legacy/legacy';
+import * as bjs from 'babylonjs';
 import {Vector3} from 'babylonjs/Maths/math';
 import { Scene } from '../glsg';
 import { BlockChainMarketData } from './MarketData/BlockChain';

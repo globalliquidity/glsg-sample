@@ -1,5 +1,5 @@
-import * as bjs from '@babylonjs/core/legacy/legacy';
-import * as bjsgui from '@babylonjs/gui';
+import * as bjs from 'babylonjs';
+import * as bjsgui from 'babylonjs-gui';
 import { Scene, SceneElement, TextMeshNumberGenerator, SolidParticleMaterial } from '../../glsg';
 import { PieMenuItemElement } from './PieMenuItemElement';
 import PieMenuSceneConstants from '../constants';

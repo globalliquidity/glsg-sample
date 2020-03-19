@@ -1,5 +1,5 @@
 
-import * as bjs from '@babylonjs/core/legacy/legacy';
+import * as bjs from 'babylonjs';
 import { Scene } from '../../glsg';
 import { PieMenuElement } from '../Elements/PieMenuElement';
 import { TextMeshModelLoader } from '../../glsg/lib/TextMeshModelLoader';

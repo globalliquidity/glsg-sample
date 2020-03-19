@@ -1,8 +1,7 @@
-import * as bjs from '@babylonjs/core/legacy/legacy';
-import * as bjsgui from '@babylonjs/gui';
+import * as bjs from 'babylonjs';
+import * as bjsgui from 'babylonjs-gui';
 import { Scene, SceneElement, TextMeshNumberGenerator } from '../../glsg';
 //import { Vector3, PBRMetallicRoughnessMaterial } from 'babylonjs';
-import { BigIntStats } from 'fs';
 import { TextMeshString } from '../../glsg/lib/TextMeshString';
 
 export class PieMenuItemElement extends SceneElement {
