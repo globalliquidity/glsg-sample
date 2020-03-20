@@ -1,77 +1,35 @@
-import { Scene, SceneManager } from '../glsg';
-import * as bjs from 'babylonjs';
+import { SceneManager, Scene } from '../glsg';
 
-import { SpinningCylinderThing } from './Elements/SpinningCylinderThing';
-import { SineWaveScrollerVectorField } from './Elements/SineWaveScrollerValueField';
-import { TextMeshString } from '../glsg/lib/TextMeshString';
-import { TextMeshModelLoader } from '../glsg/lib/TextMeshModelLoader';
 import { Experience } from '../glsg/lib/Experience';
 import { ViewportPosition } from '../glsg/lib/Enums';
+import { SimpleScene } from './SimpleScene';
+import { SimpleSceneVR } from './SimpleSceneVR';
 
-export class SimpleScene extends Scene
-{
-    cylinders: SpinningCylinderThing;
-    field: SineWaveScrollerVectorField;
-    text : TextMeshString;
-
-
-    cameraOrbitSpeed: number = 0.001;
-    private cameraHomeBeta : number = Math.PI / 2  - (Math.PI)/32;
-
-
-
-    protected async createScene()
-    {
-        await TextMeshModelLoader.Instance.init(this);
-        
-        this.field = new SineWaveScrollerVectorField("value field",
-                                                    -200,    //x
-                                                    0,    //y
-                                                    0,    //z
-                                                    this,   //scene
-                                                    bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1 }, this.bjsScene),
-                                                    64,     //rows
-                                                    64,      //columns
-                                                    10,      //cellwidth
-                                                    4,      //cellHeight
-                                                    10,     //cellDepth
-                                                    0.9,   //mesh size
-                                                    -2.5,     //speed
-                                                    0.1,    //frequency
-                                                    5);     //amplitude
-
-        this.field.rotation.y = Math.PI / 2;
-        this.camera.position =  new bjs.Vector3(0, 0, -250);
-        
-        this.AddSceneElement(this.field);
-
-        // cylinders
-        this.cylinders = new SpinningCylinderThing('cylinder', 0, 0, 0, this);
-        this.AddSceneElement(this.cylinders);
-
-        //this.text = new TextMeshString("text",0,20,0,this,"COINBASE");
-        //await this.text.create();
-        //this.AddSceneElement(this.text);
-
-        
-        this.camera.setTarget(this.cylinders.position);
-        this.camera.beta = this.cameraHomeBeta;
-        this.camera.upperBetaLimit =  Math.PI / 2 - (Math.PI)/96;
-
-        var vrHelper = this.bjsScene.createDefaultVRExperience({createDeviceOrientationCamera:false});
-    }
-
-    protected onPreRender()
-    { 
-        //this.camera.alpha -= this.cameraOrbitSpeed;
-    }
-}
 
 export class SimpleExperience extends Experience
 {
+
+    constructor(public title: string, public canvas: HTMLCanvasElement, public useVR : boolean) {
+
+        super(title,canvas);
+    }
+    
+    
+
     protected onLoad()
     {
-        let scene: SimpleScene = new SimpleScene(`SimpleScene${this.scenes.length}`, this.canvas, "simpleDDS1");
+        let scene: Scene = null;
+        
+        if (this.useVR)
+        {
+           scene = new SimpleSceneVR(`SimpleScene${this.scenes.length}`, this.canvas, "simpleDDS1");
+        }
+        else
+        {
+            scene = new SimpleScene(`SimpleScene${this.scenes.length}`, this.canvas, "simpleDDS1");
+  
+        }
+        
         this.AddScene(scene);
         
         SceneManager.Instance.LoadScene(scene, this.canvas, ViewportPosition.Full);

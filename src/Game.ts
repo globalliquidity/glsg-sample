@@ -1,4 +1,4 @@
-import { SimpleScene, SimpleExperience } from "./SimpleScene";
+import { SimpleExperience } from "./SimpleScene";
 import { DataDrivenScene } from "./DataDrivenScene";
 import * as bjs from 'babylonjs';
 import { SceneManager, Scene } from "./glsg";
@@ -40,7 +40,7 @@ export default class Game
                     // Handler for root route
                     break;
                 case '/SimpleScene':
-                    this.experience = new SimpleExperience('SimpleScene', this.canvas);
+                    this.experience = new SimpleExperience('SimpleScene', this.canvas,true);
                     this.experience.load();
                     break;
                 case '/DataDrivenScene':

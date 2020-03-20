@@ -6,7 +6,7 @@ import { SineWaveScrollerVectorField } from './Elements/SineWaveScrollerValueFie
 import { TextMeshString } from '../glsg/lib/TextMeshString';
 import { TextMeshModelLoader } from '../glsg/lib/TextMeshModelLoader';
 
-export class SimpleScene extends Scene
+export class SimpleSceneVR extends Scene
 {
     cylinders: SpinningCylinderThing;
     field: SineWaveScrollerVectorField;
@@ -52,6 +52,8 @@ export class SimpleScene extends Scene
         this.camera.setTarget(this.cylinders.position);
         this.camera.beta = this.cameraHomeBeta;
         this.camera.upperBetaLimit =  Math.PI / 2 - (Math.PI)/96;
+
+        var vrHelper = this.bjsScene.createDefaultVRExperience({createDeviceOrientationCamera:false});
     }
 
     protected onPreRender()
