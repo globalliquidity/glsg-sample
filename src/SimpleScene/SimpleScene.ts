@@ -1,12 +1,10 @@
-import { Scene, SceneManager } from '../glsg';
+import { Scene } from '../glsg';
 import * as bjs from 'babylonjs';
 
 import { SpinningCylinderThing } from './Elements/SpinningCylinderThing';
 import { SineWaveScrollerVectorField } from './Elements/SineWaveScrollerValueField';
 import { TextMeshString } from '../glsg/lib/TextMeshString';
 import { TextMeshModelLoader } from '../glsg/lib/TextMeshModelLoader';
-import { Experience } from '../glsg/lib/Experience';
-import { ViewportPosition } from '../glsg/lib/Enums';
 
 export class SimpleScene extends Scene
 {
@@ -14,11 +12,8 @@ export class SimpleScene extends Scene
     field: SineWaveScrollerVectorField;
     text : TextMeshString;
 
-
     cameraOrbitSpeed: number = 0.001;
     private cameraHomeBeta : number = Math.PI / 2  - (Math.PI)/32;
-
-
 
     protected async createScene()
     {
@@ -64,17 +59,5 @@ export class SimpleScene extends Scene
     protected onPreRender()
     { 
         //this.camera.alpha -= this.cameraOrbitSpeed;
-    }
-}
-
-export class SimpleExperience extends Experience
-{
-    protected onLoad()
-    {
-        let scene: SimpleScene = new SimpleScene(`SimpleScene${this.scenes.length}`, this.canvas, "simpleDDS1");
-        this.AddScene(scene);
-        
-        SceneManager.Instance.LoadScene(scene, this.canvas, ViewportPosition.Full);
-        
     }
 }

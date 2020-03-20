@@ -53,6 +53,7 @@ export class Scene implements IScene
     {
         Logger.log("Creating Base Scene");
         if (this.bjsScene) {
+            //var vrHelper = this.bjsScene.createDefaultVRExperience();
             this.camera = new bjs.ArcRotateCamera("Camera", 0, 0, 0, new bjs.Vector3(0, 0, 0), this.bjsScene);
             // Environment Texture
 
