@@ -50,6 +50,7 @@ export class SpinningCylinderThing extends SolidParticleSystemElement
     protected onSetInitialParticlePosition = (particle: bjs.SolidParticle, i: number) => 
     {
         particle.position.set(i * 4, 0, 0);
+        particle.uvs = SolidParticleMaterial.getUVSforColor(i % 20);
     }
 
     protected onUpdateParticle = (particle: bjs.SolidParticle) =>
@@ -58,9 +59,7 @@ export class SpinningCylinderThing extends SolidParticleSystemElement
         const cellOffset: number = particle.idx * this.frequency;
         particle.rotation.x += (0.002 * (particle.idx * 0.5));
         particle.scaling.y = 1.5 + (Math.sin(this.sizePhasor + cellOffset));
-
-        particle.uvs = SolidParticleMaterial.getUVSforColor(GLSGColor.Red);
-
+        //particle.uvs = SolidParticleMaterial.getUVSforColor(GLSGColor.Red);
         return particle;
     }
 

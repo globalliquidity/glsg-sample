@@ -34,8 +34,8 @@ export class SimpleScene extends Scene
                                                     4,      //cellHeight
                                                     10,     //cellDepth
                                                     0.9,   //mesh size
-                                                    -0.5,     //speed
-                                                    0.2,    //frequency
+                                                    -5,     //speed
+                                                    0.1,    //frequency
                                                     5);     //amplitude
 
         this.field.rotation.y = Math.PI / 2;
@@ -47,9 +47,9 @@ export class SimpleScene extends Scene
         this.cylinders = new SpinningCylinderThing('cylinder', 0, 0, 0, this);
         this.AddSceneElement(this.cylinders);
 
-        this.text = new TextMeshString("text",0,20,0,this,"COINBASE");
+        //this.text = new TextMeshString("text",0,20,0,this,"COINBASE");
         //await this.text.create();
-        this.AddSceneElement(this.text);
+        //this.AddSceneElement(this.text);
 
         
         this.camera.setTarget(this.cylinders.position);
