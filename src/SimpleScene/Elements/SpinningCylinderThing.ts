@@ -28,9 +28,15 @@ export class SpinningCylinderThing extends SolidParticleSystemElement
     protected onCreate()
     {
         this.material.reflectionTexture = this.scene.hdrTexture;
-        this.material.roughness = 0.3;
+        this.material.roughness = 0.25;
+        this.material.metallic = 0.75;
         //this.material.reflectivityColor = new bjs.Color3(0.85, 0.85, 0.85);
         //this.material.albedoColor = new bjs.Color3(0.01, 0.01, 0.01);
+        //this.material.sheen.isEnabled = true;
+        //this.material.sheen.intensity = 1;
+        this.material.subSurface.isRefractionEnabled = true;
+        this.material.subSurface.refractionIntensity = 0.8;
+        this.material.subSurface.indexOfRefraction = 1.5;
 
         this.posOptions = {
             positionFunction: this.onSetInitialParticlePosition

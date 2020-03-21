@@ -53,7 +53,12 @@ export class SimpleSceneVR extends Scene
         this.camera.beta = this.cameraHomeBeta;
         this.camera.upperBetaLimit =  Math.PI / 2 - (Math.PI)/96;
 
-        var vrHelper = this.bjsScene.createDefaultVRExperience({createDeviceOrientationCamera:false});
+        //var vrHelper = this.bjsScene.createDefaultVRExperience({createDeviceOrientationCamera:false});
+        
+        //var xrHelper = this.bjsScene.createDefaultXRExperienceAsync();
+
+        const xr = await this.bjsScene.createDefaultXRExperienceAsync({
+        });
     }
 
     protected onPreRender()
