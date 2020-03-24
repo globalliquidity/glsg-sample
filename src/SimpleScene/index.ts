@@ -1,5 +1,5 @@
+import * as bjs from 'babylonjs';
 import { SceneManager, Scene } from '../glsg';
-
 import { Experience } from '../glsg/lib/Experience';
 import { ViewportPosition } from '../glsg/lib/Enums';
 import { SimpleScene } from './SimpleScene';
@@ -19,7 +19,7 @@ export class SimpleExperience extends Experience
 
     protected onLoad()
     {
-        let scene: StandardScene = null;
+        let scene: Scene<bjs.Camera> = null;
         
         if (this.useVR)
         {

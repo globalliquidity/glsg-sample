@@ -4,9 +4,9 @@ import { SpinningCylinderThing } from './Elements/SpinningCylinderThing';
 import { SineWaveScrollerVectorField } from './Elements/SineWaveScrollerValueField';
 import { TextMeshString } from '../glsg/lib/TextMeshString';
 import { TextMeshModelLoader } from '../glsg/lib/TextMeshModelLoader';
-import { StandardScene } from '../glsg/lib/StandardScene';
+import { VRScene } from '../glsg/lib/VRScene';
 
-export class SimpleSceneVR extends StandardScene
+export class SimpleSceneVR extends VRScene
 {
     cylinders: SpinningCylinderThing;
     field: SineWaveScrollerVectorField;
@@ -47,16 +47,6 @@ export class SimpleSceneVR extends StandardScene
         //this.text = new TextMeshString("text",0,20,0,this,"COINBASE");
         //await this.text.create();
         //this.AddSceneElement(this.text);
-
-        
-        this.camera.setTarget(this.cylinders.position);
-        this.camera.beta = this.cameraHomeBeta;
-        this.camera.upperBetaLimit =  Math.PI / 2 - (Math.PI)/96;
-
-        //var vrHelper = this.bjsScene.createDefaultVRExperience({createDeviceOrientationCamera:false});
-        
-        //var xrHelper = this.bjsScene.createDefaultXRExperienceAsync();    
-
         const xr = await this.bjsScene.createDefaultXRExperienceAsync({});
     }
 

@@ -50,7 +50,7 @@ export class Scene<C extends bjs.Camera> implements IScene<bjs.Camera>
         }
     }
 
-    protected async setupCamera()
+    protected setupCamera()
     {
         Logger.log("Scene : setupCamera()");
     }

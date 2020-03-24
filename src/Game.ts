@@ -41,7 +41,7 @@ export default class Game
                     // Handler for root route
                     break;
                 case '/SimpleScene':
-                    this.experience = new SimpleExperience('SimpleScene', this.canvas,false);
+                    this.experience = new SimpleExperience('SimpleScene', this.canvas,true);
                     this.experience.load();
                     break;
                 case '/DataDrivenScene':
