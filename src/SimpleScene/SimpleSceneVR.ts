@@ -21,7 +21,7 @@ export class SimpleSceneVR extends VRScene
         
         this.field = new SineWaveScrollerVectorField("value field",
                                                     -200,    //x
-                                                    0,    //y
+                                                    -10,    //y
                                                     0,    //z
                                                     this,   //scene
                                                     bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1 }, this.bjsScene),
@@ -36,7 +36,7 @@ export class SimpleSceneVR extends VRScene
                                                     5);     //amplitude
 
         this.field.rotation.y = Math.PI / 2;
-        this.camera.position =  new bjs.Vector3(0, 0, -250);
+        this.camera.position =  new bjs.Vector3(0, 0, -200);
         
         this.AddSceneElement(this.field);
 
