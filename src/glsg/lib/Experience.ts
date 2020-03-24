@@ -1,9 +1,10 @@
 import { IScene, IExperience } from './SceneGraphInterfaces';
 import { Scene } from './Scene';
+import * as bjs from 'babylonjs';
 
 export class Experience implements IExperience
 {
-    scenes: Array<IScene> = new Array<Scene>();
+    scenes: Array<IScene<bjs.Camera>> = new Array<Scene<bjs.Camera>>();
   
     constructor(public title: string, public canvas: HTMLCanvasElement) {
     } 
@@ -28,12 +29,12 @@ export class Experience implements IExperience
      
     }
 
-    public AddScene(scene: IScene)
+    public AddScene(scene: IScene<bjs.Camera>)
     {
         this.scenes.push(scene);
     }
 
     public RemoveScene(name: string) {
-        this.scenes = this.scenes.filter((se: IScene) => se['name'] !== name);
+        this.scenes = this.scenes.filter((se: IScene<bjs.Camera>) => se['name'] !== name);
     }
 }

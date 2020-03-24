@@ -1,13 +1,12 @@
 import * as bjs from 'babylonjs';
-import {Vector3} from 'babylonjs/Maths/math';
-import { Scene } from '../glsg';
 import { BlockChainMarketData } from './MarketData/BlockChain';
 import { DataDrivenSceneElement } from './Elements/DataDrivenSceneElement';
 import { PhysicsSystemElement } from './Elements/PhysicsSystemElement';
+import { StandardScene } from '../glsg/lib/StandardScene';
 const OIMO = require('oimo');
 const CANNON = require('cannon');
 
-export class DataDrivenScene extends Scene
+export class DataDrivenScene extends StandardScene
 {
     cameraOrbitSpeed: number = 0.001;
     blockChainMarketData: BlockChainMarketData = null;

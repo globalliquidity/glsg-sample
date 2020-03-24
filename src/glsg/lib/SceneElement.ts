@@ -4,11 +4,11 @@ import { ISceneElement } from './SceneGraphInterfaces';
 
 export class SceneElement extends bjs.TransformNode implements ISceneElement
 {
-    public scene: Scene;
+    public scene: Scene<bjs.Camera>;
     sceneElements: Array<ISceneElement>;
     isCreated : boolean = false;
 
-    constructor(public name: string, public x: number, public y: number, public z: number, scene: Scene)
+    constructor(public name: string, public x: number, public y: number, public z: number, scene: Scene<bjs.Camera>)
     {
         super(name,scene.bjsScene);
         this.scene = scene;

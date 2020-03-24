@@ -1,9 +1,9 @@
 
 import * as bjs from 'babylonjs';
-import { Scene } from '../../glsg';
 import { PieMenuElement } from '../Elements/PieMenuElement';
 import { TextMeshModelLoader } from '../../glsg/lib/TextMeshModelLoader';
 import { TextMeshString } from '../../glsg/lib/TextMeshString';
+import { StandardScene } from '../../glsg/lib/StandardScene';
 const CANNON = require('cannon');
 const OIMO = require('oimo');
 
@@ -14,7 +14,7 @@ enum MenuPosition {
     BOTTOM_RIGHT
 }
 
-export class PieMenuScene extends Scene {
+export class PieMenuScene extends StandardScene {
     itemCount: number = 10;
     menu: PieMenuElement
     //menuPosition : Vector3 = new Vector3(-4,3.15,0);

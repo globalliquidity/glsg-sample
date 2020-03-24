@@ -29,7 +29,7 @@ export class SolidParticleSystemElement extends SceneElement
         x: number,
         y: number,
         z: number,
-        scene : Scene,
+        scene : Scene<bjs.Camera>,
         meshBase: bjs.Mesh,
         material: SolidParticleMaterial | undefined,
         amount: number, 

@@ -7,12 +7,12 @@ import { ddsGc256SpecularHDR } from './Assets';
 
 import { AssetManager } from './AssetManager';
 
-export class Scene implements IScene
+export class Scene<C extends bjs.Camera> implements IScene<bjs.Camera>
 {
     engine : bjs.Engine | undefined;
     bjsScene: bjs.Scene | undefined;
-    camera: bjs.ArcRotateCamera | undefined;
-    light: bjs.PointLight | undefined;
+    camera: C;
+    //light: bjs.PointLight | undefined;
     hdrTexture: bjs.CubeTexture | undefined;
     hdrSkybox: bjs.Mesh | undefined;
     sceneElements: Array<ISceneElement> = new Array<SceneElement>();
@@ -27,6 +27,7 @@ export class Scene implements IScene
         this.engine = engine;
         this.bjsScene = new bjs.Scene(engine);
         this.sceneElements = new Array<SceneElement>();
+        this.setupCamera();
         this.createBaseScene();
 
         window.addEventListener("beforeunload", () => {
@@ -49,15 +50,19 @@ export class Scene implements IScene
         }
     }
 
-    public createBaseScene ()
+    protected async setupCamera()
+    {
+        Logger.log("Scene : setupCamera()");
+    }
+
+    public async createBaseScene ()
     {
         Logger.log("Creating Base Scene");
         if (this.bjsScene) {
-            //var vrHelper = this.bjsScene.createDefaultVRExperience();
-            this.camera = new bjs.ArcRotateCamera("Camera", 0, 0, 0, new bjs.Vector3(0, 0, 0), this.bjsScene);
-            //var camera = new bjs.WebVRFreeCamera("camera1", new bjs.Vector3(0, 0, 0), this.bjsScene);
-            // Environment Texture
 
+            //this.camera = new bjs.ArcRotateCamera("Camera", 0, 0, 0, new bjs.Vector3(0, 0, 0), this.bjsScene);
+            
+            // Environment Texture
             if (this.hdrSkyboxTexture) {
                 this.hdrTexture = AssetManager.Instance.cubeTextureMap.get(this.hdrSkyboxTexture);
             } else {
@@ -72,21 +77,24 @@ export class Scene implements IScene
             //this.hdrSkybox = generateSkybox(1000.0, this.hdrTexture, this.bjsScene);
         }
 
-        if (this.camera && this.bjsScene) {
+        /*
+        if (this.camera && this.bjsScene)
+        {
             this.camera.alpha  = -Math.PI / 2;
             this.camera.beta = Math.PI / 2;       
             this.camera.attachControl(this.canvas, true);
-            this.bjsScene.activeCameras = [this.camera];
-
-            this.bjsScene.registerBeforeRender(() => {
-                this.preRender();  
-            });
+            this.bjsScene.activeCameras = [this.camera];    
         }
+        */
 
         this.createScene();
+
+        this.bjsScene.registerBeforeRender(() => {
+            this.preRender();  
+        });
     }
     
-    protected createScene()
+    protected async createScene()
     {
     }
 
@@ -101,19 +109,27 @@ export class Scene implements IScene
 
     public preRender()
     {
-        this.sceneElements.forEach( e => { e.preRender() })
-        this.onPreRender();
-    }
-
-    public render() {
-        this.sceneElements.forEach( e => { e.render() });
-        this.onRender();
-
-        if (this.bjsScene) {
-            this.bjsScene.render();
+        if (this.camera != null)
+        {
+            this.sceneElements.forEach( e => { e.preRender() })
+            this.onPreRender();
         }
     }
 
+    public render() {
+
+        if (this.camera != null)
+        {
+            this.sceneElements.forEach( e => { e.render() });
+            this.onRender();
+    
+            if (this.bjsScene) {
+                this.bjsScene.render();
+            }    
+        }
+    }
+
+    /*
     public aspectRatio() : number
     {
         if (this.camera) {
@@ -122,6 +138,7 @@ export class Scene implements IScene
 
         return 1;
     }
+    */
 
     protected onPreRender()
     {
@@ -132,6 +149,7 @@ export class Scene implements IScene
     }
 }
 
+/*
 export class SceneDataSource implements ISceneDataSource
 {
     dataSink: ISceneDataSink | undefined;
@@ -164,3 +182,4 @@ export class DataDrivenScene extends Scene implements ISceneDataSink
     {
     }    
 }
+*/

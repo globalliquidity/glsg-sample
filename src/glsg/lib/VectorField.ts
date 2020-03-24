@@ -18,7 +18,7 @@ export class VectorField extends SolidParticleSystemElement implements IDepthFin
                 public x: number,
                 public y: number,
                 public z: number,
-                scene:Scene,
+                scene:Scene<bjs.Camera>,
                 mesh : bjs.Mesh,
                 public rowCount:number,
                 public columnCount: number,

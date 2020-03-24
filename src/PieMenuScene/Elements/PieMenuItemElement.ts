@@ -19,7 +19,7 @@ export class PieMenuItemElement extends SceneElement {
         public x: number,
         public y: number,
         public z: number,
-        scene: Scene,
+        scene: Scene<bjs.Camera>,
         public model: bjs.Mesh,
         public itemScale: number,
         public axle: bjs.Mesh,

@@ -6,19 +6,19 @@ export interface IExperience
 {
     title: string;
     canvas : any;
-    scenes : Array<IScene>;
+    scenes : Array<IScene<bjs.Camera>>;
 
     load(): void;
     unload(): void;
 }
 
-export interface IScene
+export interface IScene<C extends bjs.Camera>
 {
     title: string;
     canvas : any;
     bjsScene : bjs.Scene | undefined;
-    camera : bjs.ArcRotateCamera | undefined;
-    light : bjs.PointLight | undefined;
+    camera : C
+    //light : bjs.PointLight | undefined;
     sceneElements : Array<ISceneElement>;
 
     preRender(): void;
@@ -27,7 +27,7 @@ export interface IScene
 
 export interface ISceneElement
 {
-    scene : IScene;
+    scene : IScene<bjs.Camera>
     name : string;
     sceneElements : Array<ISceneElement>;
 
@@ -71,7 +71,7 @@ export interface IMessageBusLink
 { 
     connect(apikey : string, clientId: string): void;
     disconnect(): void;
-    scene:IScene
+    scene:IScene<bjs.Camera>
     processEvent(eventName:string, eventData:string): void;
 }
 

@@ -18,7 +18,7 @@ export class TextMeshModelLoader
         
     }
 
-    public async init(scene : Scene)
+    public async init(scene : Scene<bjs.Camera>)
     {
         if (! this.isLoaded)
         {

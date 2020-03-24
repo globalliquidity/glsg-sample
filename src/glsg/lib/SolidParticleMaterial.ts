@@ -5,7 +5,7 @@ import { GLSGColor } from './Enums';
 
 export class SolidParticleMaterial extends bjs.PBRMaterial
 {
-    constructor(public name: string, public scene: Scene)
+    constructor(public name: string, public scene: Scene<bjs.Camera>)
     {
         super(name,scene.bjsScene);
         this.albedoColor = bjs.Color3.White();

@@ -3,10 +3,10 @@ import { Scene } from './Scene';
 import Logger from './Logger';
 import { ViewportPosition } from "./Enums";
 
-export class SceneManager 
+export class SceneManager<C extends bjs.Camera> 
 {
-    private static _instance: SceneManager;
-    public scenes : Array<Scene> = new Array<Scene>();
+    private static _instance: SceneManager<bjs.Camera>;
+    public scenes : Array<Scene<C> > = new Array<Scene<C> >();
     engine: bjs.Engine | undefined;
     canvas: HTMLCanvasElement;
     
@@ -14,7 +14,7 @@ export class SceneManager
     {
     }
 
-    public LoadScene(scene: Scene, canvas : HTMLCanvasElement, position : ViewportPosition)
+    public LoadScene(scene: Scene<C>, canvas : HTMLCanvasElement, position : ViewportPosition)
     {
         Logger.log("SceneManager : Loading Scene")
         if ( this.scenes.length === 0)
@@ -35,6 +35,7 @@ export class SceneManager
             scene.bjsScene.autoClear = false;
         }
 
+        /*
         if (scene.camera && position === ViewportPosition.Bottom)
         {
             scene.camera.viewport = new bjs.Viewport(0, 0, 1.0, 0.65);
@@ -43,6 +44,7 @@ export class SceneManager
         {
             scene.camera.viewport = new bjs.Viewport(0, 0.65, 1.0, 0.35);
         }
+        */
 
         if (this.engine) {
             this.engine.runRenderLoop(() => {
@@ -58,11 +60,11 @@ export class SceneManager
     }
 
     public clear() {
-        this.scenes.forEach((scene: Scene) => {
+        this.scenes.forEach((scene: Scene<C>) => {
             scene.unload();
         });
 
-        this.scenes = new Array<Scene>();
+        this.scenes = new Array<Scene<C>>();
         this.engine = null;
 
         if (this.canvas) {

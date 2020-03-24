@@ -4,6 +4,7 @@ import { Experience } from '../glsg/lib/Experience';
 import { ViewportPosition } from '../glsg/lib/Enums';
 import { SimpleScene } from './SimpleScene';
 import { SimpleSceneVR } from './SimpleSceneVR';
+import { StandardScene } from '../glsg/lib/StandardScene';
 
 
 export class SimpleExperience extends Experience
@@ -18,7 +19,7 @@ export class SimpleExperience extends Experience
 
     protected onLoad()
     {
-        let scene: Scene = null;
+        let scene: StandardScene = null;
         
         if (this.useVR)
         {

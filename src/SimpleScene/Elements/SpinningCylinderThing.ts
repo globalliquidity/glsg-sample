@@ -10,7 +10,7 @@ export class SpinningCylinderThing extends SolidParticleSystemElement
     private sizePhasor: number = 0;
     private sizeStep: number = 0.05;
     
-    constructor(name: string, public x: number, public y: number, public z: number, scene: Scene)
+    constructor(name: string, public x: number, public y: number, public z: number, scene: Scene<bjs.Camera>)
     {
         super(
             name,

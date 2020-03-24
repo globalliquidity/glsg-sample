@@ -9,7 +9,7 @@ export class SineWaveScrollerVectorField extends VectorField
         public x: number,
         public y: number,
         public z: number,
-        scene: Scene,
+        scene: Scene<bjs.Camera>,
         mesh : bjs.Mesh,
         rows: number,
         columns: number,

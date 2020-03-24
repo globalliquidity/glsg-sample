@@ -19,7 +19,7 @@ export class TextMeshNumberGenerator extends SceneElement implements ITextMeshNu
                 public x: number,
                 public y: number,
                 public z: number,
-                scene:Scene,
+                scene:Scene<bjs.Camera>,
                 public material : bjs.PBRMetallicRoughnessMaterial)
     {   
         super(

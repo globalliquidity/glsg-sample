@@ -1,12 +1,12 @@
-import { Scene } from '../glsg';
-import * as bjs from 'babylonjs';
 
+import * as bjs from 'babylonjs';
 import { SpinningCylinderThing } from './Elements/SpinningCylinderThing';
 import { SineWaveScrollerVectorField } from './Elements/SineWaveScrollerValueField';
 import { TextMeshString } from '../glsg/lib/TextMeshString';
 import { TextMeshModelLoader } from '../glsg/lib/TextMeshModelLoader';
+import { StandardScene } from '../glsg/lib/StandardScene';
 
-export class SimpleSceneVR extends Scene
+export class SimpleSceneVR extends StandardScene
 {
     cylinders: SpinningCylinderThing;
     field: SineWaveScrollerVectorField;
@@ -55,10 +55,9 @@ export class SimpleSceneVR extends Scene
 
         //var vrHelper = this.bjsScene.createDefaultVRExperience({createDeviceOrientationCamera:false});
         
-        //var xrHelper = this.bjsScene.createDefaultXRExperienceAsync();
+        //var xrHelper = this.bjsScene.createDefaultXRExperienceAsync();    
 
-        const xr = await this.bjsScene.createDefaultXRExperienceAsync({
-        });
+        const xr = await this.bjsScene.createDefaultXRExperienceAsync({});
     }
 
     protected onPreRender()

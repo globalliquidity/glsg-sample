@@ -5,8 +5,9 @@ import { SpinningCylinderThing } from './Elements/SpinningCylinderThing';
 import { SineWaveScrollerVectorField } from './Elements/SineWaveScrollerValueField';
 import { TextMeshString } from '../glsg/lib/TextMeshString';
 import { TextMeshModelLoader } from '../glsg/lib/TextMeshModelLoader';
+import { StandardScene } from '../glsg/lib/StandardScene';
 
-export class SimpleScene extends Scene
+export class SimpleScene extends StandardScene
 {
     cylinders: SpinningCylinderThing;
     field: SineWaveScrollerVectorField;
