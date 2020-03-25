@@ -24,7 +24,7 @@ export class AssetManager
 
     }
 
-    public async init(scene : Scene)
+    public async init(scene : Scene<bjs.Camera>)
     {
         this.assetsManager = new bjs.AssetsManager(scene.bjsScene);
     }

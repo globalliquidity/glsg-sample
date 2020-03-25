@@ -13,7 +13,7 @@ export class PhysicsSystemElement extends SceneElement
         public x: number,
         public y: number,
         public z: number,
-        scene: Scene,
+        scene: Scene<bjs.Camera>,
         options?: {
             size,
             gravity?

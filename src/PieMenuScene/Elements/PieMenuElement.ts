@@ -80,7 +80,7 @@ export class PieMenuElement extends SceneElement {
         public x: number,
         public y: number,
         public z: number,
-        scene: Scene,
+        scene: Scene<bjs.Camera>,
         public itemCount: number,
         menuPosition: MenuPosition) {
         super(

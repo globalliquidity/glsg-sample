@@ -10,7 +10,7 @@ export class SpinningCylinderThing extends SolidParticleSystemElement
     private sizePhasor: number = 0;
     private sizeStep: number = 0.05;
     
-    constructor(name: string, public x: number, public y: number, public z: number, scene: Scene)
+    constructor(name: string, public x: number, public y: number, public z: number, scene: Scene<bjs.Camera>)
     {
         super(
             name,
@@ -28,9 +28,15 @@ export class SpinningCylinderThing extends SolidParticleSystemElement
     protected onCreate()
     {
         this.material.reflectionTexture = this.scene.hdrTexture;
-        this.material.roughness = 0.3;
+        this.material.roughness = 0.25;
+        this.material.metallic = 0.75;
         //this.material.reflectivityColor = new bjs.Color3(0.85, 0.85, 0.85);
         //this.material.albedoColor = new bjs.Color3(0.01, 0.01, 0.01);
+        //this.material.sheen.isEnabled = true;
+        //this.material.sheen.intensity = 1;
+        this.material.subSurface.isRefractionEnabled = true;
+        this.material.subSurface.refractionIntensity = 0.8;
+        this.material.subSurface.indexOfRefraction = 1.5;
 
         this.posOptions = {
             positionFunction: this.onSetInitialParticlePosition
@@ -50,6 +56,7 @@ export class SpinningCylinderThing extends SolidParticleSystemElement
     protected onSetInitialParticlePosition = (particle: bjs.SolidParticle, i: number) => 
     {
         particle.position.set(i * 4, 0, 0);
+        particle.uvs = SolidParticleMaterial.getUVSforColor(i % 20);
     }
 
     protected onUpdateParticle = (particle: bjs.SolidParticle) =>
@@ -58,9 +65,7 @@ export class SpinningCylinderThing extends SolidParticleSystemElement
         const cellOffset: number = particle.idx * this.frequency;
         particle.rotation.x += (0.002 * (particle.idx * 0.5));
         particle.scaling.y = 1.5 + (Math.sin(this.sizePhasor + cellOffset));
-
-        particle.uvs = SolidParticleMaterial.getUVSforColor(GLSGColor.Red);
-
+        //particle.uvs = SolidParticleMaterial.getUVSforColor(GLSGColor.Red);
         return particle;
     }
 

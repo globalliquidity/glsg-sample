@@ -20,7 +20,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
         public x: number,
         public y: number,
         public z: number,
-        scene: Scene,
+        scene: Scene<bjs.Camera>,
         public text: string,
         public horizontalAlignment = HorizontalAlignment.Left,
         public verticalAlignment: VerticalAlignment = VerticalAlignment.Middle) {

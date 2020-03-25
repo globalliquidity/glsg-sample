@@ -1,4 +1,4 @@
-import { SimpleScene } from "./SimpleScene";
+import { SimpleExperience } from "./SimpleScene";
 import { DataDrivenScene } from "./DataDrivenScene";
 import * as bjs from 'babylonjs';
 import { SceneManager, Scene } from "./glsg";
@@ -12,13 +12,14 @@ import { PieMenuScene } from "./PieMenuScene/Scenes/PieMenuScene";
 import GLSGConstants from './glsg/constants';
 
 import { AssetManager } from "./glsg/lib/AssetManager";
+import { StandardScene } from "./glsg/lib/StandardScene";
 
 type LoadAssetHandler = (arg1: bjs.AbstractAssetTask[]) => void;
 
 export default class Game
 {
     private canvas: HTMLCanvasElement;
-    private scene: Scene;
+    //private scene: Scene<C extends bjs.Camera>;
     private experience: Experience
 
     constructor(canvasElement: string, path: string)
@@ -40,12 +41,12 @@ export default class Game
                     // Handler for root route
                     break;
                 case '/SimpleScene':
-                    this.scene = new SimpleScene('SimpleScene', this.canvas, "simpleDDS1");
-                    SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
+                    this.experience = new SimpleExperience('SimpleScene', this.canvas,true);
+                    this.experience.load();
                     break;
                 case '/DataDrivenScene':
-                    this.scene = new DataDrivenScene('DataDrivenScene', this.canvas, "datadrivenDDS1");
-                    SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
+                    //this.scene = new DataDrivenScene('DataDrivenScene', this.canvas, "datadrivenDDS1");
+                    //SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
                     break;
                 case '/PieMenuScene':
                     this.experience = new PieMenuExperience('PieMenuScene', this.canvas);
@@ -73,7 +74,7 @@ export default class Game
 
     public initAssetManager(finishHandler: LoadAssetHandler)
     {
-        let emptyScene: Scene = new Scene('emptyScene', this.canvas, null);
+        let emptyScene: StandardScene = new StandardScene('emptyScene', this.canvas, null);
 
         SceneManager.Instance.LoadScene(emptyScene, this.canvas, ViewportPosition.Full);
 

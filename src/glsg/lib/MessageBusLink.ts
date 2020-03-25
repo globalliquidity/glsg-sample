@@ -1,11 +1,12 @@
 import { IMessageBusLink, IMessageBus, IScene } from "./SceneGraphInterfaces";
 import Logger from "./Logger";
+import * as bjs from 'babylonjs';
 
 export class MessageBusLink implements IMessageBusLink
 {
     messageBus : IMessageBus | undefined
 
-    constructor(public scene : IScene)
+    constructor(public scene : IScene<bjs.Camera>)
     {
     }
 

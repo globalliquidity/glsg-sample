@@ -11,7 +11,7 @@ export class TextMeshCharacterGenerator extends SceneElement implements ITextMes
                 public x: number,
                 public y: number,
                 public z: number,
-                scene:Scene)
+                scene:Scene<bjs.Camera>)
     {   
         super(
             name,

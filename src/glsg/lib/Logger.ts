@@ -1,5 +1,5 @@
 const log = (content: any, value?: any) => {
-    const isEnabled = false;
+    const isEnabled = true;
 
     if (isEnabled) {
         console.log(content || '', value || '');
