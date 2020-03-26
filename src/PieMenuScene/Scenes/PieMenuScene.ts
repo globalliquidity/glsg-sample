@@ -68,6 +68,8 @@ export class PieMenuScene extends StandardScene {
     */
         this.camera.setTarget(bjs.Vector3.Zero());
 
+        this.camera.detachControl(this.canvas);
+
         //let testString : TextMeshString = new TextMeshString("test",0,0,5,this,"GLSG");
         //this.AddSceneElement(testString);
 
@@ -103,10 +105,10 @@ export class PieMenuScene extends StandardScene {
         
         // this.menu.setActiveMenuItem('43');
         
-        this.camera.wheelPrecision = 15;
+        // this.camera.wheelPrecision = 15;
         //this.centerBox = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1 }, this.bjsScene);
-        this.angleY0 = this.camera.alpha;
-        this.angleX0 = this.camera.beta;
+        // this.angleY0 = this.camera.alpha;
+        // this.angleX0 = this.camera.beta;
     }
 
     protected onPreRender() {
@@ -118,10 +120,10 @@ export class PieMenuScene extends StandardScene {
             let menuOffsetY = ((this.menuPositionType === MenuPosition.TOP_LEFT || this.menuPositionType === MenuPosition.TOP_RIGHT) 
                             ? this.cornerMarginY : this.canvas.clientHeight - this.cornerMarginY)
             let menuRay = this.bjsScene.createPickingRay(
-                this.canvas.clientWidth / 2,
-                this.canvas.clientHeight / 2,
-                // menuOffsetX,
-                // menuOffsetY,
+                // this.canvas.clientWidth / 2,
+                // this.canvas.clientHeight / 2,
+                menuOffsetX,
+                menuOffsetY,
                 null,
                 this.camera
             );
@@ -133,10 +135,10 @@ export class PieMenuScene extends StandardScene {
             this.menu.pivot.position = this.menuPosition;
             this.menu.axle.position = this.menuPosition;
 
-            this.menu.rotation.y = -(this.camera.alpha + this.angleY0) - Math.PI;
-            this.menu.axle.rotation.y = -(this.camera.alpha + this.angleY0) - Math.PI;
-            this.menu.rotation.x = -(this.camera.beta + this.angleX0) + Math.PI;
-            this.menu.axle.rotation.x = -(this.camera.beta + this.angleX0) + Math.PI;
+            // this.menu.rotation.y = -(this.camera.alpha + this.angleY0) - Math.PI;
+            // this.menu.axle.rotation.y = -(this.camera.alpha + this.angleY0) - Math.PI;
+            // this.menu.rotation.x = -(this.camera.beta + this.angleX0) + Math.PI;
+            // this.menu.axle.rotation.x = -(this.camera.beta + this.angleX0) + Math.PI;
         }
     }
 

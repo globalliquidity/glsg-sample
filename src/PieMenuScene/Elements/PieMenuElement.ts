@@ -76,6 +76,9 @@ export class PieMenuElement extends SceneElement {
     };
     menuItemName = '';
 
+    // bounding area of menu
+    menuBoundArea: Array<number> = [0, 0, 0, 0];
+
     constructor(name: string,
         public x: number,
         public y: number,
@@ -90,7 +93,6 @@ export class PieMenuElement extends SceneElement {
             z,
             scene
         );
-
         this.setMenuPosition(menuPosition);
         this.create();
     }
@@ -160,24 +162,39 @@ export class PieMenuElement extends SceneElement {
         this.targetMenuRotation = this.firstItemIndexOffset * itemAngleIncrement;
         this.currentMenuRotation = this.targetMenuRotation;
         this.axle.rotation = new bjs.Vector3(0,0,this.currentMenuRotation);
-
+        
         this.scene.bjsScene.onPointerObservable.add((pointerInfo) => {
             switch (pointerInfo.type) {
                 case bjs.PointerEventTypes.POINTERDOWN:
-                    if (pointerInfo.pickInfo && pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
-                        if (this.menuState === MenuState.Open) {
-                        } else {
-                            this.open();
+                    if (pointerInfo.pickInfo) {
+                        if (pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
+                            if (this.menuState !== MenuState.Open) {
+                                this.open();
+                            } 
+
+                            this.menuUpdatedTimeStamp = Date.now();
+
+                            this.isMouseDown = true;
+                            this.clickedMeshName = pointerInfo.pickInfo.pickedMesh.name.replace('textMeshBox', '');
+
+                            this.originalX = pointerInfo.event.clientX;
+                            this.originalY = pointerInfo.event.clientY;
                         }
-
-                        this.menuUpdatedTimeStamp = Date.now();
-
-                        this.isMouseDown = true;
-                        this.clickedMeshName = pointerInfo.pickInfo.pickedMesh.name.replace('textMeshBox', '');
-
-                        this.originalX = pointerInfo.event.clientX;
-                        this.originalY = pointerInfo.event.clientY;
-                    }
+                        else {
+                            if (pointerInfo.event.clientX >= 0 
+                                && pointerInfo.event.clientX <= this.scene.canvas.clientWidth 
+                                && pointerInfo.event.clientY >= 0 
+                                && pointerInfo.event.clientY <= this.scene.canvas.clientHeight ) {
+                            
+                                this.menuUpdatedTimeStamp = Date.now();
+                            
+                                this.isMouseDown = true;
+                                this.originalX = pointerInfo.event.clientX;
+                                this.originalY = pointerInfo.event.clientY;
+                            }
+                        }
+                    } 
+                        
                     break;
                 case bjs.PointerEventTypes.POINTERUP:
                     this.isMouseDown = false;
@@ -275,7 +292,7 @@ export class PieMenuElement extends SceneElement {
                     break;
             }
         });
-
+        
         this.axle.rotation = new bjs.Vector3(0, 0, this.currentMenuRotation);
     }
 
@@ -512,7 +529,7 @@ export class PieMenuElement extends SceneElement {
                                                                         
         }   
         */
-
+        /*
         const currentTimeStamp = Date.now();
         const timeDelay = Math.abs(this.menuUpdatedTimeStamp - currentTimeStamp);
 
@@ -527,7 +544,7 @@ export class PieMenuElement extends SceneElement {
                 }
             }
         }
-
+        */
         for (let i=0; i < this.itemCount; i += 1) {
             if (this.menuItems[i]) {
                 if (this.menuState === MenuState.Closed && i !== this.activeItemIndex) {
@@ -548,7 +565,7 @@ export class PieMenuElement extends SceneElement {
             if (this.radiusMultiplier > 0.99) {
                 this.radiusMultiplier = 1;
                 this.menuState = MenuState.Open;
-                this.menuUpdatedTimeStamp = Date.now();
+                // this.menuUpdatedTimeStamp = Date.now();
             }
 
             this.positionMenuItems();
@@ -579,7 +596,7 @@ export class PieMenuElement extends SceneElement {
                 // }
 
                 this.menuState = MenuState.Open;
-                this.menuUpdatedTimeStamp = Date.now();
+                // this.menuUpdatedTimeStamp = Date.now();
             }
 
             // this.scaleMenuItems();
@@ -603,7 +620,7 @@ export class PieMenuElement extends SceneElement {
 
     private positionMenuItems() {
         let itemAngleIncrement = -((2 * Math.PI) / this.itemCount);
-
+        
         for (var i = 0; i < this.itemCount; i++) {
             let item: PieMenuItemElement = this.menuItems[i];
 
@@ -617,6 +634,8 @@ export class PieMenuElement extends SceneElement {
             item.position.y = translationVector.y;
             item.button.position.x = translationVector.x;
             item.button.position.y = translationVector.y;
+            
+            // const transformMatrix = this.scene.getTransformMatrix();
         }
     }
 

@@ -16,6 +16,9 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
     pivot: bjs.Mesh = null;
     isHighlighted: boolean = false;
 
+    width: number = 0.0;
+    height: number = 0.0;
+
     constructor(name: string,
         public x: number,
         public y: number,
@@ -145,13 +148,15 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
                 verticalOffset = (characterHeight * 2);
             }
 
-
+            this.height = characterHeight;
             //this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + ( characterSpacing * i),0,verticalOffset));
             this.characterMeshes[i].setPositionWithLocalVector(new bjs.Vector3(horizontalOffset + characterOffset, 0, verticalOffset));
         }
 
         boundingWidth += (this.characterMeshes.length - 1) * this.characterSpacing;
 
+        this.width = boundingWidth;
+        
         this.box.scaling = new bjs.Vector3(boundingWidth, 1, 0.2);
         this.box.position.x = horizontalOffset + (boundingWidth / 2) + 1.8;
         this.box.position.y = verticalOffset;
