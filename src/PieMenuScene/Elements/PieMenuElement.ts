@@ -529,7 +529,7 @@ export class PieMenuElement extends SceneElement {
                                                                         
         }   
         */
-        /*
+        
         const currentTimeStamp = Date.now();
         const timeDelay = Math.abs(this.menuUpdatedTimeStamp - currentTimeStamp);
 
@@ -544,7 +544,7 @@ export class PieMenuElement extends SceneElement {
                 }
             }
         }
-        */
+        
         for (let i=0; i < this.itemCount; i += 1) {
             if (this.menuItems[i]) {
                 if (this.menuState === MenuState.Closed && i !== this.activeItemIndex) {
@@ -565,7 +565,7 @@ export class PieMenuElement extends SceneElement {
             if (this.radiusMultiplier > 0.99) {
                 this.radiusMultiplier = 1;
                 this.menuState = MenuState.Open;
-                // this.menuUpdatedTimeStamp = Date.now();
+                this.menuUpdatedTimeStamp = Date.now();
             }
 
             this.positionMenuItems();
@@ -596,7 +596,7 @@ export class PieMenuElement extends SceneElement {
                 // }
 
                 this.menuState = MenuState.Open;
-                // this.menuUpdatedTimeStamp = Date.now();
+                this.menuUpdatedTimeStamp = Date.now();
             }
 
             // this.scaleMenuItems();
