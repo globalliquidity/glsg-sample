@@ -118,7 +118,7 @@ export class TextMeshModelLoader
         // mesh.registerInstancedBuffer('color', 4);
         // mesh.instancedBuffers.color = new bjs.Color4(0, 0, 1, 1);
         mesh.registerInstancedBuffer('uv', 4);
-        mesh.instancedBuffers.uv = SolidParticleMaterial.getUVSforColor(GLSGColor.Red);
+        mesh.instancedBuffers.uv = SolidParticleMaterial.getUVSforColor(GLSGColor.Purple);
         return mesh;
     }
 

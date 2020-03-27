@@ -86,6 +86,8 @@ export default class Game
         AssetManager.Instance.addMeshTask("fontModel", "", GLSGConstants.rootURL, GLSGConstants.FontModel,null, null);
         // AssetManager.Instance.addMeshTask("SimpleCube", "", "", "SimpleCube.babylon",null, null);
         AssetManager.Instance.addMeshTask("discModel", "", PieMenuSceneConstants.rootURL, PieMenuSceneConstants.discModel,null, null);
+        AssetManager.Instance.addMeshTask("carModel", "", SimpleSceneConstants.rootURL, SimpleSceneConstants.carModel,null, null);
+
         
         AssetManager.Instance.loadWithHandler(finishHandler);
     }

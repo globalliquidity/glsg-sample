@@ -118,9 +118,10 @@ export class PieMenuElement extends SceneElement {
 
         //this.itemModel = model.meshes[0] as bjs.Mesh;
         this.itemModel = model[0] as bjs.Mesh;
+        this.itemModel.isVisible = true;
         
         await this.buildMenu();
-        this.itemModel.setEnabled(false);
+        this.itemModel.setEnabled(true);
         
         let textMaterial: bjs.PBRMetallicRoughnessMaterial = new bjs.PBRMetallicRoughnessMaterial("text", this.scene.bjsScene);
 

@@ -35,7 +35,7 @@ export class VectorField extends SolidParticleSystemElement implements IDepthFin
             scene,
             mesh,
             scene.bjsScene ? new SolidParticleMaterial(name + "-material", scene) : undefined,
-            (rowCount * columnCount * 2) + (rowCount * 2),
+            (rowCount * columnCount),
         );
 
         Logger.log('VectorField :  constructor()');

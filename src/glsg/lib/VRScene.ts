@@ -3,8 +3,8 @@ import { Scene } from './Scene';
 import Logger from './Logger';
 
 export class VRScene extends Scene<bjs.FreeCamera>
-{a
-    light: bjs.PointLight | undefined;
+{
+    light: bjs.HemisphericLight | undefined;
    
     constructor(public title: string, public canvas: HTMLElement, hdrSkyboxTexture: string)
     {
@@ -34,6 +34,12 @@ export class VRScene extends Scene<bjs.FreeCamera>
 
     protected async createScene()
     {
+        // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+        this.light = new bjs.HemisphericLight("light", new bjs.Vector3(0, 1, 0), this.bjsScene);
+
+        // Default intensity is 1. Let's dim the light a small amount
+        this.light.intensity = 0.7;
+
        
     }
 

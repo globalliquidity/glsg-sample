@@ -85,7 +85,7 @@ export class PieMenuItemElement extends SceneElement {
     }
 
     public setVisible(isVisible: boolean) {
-        // this.mesh.isVisible = isVisible;
+        this.mesh.isVisible = isVisible;
         this.itemText.setVisibility(isVisible);
         // this.itemText.box.isVisible = isVisible;
     }

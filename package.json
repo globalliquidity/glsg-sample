@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build:dev",
-    "build:dev": "webpack-dev-server --env dev --mode none",
+    "build:dev": "webpack-dev-server --env dev --mode none --https",
     "build:prod": "webpack --env prod --mode production"
   },
   "author": "ervin",
