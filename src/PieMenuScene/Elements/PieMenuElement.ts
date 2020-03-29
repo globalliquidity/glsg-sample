@@ -27,6 +27,7 @@ export class PieMenuElement extends SceneElement {
     menuState: MenuState = MenuState.Closed;
 
     itemModel: bjs.Mesh;
+    menuAreaModel: bjs.Mesh;
     menuItems: Array<PieMenuItemElement> = new Array<PieMenuItemElement>();
     controlContainer: bjsgui.Container3D;
 
@@ -78,6 +79,7 @@ export class PieMenuElement extends SceneElement {
 
     // bounding area of menu
     menuBoundArea: Array<number> = [0, 0, 0, 0];
+    maxMenuItemWidth: number = 0;
 
     constructor(name: string,
         public x: number,
@@ -102,6 +104,8 @@ export class PieMenuElement extends SceneElement {
         var manager = new bjsgui.GUI3DManager(this.scene.bjsScene);
         this.controlContainer = new bjsgui.Container3D();
         //panel.margin = 0.75;
+
+        // menuAreaModel = bjs.Mesh.sphe
 
         // Put test item data
         this.testItems = [];
@@ -141,6 +145,17 @@ export class PieMenuElement extends SceneElement {
         this.calcDisplayIdxs();
         this.positionMenuItems();
         this.menuItems[this.activeItemIndex].setHighlight(true);
+
+        this.menuAreaModel = bjs.Mesh.CreateSphere('PieMenuAreaModel', 16, 1, this.scene.bjsScene);
+        this.menuAreaModel.position = new bjs.Vector3(0, 0, 0);
+
+        let mat : bjs.StandardMaterial = new bjs.StandardMaterial("mat", this.scene.bjsScene);
+        mat.diffuseColor = bjs.Color3.White();
+        mat.ambientColor = bjs.Color3.White();
+        mat.alpha = 0;
+
+        this.menuAreaModel.material = mat;
+        this.menuAreaModel.isVisible = false;
     }
 
     protected async buildMenu() {
@@ -170,28 +185,23 @@ export class PieMenuElement extends SceneElement {
                         if (pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
                             if (this.menuState !== MenuState.Open) {
                                 this.open();
-                            } 
+                            }
 
-                            this.menuUpdatedTimeStamp = Date.now();
-
-                            this.isMouseDown = true;
-                            this.clickedMeshName = pointerInfo.pickInfo.pickedMesh.name.replace('textMeshBox', '');
-
-                            this.originalX = pointerInfo.event.clientX;
-                            this.originalY = pointerInfo.event.clientY;
-                        }
-                        else {
-                            if (pointerInfo.event.clientX >= 0 
-                                && pointerInfo.event.clientX <= this.scene.canvas.clientWidth 
-                                && pointerInfo.event.clientY >= 0 
-                                && pointerInfo.event.clientY <= this.scene.canvas.clientHeight ) {
-                            
+                            if (this.menuState === MenuState.Open)
                                 this.menuUpdatedTimeStamp = Date.now();
-                            
+
                                 this.isMouseDown = true;
+                                this.clickedMeshName = pointerInfo.pickInfo.pickedMesh.name.replace('textMeshBox', '');
+
                                 this.originalX = pointerInfo.event.clientX;
                                 this.originalY = pointerInfo.event.clientY;
-                            }
+                        }
+                        else if (pointerInfo.pickInfo.pickedMesh && pointerInfo.pickInfo.pickedMesh.name.includes('PieMenuAreaModel')) {
+                            this.menuUpdatedTimeStamp = Date.now();
+                        
+                            this.isMouseDown = true;
+                            this.originalX = pointerInfo.event.clientX;
+                            this.originalY = pointerInfo.event.clientY;
                         }
                     } 
                         
@@ -409,6 +419,7 @@ export class PieMenuElement extends SceneElement {
             if (i === this.activeItemIndex) {
                 itemScale = 0.55;
             }
+            
             let item :PieMenuItemElement = new PieMenuItemElement("item" + i,
                                                                 this.x,
                                                                 this.y,
@@ -424,6 +435,7 @@ export class PieMenuElement extends SceneElement {
             this.addChild(item);
             // item.button.linkToTransformNode(this.axle);
             item.parent = this.axle;
+            this.maxMenuItemWidth = Math.max(item.itemText.width, itemScale);
 
             const actionIndex = this.menuItemList.findIndex(m => m.label.toLowerCase() === this.currentQueue[i].toLowerCase());
             if (actionIndex >= 0) {
@@ -533,6 +545,11 @@ export class PieMenuElement extends SceneElement {
         const currentTimeStamp = Date.now();
         const timeDelay = Math.abs(this.menuUpdatedTimeStamp - currentTimeStamp);
 
+        this.menuAreaModel.position = this.position;
+        this.menuAreaModel.scaling.x = this.maxMenuItemWidth * 1.4 + this.radiusMultiplier;
+        this.menuAreaModel.scaling.y = this.maxMenuItemWidth * 0.6 + this.radiusMultiplier;
+        this.menuAreaModel.scaling.z = this.maxMenuItemWidth * 0.2 + this.radiusMultiplier;
+
         if ((timeDelay >= 2000) && (this.menuState === MenuState.Open)) {
             this.close();
 
@@ -565,6 +582,7 @@ export class PieMenuElement extends SceneElement {
             if (this.radiusMultiplier > 0.99) {
                 this.radiusMultiplier = 1;
                 this.menuState = MenuState.Open;
+                this.menuAreaModel.isVisible = true;
                 this.menuUpdatedTimeStamp = Date.now();
             }
 
@@ -575,6 +593,7 @@ export class PieMenuElement extends SceneElement {
             if (this.radiusMultiplier < 0.31) {
                 this.radiusMultiplier = 0.3;
                 this.menuState = MenuState.Closed;
+                this.menuAreaModel.isVisible = false;
             }
 
             this.positionMenuItems();

@@ -157,7 +157,7 @@ export class TextMeshString extends SceneElement implements ITextMeshString {
 
         this.width = boundingWidth;
         
-        this.box.scaling = new bjs.Vector3(boundingWidth, 1, 0.2);
+        this.box.scaling = new bjs.Vector3(boundingWidth * 1.4, 1, 0.2);
         this.box.position.x = horizontalOffset + (boundingWidth / 2) + 1.8;
         this.box.position.y = verticalOffset;
         this.box.position.z = -0.2;

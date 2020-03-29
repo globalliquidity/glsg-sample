@@ -128,7 +128,7 @@ export class PieMenuScene extends StandardScene {
                 this.camera
             );
 
-            this.menuPosition = menuRay.origin.add(menuRay.direction.scale(15))
+            this.menuPosition = menuRay.origin.add(menuRay.direction.scale(15));
 
             this.menu.position = this.menuPosition;
 
