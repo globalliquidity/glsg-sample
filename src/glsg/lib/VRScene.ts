@@ -2,7 +2,7 @@ import * as bjs from 'babylonjs';
 import { Scene } from './Scene';
 import Logger from './Logger';
 
-export class VRScene extends Scene<bjs.FreeCamera>
+export class VRScene extends Scene<bjs.ArcRotateCamera>
 {
     light: bjs.HemisphericLight | undefined;
    
@@ -28,8 +28,10 @@ export class VRScene extends Scene<bjs.FreeCamera>
     protected async setupCamera()
     {
         Logger.log("Standard Scene : Creating ArcRotateCamera");
-        this.camera = new bjs.FreeCamera("Camera",new bjs.Vector3(0, 0, 0), this.bjsScene);     
-        //this.camera.attachControl(this.canvas, true); 
+        this.camera = new bjs.ArcRotateCamera("Camera", 0, 0, 5, new bjs.Vector3(0.0, 1, 0), this.bjsScene);
+        //this.camera.
+        //this.camera = new bjs.ArcRotateCamera("Camera",new bjs.Vector3(0, 0, 0), this.bjsScene);     
+        this.camera.attachControl(this.canvas, true); 
     }
 
     protected async createScene()
