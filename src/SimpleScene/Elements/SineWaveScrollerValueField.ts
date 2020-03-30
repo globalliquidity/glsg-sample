@@ -50,10 +50,14 @@ export class SineWaveScrollerVectorField extends VectorField
         const currentRow: number =  Math.floor(i / this.columnCount);
         const currentColumn: number = i % this.columnCount;
         particle.uvs = SolidParticleMaterial.getUVSforColor((currentRow + currentColumn) % 20);
-        particle.position.set(currentColumn * this.cellWidth, 0, currentRow * this.cellDepth);
+        particle.position.set( ((-this.columnCount / 2) * this.cellWidth) + currentColumn * this.cellWidth, 0, ((-this.rowCount / 2) * this.cellDepth) + currentRow * this.cellDepth);
         particle.scale.x = this.cellWidth * this.cellMeshScaleFactor;
         particle.scale.y = 0.1;
         particle.scale.z = this.cellDepth * this.cellMeshScaleFactor;
+        this.material.metallic = 0.75;
+        this.material.roughness = 0.15;
+        this.material.sheen.isEnabled = true;
+        this.material.sheen.intensity = 0.5;
        
     }
 

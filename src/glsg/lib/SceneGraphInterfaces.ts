@@ -1,5 +1,8 @@
 import * as bjs from 'babylonjs';
 import { VectorField } from './VectorField';
+import { ActiveModel } from './ActiveModel';
+import { SceneElement } from './SceneElement';
+import { SceneElementPresenter } from './SceneElementPresenter';
 //import { InstancedMesh } from 'babylonjs';
 
 export interface IExperience
@@ -35,6 +38,28 @@ export interface ISceneElement
     preRender(): void;
     render(): void;
 }
+
+export interface ISceneElementData
+{
+
+}
+
+export interface IActiveModel<P extends ISceneElementPresenter<ISceneElementData>>
+{
+    presenter : P;
+    updateInterval : number;
+
+    start()
+    stop();
+}
+
+export interface ISceneElementPresenter<D extends ISceneElementData>
+{
+    updatePresenter(data : D);
+
+    hasNewData : boolean;
+}
+
 
 export interface ISceneDataSource
 {
@@ -78,17 +103,6 @@ export interface IMessageBusLink
 export interface IMessageBusClient
 {
     link : IMessageBusLink
-}
-
-export interface IActiveModel
-{
-    presenter : ISceneElementPresenter
-    updatePresenter(): void;
-}
-
-export interface ISceneElementPresenter
-{
-    element : ISceneElement;
 }
 
 export interface ITextMeshCharacterGenerator

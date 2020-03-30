@@ -1,6 +1,8 @@
 import { SceneElementPresenter } from './SceneElementPresenter';
 import { VectorField } from './VectorField';
 import Logger from './Logger';
+import { ActiveModel } from './ActiveModel';
+import { SceneElementData } from './SceneElementData';
 
 enum VectorFieldCellEntryType
 {
@@ -27,13 +29,13 @@ export class VectorFieldCell
     }
 }
 
-export class VectorFieldPresenter extends SceneElementPresenter
+export class VectorFieldPresenter extends SceneElementPresenter<SceneElementData>
 {
     cells: VectorFieldCell[][];
 
     constructor(public element: VectorField, rowCount : number, columnCount : number)
     {
-        super(element);
+        super();
 
         this.cells = new Array<Array<VectorFieldCell>>();
         for (let y = 0; y <= rowCount; y++) {

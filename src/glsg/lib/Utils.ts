@@ -2,6 +2,7 @@ import * as bjs from 'babylonjs';
 import { SolidParticleMaterial } from './SolidParticleMaterial';
 import { Scene } from './Scene';
 import { GLSGColor } from './Enums';
+import { WaterMaterial } from 'babylonjs-materials';
 
 export const generateSkybox = (_size: number, hdrTexture: bjs.CubeTexture, scene: Scene<bjs.Camera>): bjs.Mesh => {
     const hdrSkybox: bjs.Mesh = bjs.Mesh.CreateBox("hdrSkyBox", 1000.0, scene.bjsScene);
@@ -31,3 +32,20 @@ export const generateEmptySkybox = (_size: number, scene: Scene<bjs.Camera>): bj
 
     return hdrSkybox;
 }
+
+export const generateWaterMaterial = (scene: bjs.Scene): WaterMaterial => {
+    // Water material
+    const waterMaterial: WaterMaterial = new WaterMaterial("waterMaterial", scene, new bjs.Vector2(512, 512));
+    //waterMaterial.bumpTexture = new bjs.Texture(pngWaterbump, scene);
+    waterMaterial.windForce = -25;
+    waterMaterial.waveHeight = 0.1;
+    waterMaterial.bumpHeight = 0.1;
+    waterMaterial.waveLength = 0.1;
+    waterMaterial.waveSpeed = 25.0;
+    waterMaterial.colorBlendFactor = 0;
+    waterMaterial.windDirection = new bjs.Vector2(0, 1);
+    waterMaterial.colorBlendFactor = 0;
+
+    return waterMaterial;
+}
+

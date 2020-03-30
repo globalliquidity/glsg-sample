@@ -10,8 +10,11 @@
     // "noImplicitUseStrict":false,
     "types": [
       "babylonjs",
+      "babylonjs-loaders",
       "dev-glsg",
-      "node"
+      "lightweight-charts",
+      "node",
+      "jquery"
     ]
   }
 }

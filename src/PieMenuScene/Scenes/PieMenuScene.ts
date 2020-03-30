@@ -82,6 +82,7 @@ export class PieMenuScene extends StandardScene {
 
 
         var light = new bjs.HemisphericLight("sun", new bjs.Vector3(0, 1, 0), this.bjsScene);
+        light.intensity = 0.7;
         
         this.menu = new PieMenuElement("menu",
             this.menuPosition.x,
