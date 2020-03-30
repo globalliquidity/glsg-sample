@@ -22,6 +22,7 @@ export class VideoScreen extends SceneElement
 
     protected onCreate()
     {
+        
         var stream1 = "https://irtdashreference-i.akamaihd.net/dash/live/901161/bfs/manifestARD.mpd";
         var stream2 = "https://irtdashreference-i.akamaihd.net/dash/live/901161/bfs/manifestBR.mpd";
         var video = "<video data-dashjs-player autoplay src='"+stream1+"'></video>";
@@ -44,19 +45,25 @@ export class VideoScreen extends SceneElement
  
         this.screenMaterial = new bjs.StandardMaterial("screenMaterial", this.scene.bjsScene);
 
-        var videoElement = document.querySelector('video');
-        this.screenTexture = new bjs.VideoTexture('screenTexture', videoElement, this.scene.bjsScene, true, true);  
-        
+       
         this.screenMaterial.backFaceCulling = false;
         this.screenMaterial.diffuseTexture = this.screenTexture;
         this.screenMaterial.emissiveColor = BABYLON.Color3.White();
       
+        /*
+        var videoElement = document.querySelector('video');
+        this.screenTexture = new bjs.VideoTexture('screenTexture', videoElement, this.scene.bjsScene, true, true);  
         
         var htmlVideo = this.screenTexture.video;
         htmlVideo.setAttribute('webkit-playsinline', 'webkit-playsinline');
         htmlVideo.setAttribute('playsinline', 'true');
         htmlVideo.setAttribute('muted', 'true');
         htmlVideo.setAttribute('autoplay', 'false');
+        */
+
+      
+        
+        
 
         
       
