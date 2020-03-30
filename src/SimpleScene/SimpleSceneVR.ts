@@ -153,13 +153,14 @@ export class SimpleSceneVR extends VRScene
         });
         */
 
-        
+        /*
         // cylinders
         this.cylinders = new SpinningCylinderThing('cylinder', 0, 0, 0, this);
         this.cylinders.rotate(new bjs.Vector3(0,1,0),Math.PI/2);
         this.cylinders.position = new bjs.Vector3(-20,-1,0)
         this.cylinders.scaling = new bjs.Vector3(0.1,0.1,0.1);
         this.AddSceneElement(this.cylinders);
+        */
         
 
         //this.text = new TextMeshString("text",0,20,0,this,"COINBASE");
