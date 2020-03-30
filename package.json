@@ -31,15 +31,19 @@
     "webpack-md5-hash": "0.0.6"
   },
   "dependencies": {
+    "@types/jquery": "^3.3.34",
     "babylonjs": "^4.1.0",
     "babylonjs-gui": "^4.1.0",
     "babylonjs-loaders": "^4.1.0",
     "babylonjs-materials": "^4.1.0",
     "cannon": "^0.6.2",
+    "dashjs": "^3.0.3",
     "dev-glsg": "^1.0.6",
     "file-loader": "^4.2.0",
+    "lightweight-charts": "^2.0.0",
     "normalize.css": "^8.0.1",
     "oimo": "^1.0.9",
-    "url-loader": "^2.2.0"
+    "url-loader": "^2.2.0",
+    "jquery":"^3.4.1"
   }
 }
