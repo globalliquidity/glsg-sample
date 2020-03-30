@@ -53,6 +53,7 @@ export class SimpleScene extends StandardScene
         this.camera.setTarget(this.cylinders.position);
         this.camera.beta = this.cameraHomeBeta;
         this.camera.upperBetaLimit =  Math.PI / 2 - (Math.PI)/96;
+        this.camera.wheelPrecision = 15000;
     }
 
     protected onPreRender()

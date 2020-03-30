@@ -23,11 +23,11 @@ export class SimpleExperience extends Experience
         
         if (this.useVR)
         {
-           scene = new SimpleSceneVR(`SimpleScene${this.scenes.length}`, this.canvas, "simpleDDS1");
+           scene = new SimpleSceneVR(`SimpleScene${this.scenes.length}`, this.canvas, "veniceDDS");
         }
         else
         {
-            scene = new SimpleScene(`SimpleScene${this.scenes.length}`, this.canvas, "simpleDDS1");
+            scene = new SimpleScene(`SimpleScene${this.scenes.length}`, this.canvas, "veniceDDS");
   
         }
         

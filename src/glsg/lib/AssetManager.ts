@@ -45,9 +45,11 @@ export class AssetManager
 
     public addMeshTask(taskName: string, meshesNames: any, rootUrl: string, sceneFileName: string, success: TaskSuccessHandler, error: TaskErrorHandler) 
     {
+       
         const meshTask = this.assetsManager.addMeshTask(taskName, meshesNames, rootUrl, sceneFileName);
         
         meshTask.onSuccess = (task) => {
+            console.log("Asset Manager adding mesh : " + taskName);
             this.meshesMap.set(taskName, task.loadedMeshes); 
             
             if (success) {

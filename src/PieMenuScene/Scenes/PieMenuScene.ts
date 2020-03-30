@@ -68,6 +68,7 @@ export class PieMenuScene extends StandardScene {
     */
         this.camera.setTarget(bjs.Vector3.Zero());
 
+
         //let testString : TextMeshString = new TextMeshString("test",0,0,5,this,"GLSG");
         //this.AddSceneElement(testString);
 
@@ -80,6 +81,7 @@ export class PieMenuScene extends StandardScene {
 
 
         var light = new bjs.HemisphericLight("sun", new bjs.Vector3(0, 1, 0), this.bjsScene);
+        light.intensity = 0.7;
         
         this.menu = new PieMenuElement("menu",
             this.menuPosition.x,
@@ -107,6 +109,8 @@ export class PieMenuScene extends StandardScene {
         //this.centerBox = bjs.MeshBuilder.CreateBox("box", { height: 1, width: 1, depth: 1 }, this.bjsScene);
         this.angleY0 = this.camera.alpha;
         this.angleX0 = this.camera.beta;
+
+        this.camera.attachControl(this.canvas, false);
     }
 
     protected onPreRender() {
