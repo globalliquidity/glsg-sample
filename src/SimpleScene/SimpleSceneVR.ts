@@ -135,8 +135,10 @@ export class SimpleSceneVR extends VRScene
         this.chart = new Chart2D("chart",-10,-1,0,this,this.chartPresenter);
         this.AddSceneElement(this.chart);
 
-        this.screen = new VideoScreen("screen", -10,1,0,this);
+        
+        this.screen = new VideoScreen("screen", -10,2.5,0,this);
         this.AddSceneElement(this.screen);
+        
 
         /*
         bjs.SceneLoader.ImportMesh("", SimpleSceneConstants.rootURL, SimpleSceneConstants.helmetModel , this.bjsScene, newMeshes => {

@@ -7,6 +7,7 @@ export const buttonModel = 'models/pushButton.glb';
 export const dojoModel = 'models/dojo_light.glb';
 export const cockpitModel = 'models/cockpit.glb';
 export const helmetModel = 'models/DamagedHelmet.glb'
+export const newsVideo = 'videos/ChristineBloombergTrimmed.mp4'
 
 
 
@@ -21,5 +22,6 @@ export default {
     dojoModel,
     cockpitModel,
     veniceDDS,
-    helmetModel
+    helmetModel,
+    newsVideo
 };
