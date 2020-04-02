@@ -12,9 +12,10 @@ export class Screen2D extends SceneElement
     private screenTexture : bjs.Texture;
     private textureResolution : number = 1024;
 
-    constructor(public name: string, public x: number, public y: number, public z: number, scene: Scene<bjs.Camera>, public presenter : Chart2DPresenter)
+    constructor(public name: string, public x: number, public y: number, public z: number, scene: Scene<bjs.Camera>, image : bjs.Texture)
     {
         super(name, x, y, z, scene);
+        this.screenTexture = image;
         this.create();
     }
 
@@ -28,9 +29,9 @@ export class Screen2D extends SceneElement
         console.log("Chart2D : Creating Chart2D");
 
         this.plane = bjs.MeshBuilder.CreatePlane("chartPlane",{width: 4, size:2.5}, this.scene.bjsScene);
-        this.chartMaterial.emissiveTexture = this.chartTexture;
-        this.plane.material = this.chartMaterial;
-        this.chartMaterial.alpha = 0.9;
+        this.screenMaterial.emissiveTexture = this.screenTexture;
+        this.plane.material = this.screenMaterial;
+        this.screenMaterial.alpha = 0.9;
         this.plane.parent = this;
         
         //this.plane.rotate(new bjs.Vector3(1,0,0),-Math.PI/2);
@@ -40,28 +41,6 @@ export class Screen2D extends SceneElement
 
     protected onPreRender()
     {
-        if (this.presenter.hasNewData)
-        {
-            console.log("Chart2D : Presenter has data");
-            let chartData :Chart2DData = this.presenter.getData();
-            let chartCanvas : HTMLCanvasElement = chartData.chartCanvas;
-
-            if (chartCanvas != null)
-            {
-                console.log("Chart2D : Drawing Chart");
-                let chartImage : HTMLImageElement = new Image(512,512);
-                chartImage.src = chartCanvas.toDataURL();
-            
-                chartImage.onload = () => {
-                    let textureContext : CanvasRenderingContext2D = this.chartTexture.getContext();
-                    textureContext.drawImage(chartImage,0,0);
-                    this.chartTexture.update();
-                }
-            }
-        }
-        else
-        {
-            //console.log("Chart2D : Presenter has no data");
-        }
+      
     }
 }
