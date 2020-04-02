@@ -12,7 +12,7 @@ export class SineWaveOscillatorUpdateStrategy extends VectorFieldUpdateStrategy
 
     protected onPreCalculate()
     {
-        this.theta -= (this.speed / 60) * 0.5;
+        this.theta += (this.speed / 60) * 0.5;
     }
 
     protected onUpdateParticle(particle: bjs.SolidParticle)

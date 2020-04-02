@@ -13,14 +13,18 @@ import { Chart2DPresenter } from './Elements/Chart2DPresenter';
 import { Chart2DDataSource } from './Elements/Chart2DataSource';
 import { VideoScreen } from './Elements/VideoScreen';
 import { AssetManager } from '../glsg/lib/AssetManager';
+import { blurPixelShader } from 'babylonjs/Shaders/blur.fragment';
+import { BackEase } from 'babylonjs';
 
 export class SimpleSceneVR extends VRScene
 {
     ground : bjs.Mesh;
     checkerMaterial : bjs.StandardMaterial;
     groundMaterial : bjs.PBRMaterial;
-    ceramicTileMateral : bjs.PBRMaterial;
+    ceramicTileMaterial : bjs.PBRMaterial;
     lavaMaterial : bjs.PBRMaterial;
+
+    domeMaterial : bjs.PBRMaterial;
 
     cylinders: SpinningCylinderThing;
     field: SineWaveScrollerVectorField;
@@ -40,6 +44,8 @@ export class SimpleSceneVR extends VRScene
     screen : VideoScreen;
 
     cameraOrbitSpeed: number = 0.001;
+
+    xr : bjs.WebXRDefaultExperience;
 
 
     private cameraHomeBeta : number = Math.PI / 2  - (Math.PI)/32;
@@ -140,26 +146,32 @@ export class SimpleSceneVR extends VRScene
     this.groundMaterial.useRoughnessFromMetallicTextureGreen = true;
     */
 
+   this.domeMaterial = new bjs.PBRMaterial("Dome", this.bjsScene);
+   this.domeMaterial.albedoColor = bjs.Color3.FromInts(32,32,64);
+   
+
 
     this.lavaMaterial = new bjs.PBRMaterial("Mat", this.bjsScene);
     this.lavaMaterial.albedoTexture = AssetManager.Instance.textureMap.get("lavaAlbedo");
     this.lavaMaterial.bumpTexture = AssetManager.Instance.textureMap.get("lavaNormal");
     this.lavaMaterial.metallicTexture = AssetManager.Instance.textureMap.get("lavaARM");
     this.lavaMaterial.useMetallnessFromMetallicTextureBlue = true;
+    this.lavaMaterial.useRoughnessFromMetallicTextureAlpha = false;
     this.lavaMaterial.useRoughnessFromMetallicTextureGreen = true;
     this.lavaMaterial.emissiveColor = bjs.Color3.White();
     this.lavaMaterial.emissiveTexture = AssetManager.Instance.textureMap.get("lavaEmissive");
 
 
-    this.ceramicTileMateral = new bjs.PBRMaterial("tile", this.bjsScene);
-    this.ceramicTileMateral.albedoTexture = AssetManager.Instance.textureMap.get("ceramicTileAlbedo");
+    this.ceramicTileMaterial = new bjs.PBRMaterial("tile", this.bjsScene);
+    this.ceramicTileMaterial.albedoTexture = AssetManager.Instance.textureMap.get("ceramicTileAlbedo");
     //this.ceramicTileMateral.roughness = 1;
-    this.ceramicTileMateral.bumpTexture = AssetManager.Instance.textureMap.get("ceramicTileNormal");
-    this.ceramicTileMateral.metallicTexture = AssetManager.Instance.textureMap.get("ceramicTileARM");
-    this.ceramicTileMateral.useMetallnessFromMetallicTextureBlue = true;
-    this.ceramicTileMateral.useRoughnessFromMetallicTextureGreen = true;
+    this.ceramicTileMaterial.bumpTexture = AssetManager.Instance.textureMap.get("ceramicTileNormal");
+    this.ceramicTileMaterial.metallicTexture = AssetManager.Instance.textureMap.get("ceramicTileARM");
+    this.ceramicTileMaterial.useMetallnessFromMetallicTextureBlue = true;
+    this.ceramicTileMaterial.useRoughnessFromMetallicTextureAlpha = false;
+    this.ceramicTileMaterial.useRoughnessFromMetallicTextureGreen = true;
    
-    this.ground.material = this.ceramicTileMateral;
+    this.ground.material = this.ceramicTileMaterial;
     this.ground.position = new bjs.Vector3(0,-2.5,0);
      
 
@@ -286,9 +298,17 @@ export class SimpleSceneVR extends VRScene
 
         //var defaultPipeline = new bjs.DefaultRenderingPipeline("default", true, this.bjsScene, [this.camera]);
 
-        const xr = await this.bjsScene.createDefaultXRExperienceAsync({
+        this.xr = await this.bjsScene.createDefaultXRExperienceAsync({
             //floorMeshes: [this.field.mesh]
         });
+
+       
+
+        this.xr.baseExperience.sessionManager.onXRSessionInit.add(() => {
+            this.xr.baseExperience.camera.setTransformationFromNonVRCamera(this.camera);
+        });
+
+    
         
     }
 
