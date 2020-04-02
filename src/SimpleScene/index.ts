@@ -15,19 +15,17 @@ export class SimpleExperience extends Experience
         super(title,canvas);
     }
     
-    
-
     protected onLoad()
     {
         let scene: Scene<bjs.Camera> = null;
         
         if (this.useVR)
         {
-           scene = new SimpleSceneVR(`SimpleScene${this.scenes.length}`, this.canvas, "veniceDDS");
+           scene = new SimpleSceneVR(`SimpleScene${this.scenes.length}`, this.canvas, "simpleDDS1");
         }
         else
         {
-            scene = new SimpleScene(`SimpleScene${this.scenes.length}`, this.canvas, "veniceDDS");
+            scene = new SimpleScene(`SimpleScene${this.scenes.length}`, this.canvas, "simpleDDS1");
   
         }
         

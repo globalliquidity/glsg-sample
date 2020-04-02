@@ -1,13 +1,15 @@
 import * as bjs from 'babylonjs';
-import { Scene, SceneElement } from '../../glsg';
 import { createChart, IChartApi } from 'lightweight-charts';
 import { ActiveModel } from '../../glsg/lib/ActiveModel';
 import { Chart2DData } from './Chart2DData';
 import { Chart2DPresenter } from './Chart2DPresenter';
 
+
 export class Chart2DDataSource extends ActiveModel<Chart2DPresenter>
 {
     data : Chart2DData = null;
+
+  
 
     constructor(public presenter: Chart2DPresenter, updateInterval : number)
     {
@@ -17,13 +19,12 @@ export class Chart2DDataSource extends ActiveModel<Chart2DPresenter>
     protected async onStart()
     {
         setInterval(this.refreshPresenter.bind(this), this.updateInterval*1000, this);
-        //await this.refreshPresenter();
     }
 
     private async refreshPresenter()
     {
-        console.log("Chart2D: Loading Data")
-        await this.loadData();
+        console.log("Chart2D: Building Chart")
+        await this.buildChart();
 
         if (this.data != null)
         {
@@ -37,9 +38,10 @@ export class Chart2DDataSource extends ActiveModel<Chart2DPresenter>
        
     }
 
-    private async loadData()
+    private async buildChart()
     {
         var chartElement = document.createElement('div');
+
         let chart : IChartApi = await createChart(chartElement, { width: 512, height: 512,
             layout: {
                 backgroundColor: '#2B2B43',
@@ -249,19 +251,12 @@ export class Chart2DDataSource extends ActiveModel<Chart2DPresenter>
             };
     
             areaSeries.applyOptions(themesData["Dark"].series);
-    
-            //why is chart undefined?????????
             let chartCanvas : HTMLCanvasElement = chart.takeScreenshot();
             this.data = new Chart2DData(chartCanvas);
-            //this.presenter.updatePresenter(chartData);
-            //this.presenter.data.chartCanvas = chartCanvas;
         }
         else
         {
             console.log("Chart is NULL");
-        }
-
-        
+        }   
     }
-
 }

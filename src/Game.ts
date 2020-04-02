@@ -92,7 +92,21 @@ export default class Game
         AssetManager.Instance.addMeshTask("discModel", "", PieMenuSceneConstants.rootURL, PieMenuSceneConstants.discModel,null, null);
         //AssetManager.Instance.addMeshTask("carModel", "", SimpleSceneConstants.rootURL, SimpleSceneConstants.carModel,null, null);
         AssetManager.Instance.addTextureTask("cloudTexture", SimpleSceneConstants.rootURL + SimpleSceneConstants.cloudTexture, null, null);
-        
+        AssetManager.Instance.addTextureTask("linoleumAlbedo", SimpleSceneConstants.rootURL + SimpleSceneConstants.linoleumAlbedoTexture, null, null);
+        AssetManager.Instance.addTextureTask("linoleumNormal", SimpleSceneConstants.rootURL + SimpleSceneConstants.linoleumNormalTexture, null, null);
+        AssetManager.Instance.addTextureTask("linoleumORM", SimpleSceneConstants.rootURL + SimpleSceneConstants.linoleumORMTexture, null, null);
+
+        AssetManager.Instance.addTextureTask("lavaAlbedo", SimpleSceneConstants.rootURL + SimpleSceneConstants.lavaAlbedoTexture, null, null);
+        AssetManager.Instance.addTextureTask("lavaNormal", SimpleSceneConstants.rootURL + SimpleSceneConstants.lavaNormalTexture, null, null);
+        AssetManager.Instance.addTextureTask("lavaARM", SimpleSceneConstants.rootURL + SimpleSceneConstants.lavaARMTexture, null, null);
+        AssetManager.Instance.addTextureTask("lavaEmissive", SimpleSceneConstants.rootURL + SimpleSceneConstants.lavaEmissiveTexture, null, null);
+        AssetManager.Instance.addTextureTask("colorChecker", SimpleSceneConstants.rootURL + SimpleSceneConstants.colorcheckerTexture, null, null);
+
+
+        AssetManager.Instance.addTextureTask("ceramicTileAlbedo", SimpleSceneConstants.rootURL + SimpleSceneConstants.ceramicTileAlbedoTexture, null, null);
+        AssetManager.Instance.addTextureTask("ceramicTileNormal", SimpleSceneConstants.rootURL + SimpleSceneConstants.ceramicTileNormalTexture, null, null);
+        AssetManager.Instance.addTextureTask("ceramicTileARM", SimpleSceneConstants.rootURL + SimpleSceneConstants.ceramicTileARMTexture, null, null);
+
         AssetManager.Instance.loadWithHandler(finishHandler);
     }
 
