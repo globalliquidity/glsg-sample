@@ -12,7 +12,7 @@ export class SineWaveOscillatorUpdateStrategy extends VectorFieldUpdateStrategy
 
     protected onPreCalculate()
     {
-        this.theta += (this.speed / 60) * 0.5;
+        this.theta -= (this.speed / 60) * 0.5;
     }
 
     protected onUpdateParticle(particle: bjs.SolidParticle)
@@ -20,7 +20,7 @@ export class SineWaveOscillatorUpdateStrategy extends VectorFieldUpdateStrategy
         const currentRow: number = particle.idx / this.vectorField.columnCount;
         let cellOffset: number = currentRow * - this.frequency;
         let yOffest: number = Math.abs((Math.sin(this.theta + cellOffset)));
-        particle.scaling.y =  yOffest * this.amplitude;
+        particle.scaling.y = Math.abs((yOffest + Math.abs(particle.position.x))) * this.amplitude;
         particle.position.y = particle.scaling.y * 0.5;
     }
 }

@@ -28,29 +28,19 @@ export class Chart2D extends SceneElement
        
         console.log("Chart2D : Creating Chart2D");
 
-
-        //var font = "bold 44px monospace";
-        //this.chartTexture.drawText("Global Liquidity", 75, 135, font, "green", "white", true, true);
-        
-        //this.chartTexture.update();
-
-        //this.box = bjs.MeshBuilder.CreateBox("chartBox",{width: 1, height:1, depth:1}, this.scene.bjsScene);
-        //this.box.parent = this;   
         this.plane = bjs.MeshBuilder.CreatePlane("chartPlane",{width: 4, size:2.5}, this.scene.bjsScene);
         this.chartMaterial.emissiveTexture = this.chartTexture;
         this.plane.material = this.chartMaterial;
-        //this.chartMaterial.alpha = 0.9;
+        this.chartMaterial.alpha = 0.9;
         this.plane.parent = this;
-        this.plane.rotate(new bjs.Vector3(1,0,0),-Math.PI/2);
-        this.plane.rotate(new bjs.Vector3(0,1,0),-Math.PI/2);
-        this.plane.rotate(new bjs.Vector3(0,0,1),-Math.PI/2);
+        
+        //this.plane.rotate(new bjs.Vector3(1,0,0),-Math.PI/2);
+        //this.plane.rotate(new bjs.Vector3(0,1,0),-Math.PI/2);
+        //this.plane.rotate(new bjs.Vector3(0,0,1),-Math.PI/2);
     }
 
     protected onPreRender()
     {
-        //console.log("Chart2D : onRender");
-
-        
         if (this.presenter.hasNewData)
         {
             console.log("Chart2D : Presenter has data");
@@ -61,31 +51,18 @@ export class Chart2D extends SceneElement
             {
                 console.log("Chart2D : Drawing Chart");
                 let chartImage : HTMLImageElement = new Image(512,512);
-
-                //let imagesSrc : string = chartCanvas.toDataURL();
-                //console.log("Chart Image Src : \n");
-                //console.log(imagesSrc);
                 chartImage.src = chartCanvas.toDataURL();
             
                 chartImage.onload = () => {
                     let textureContext : CanvasRenderingContext2D = this.chartTexture.getContext();
                     textureContext.drawImage(chartImage,0,0);
-                    //textureContext.font = "bold 44px monospace";
-                    //textureContext.fillText("Global Liquidity", 10, 50);
                     this.chartTexture.update();
-    
                 }
-        
             }
         }
         else
         {
             //console.log("Chart2D : Presenter has no data");
         }
-        
-        
-       
-       
-        
     }
 }

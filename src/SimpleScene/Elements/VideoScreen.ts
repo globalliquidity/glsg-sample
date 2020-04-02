@@ -9,6 +9,8 @@ import SimpleSceneConstants from '../constants';
 export class VideoScreen extends SceneElement
 {
     public plane: bjs.Mesh;
+    public tv : bjs.TransformNode;
+    public screen : bjs.Mesh;
     private screenMaterial : bjs.StandardMaterial;
     private screenTexture : bjs.VideoTexture;
     private textureResolution : number = 512;
@@ -21,8 +23,66 @@ export class VideoScreen extends SceneElement
         
     }
 
-    protected onCreate()
+    protected async onCreate()
     {
+        
+        bjs.SceneLoader.ImportMesh("", SimpleSceneConstants.rootURL, SimpleSceneConstants.tvModel , this.scene.bjsScene, newMeshes => {
+            console.log("Importing " + newMeshes.length + " meshes");
+            this.tv = newMeshes[0].instantiateHierarchy();
+            //this.cockpit.rotation.y = Math.PI/8;
+            this.tv.parent = this;
+
+            // this.tv.position = new bjs.Vector3(0,2,0);
+            //this.tv.rotate(bjs.Axis.Y, -Math.PI/2, bjs.Space.WORLD);
+            //this.tv.scaling = new bjs.Vector3(5,5,5);
+
+            this.tv.position = new bjs.Vector3(0,0,0);
+            //this.tv.rotate(bjs.Axis.Y, -Math.PI/2, bjs.Space.WORLD);
+            this.tv.scaling = new bjs.Vector3(5,5,5);
+    
+            newMeshes[0].isVisible = false;
+            var hierarchy = newMeshes[0].getChildMeshes(false);
+            hierarchy.forEach( item => { item.isVisible = false;})
+        });
+
+        await bjs.SceneLoader.ImportMesh("", SimpleSceneConstants.rootURL, SimpleSceneConstants.screenModel , this.scene.bjsScene, newMeshes => {
+            console.log("Importing " + newMeshes.length + " meshes");
+            this.screen = newMeshes[0] as bjs.Mesh//.instantiateHierarchy();
+            this.screen.parent = this;
+            //this.cockpit.rotation.y = Math.PI/8;
+            this.screen.position = new bjs.Vector3(0,0,-0.1);
+            //this.screen.rotate(bjs.Axis.Y, -Math.PI/2, bjs.Space.WORLD);
+            this.screen.scaling = new bjs.Vector3(.05,.05,.05);
+            this.screen.material = this.screenMaterial;
+            this.screenTexture.uScale = -1.4;
+            this.screenTexture.vScale = 2.2;
+            this.screenTexture.uOffset = 0.1;
+            this.screenTexture.vOffset = -0.1;
+
+
+            //this.screen.rotate(new bjs.Vector3(0,1,0),Math.PI);
+            //this.screen.position = new bjs.Vector3(0,2,0);
+            //this.screen.rotate(bjs.Axis.Y, -Math.PI/2, bjs.Space.WORLD);
+            //this.screen.scaling = new bjs.Vector3(5,5,5);
+    
+            //newMeshes[0].isVisible = false;
+            //var hierarchy = newMeshes[0].getChildMeshes(false);
+            //hierarchy.forEach( item => { item.isVisible = false;})
+            /*
+            console.log("Screen Hierarchy");
+            var newHierarchy = this.screen.getChildMeshes(false);
+            newHierarchy.forEach( item =>
+                {
+                    console.log(item.name);
+
+                    let screenMesh : bjs.Mesh = item as bjs.Mesh;
+                    screenMesh.material = this.screenMaterial;
+                })
+                */
+        });
+        
+        //let screenMesh : bjs.Mesh = this.screen.getChildMeshes(true)[0] as bjs.Mesh;
+        //screenMesh.material = this.screenMaterial;
         
         /*
         var url = "https://cdn.dashjs.org/latest/dash.all.min.js";
@@ -51,10 +111,12 @@ export class VideoScreen extends SceneElement
         this.screenTexture = new bjs.VideoTexture('screenTexture', localVideo, this.scene.bjsScene, true, true); 
         this.screenMaterial.emissiveTexture = this.screenTexture;
         this.plane.material = this.screenMaterial;
+        //this.screen.getChildMeshes()[0].material = this.screenMaterial;
         //this.chartMaterial.alpha = 0.9;
         this.plane.parent = this;
         this.plane.rotate(bjs.Axis.Y, -Math.PI/2, bjs.Space.WORLD);
         this.plane.rotate(bjs.Axis.Z, Math.PI - (Math.PI/6), bjs.Space.WORLD);
+        this.plane.isVisible = false;
         //this.plane.rotate(bjs.Axis.Z, Math.PI, bjs.Space.WORLD);
 
 
@@ -73,7 +135,7 @@ export class VideoScreen extends SceneElement
         var htmlVideo = this.screenTexture.video;
         //htmlVideo.setAttribute('webkit-playsinline', 'webkit-playsinline');
         //htmlVideo.setAttribute('playsinline', 'true');
-        htmlVideo.setAttribute('muted', 'false');
+        htmlVideo.setAttribute('muted', 'true');
         htmlVideo.setAttribute('autoplay', 'false');
 
         this.scene.bjsScene.onPointerDown =  () => { 
@@ -84,7 +146,7 @@ export class VideoScreen extends SceneElement
             {
                 console.log("VideoScreen : Playing Video");
                 this.screenTexture.video.play();
-                this.screenTexture.video.muted = false;   
+                //this.screenTexture.video.muted = true;   
             }
             else
             {
@@ -98,7 +160,9 @@ export class VideoScreen extends SceneElement
        
         this.screenMaterial.backFaceCulling = false;
         this.screenMaterial.diffuseTexture = this.screenTexture;
-        this.screenMaterial.emissiveColor = BABYLON.Color3.White();
+        this.screenMaterial.emissiveColor = bjs.Color3.FromInts(32,32,32);
+        //this.scre
+        this.screenTexture.video.muted = true;
       
         /*
         var videoElement = document.querySelector('video');

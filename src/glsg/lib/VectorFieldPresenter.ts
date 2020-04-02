@@ -1,7 +1,6 @@
 import { SceneElementPresenter } from './SceneElementPresenter';
 import { VectorField } from './VectorField';
 import Logger from './Logger';
-import { ActiveModel } from './ActiveModel';
 import { SceneElementData } from './SceneElementData';
 
 enum VectorFieldCellEntryType
@@ -22,18 +21,20 @@ export class VectorFieldCellEntry
 
 export class VectorFieldCell
 {
-    entries : Map<VectorFieldCellEntryType, Array<VectorFieldCellEntry>> = new Map<VectorFieldCellEntryType, Array<VectorFieldCellEntry>>();
+    entries : Map<VectorFieldCellEntryType, Array<VectorFieldCellEntry>>
+        = new Map<VectorFieldCellEntryType, Array<VectorFieldCellEntry>>();
 
     constructor(public row : number, public column: number)
     {
+
     }
 }
 
-export class VectorFieldPresenter extends SceneElementPresenter<SceneElementData>
+export class VectorFieldData extends SceneElementData
 {
     cells: VectorFieldCell[][];
 
-    constructor(public element: VectorField, rowCount : number, columnCount : number)
+    constructor(rowCount : number, columnCount : number)
     {
         super();
 
@@ -45,5 +46,16 @@ export class VectorFieldPresenter extends SceneElementPresenter<SceneElementData
           }
           this.cells.push(row);
         }
+    }   
+}
+
+export class VectorFieldPresenter extends SceneElementPresenter<VectorFieldData>
+{
+    data : VectorFieldData;
+
+    constructor(public element: VectorField, rowCount : number, columnCount : number)
+    {
+        super();
+        this.data = new VectorFieldData(rowCount,columnCount); 
     }
 }

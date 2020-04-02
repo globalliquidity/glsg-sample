@@ -37,10 +37,10 @@ export class VRScene extends Scene<bjs.ArcRotateCamera>
     protected async createScene()
     {
         // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-        this.light = new bjs.HemisphericLight("light", new bjs.Vector3(0, 1, 0), this.bjsScene);
+       // this.light = new bjs.HemisphericLight("light", new bjs.Vector3(0, 1, 0), this.bjsScene);
 
         // Default intensity is 1. Let's dim the light a small amount
-        this.light.intensity = 0.7;
+        //this.light.intensity = 0.7;
 
        
     }
