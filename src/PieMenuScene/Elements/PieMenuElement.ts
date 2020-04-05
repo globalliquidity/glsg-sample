@@ -28,6 +28,7 @@ export class PieMenuElement extends SceneElement {
 
     itemModel: bjs.Mesh;
     menuAreaModel: bjs.Mesh;
+    
     menuItems: Array<PieMenuItemElement> = new Array<PieMenuItemElement>();
     controlContainer: bjsgui.Container3D;
 
@@ -156,7 +157,7 @@ export class PieMenuElement extends SceneElement {
         mat.alpha = 0;
 
         this.menuAreaModel.material = mat;
-        this.menuAreaModel.isVisible = false;
+        this.menuAreaModel.isVisible = false;  
     }
 
     protected async buildMenu() {
@@ -183,7 +184,9 @@ export class PieMenuElement extends SceneElement {
             switch (pointerInfo.type) {
                 case bjs.PointerEventTypes.POINTERDOWN:
                     if (pointerInfo.pickInfo) {
+                        console.log(pointerInfo.pickInfo);
                         if (pointerInfo.pickInfo.pickedMesh && (pointerInfo.pickInfo.pickedMesh.name.includes('textMeshBox') || pointerInfo.pickInfo.pickedMesh.name.includes('characterMesh'))) {
+                            console.log('picked text mesh');
                             if (this.menuState !== MenuState.Open) {
                                 this.open();
                             }
@@ -197,13 +200,41 @@ export class PieMenuElement extends SceneElement {
                                 this.originalX = pointerInfo.event.clientX;
                                 this.originalY = pointerInfo.event.clientY;
                         }
+                        else {
+                            const rect = this.getClientRectFromMesh(this.menuAreaModel);
+                            
+                            if (rect.left <= pointerInfo.event.clientX - this.scene.canvas.offsetLeft && pointerInfo.event.clientX - this.scene.canvas.offsetLeft <=rect.right
+                                && rect.top <= pointerInfo.event.clientY - this.scene.canvas.offsetTop && pointerInfo.event.clientY - this.scene.canvas.offsetTop <= rect.bottom) {
+                                this.menuUpdatedTimeStamp = Date.now();
+                            
+                                this.isMouseDown = true;
+                                this.originalX = pointerInfo.event.clientX;
+                                this.originalY = pointerInfo.event.clientY;
+                            }
+                        }
+                        /*
                         else if (pointerInfo.pickInfo.pickedMesh && pointerInfo.pickInfo.pickedMesh.name.includes('PieMenuAreaModel')) {
                             this.menuUpdatedTimeStamp = Date.now();
                         
                             this.isMouseDown = true;
                             this.originalX = pointerInfo.event.clientX;
                             this.originalY = pointerInfo.event.clientY;
+                            
+                            // const b = this.menuAreaModel.getBoundingInfo();
+
+                            // const vectorsWorld = this.menuAreaModel.getBoundingInfo().boundingBox.vectorsWorld; 
+                            // const width = Number(vectorsWorld[1].x-(vectorsWorld[0].x));
+                            // const height = Number(vectorsWorld[1].y-(vectorsWorld[0].y));
+
+                            // console.log('b-width',width);
+                            // console.log('b-height',height);
+                            // const v = this.menuAreaModel.getAbsolutePosition();
+                            // const p = bjs.Vector3.Project(v, bjs.Matrix.Identity(), this.scene.bjsScene.getTransformMatrix(), this.scene.camera.viewport.toGlobal(1108, 772));
+                            // console.log('point', p);
+
+                            const rect = this.getClientRectFromMesh(this.menuAreaModel);
                         }
+                        */
                     } 
                         
                     break;
@@ -305,6 +336,54 @@ export class PieMenuElement extends SceneElement {
         });
         
         this.axle.rotation = new bjs.Vector3(0, 0, this.currentMenuRotation);
+    }
+
+    private getClientRectFromMesh(mesh: bjs.Mesh) {
+
+        // get bounding box of the mesh
+        const meshVectors = mesh.getBoundingInfo().boundingBox.vectors;
+    
+        // get the matrix and viewport needed to project the vectors onto the screen
+        const worldMatrix = mesh.getWorldMatrix();
+        const transformMatrix = this.scene.bjsScene.getTransformMatrix();
+        const viewport = this.scene.camera.viewport;
+    
+        // loop though all the vectors and project them against the current camera viewport to get a set of coordinates
+        const coordinates = meshVectors.map(v => {
+          const proj = bjs.Vector3.Project(v, worldMatrix, transformMatrix, viewport);
+          proj.x = proj.x * this.scene.canvas.clientWidth;
+          proj.y = proj.y * this.scene.canvas.clientHeight;
+          return proj;
+        })
+    
+        // get the min and max for all the coordinates so we can calculate the largest possible screen size
+        // using d3.extent
+        let minX = 0, minY = 0, maxX = 0, maxY = 0;
+
+        // const [minX, maxX] = extent(coordinates, c => c.x) as number[];
+        // const [minY, maxY] = extent(coordinates, c => c.y) as number[];
+        for (let i = 0; i < coordinates.length; i++) {
+            if (coordinates[i].x < minX) minX = coordinates[i].x;
+            else if (maxX < coordinates[i].x) maxX = coordinates[i].x;
+
+            if (coordinates[i].y < minY) minY = coordinates[i].y;
+            else if (maxY < coordinates[i].y) maxY = coordinates[i].y;
+        }
+
+        // return a ClientRect from this
+        const rect:ClientRect = {
+          width: maxX - minX,
+          height: maxY - minY,
+          left: minX,
+          top: minY,
+          right: maxX,
+          bottom: maxY,
+        };
+    
+        // console.timeEnd('rectfrommesh') // on average 0.05ms
+        // console.log("bounding rect");
+        // console.log(this.menuArea);
+        return rect;
     }
 
     private async updateMenuItems() {
@@ -583,7 +662,7 @@ export class PieMenuElement extends SceneElement {
             if (this.radiusMultiplier > 0.99) {
                 this.radiusMultiplier = 1;
                 this.menuState = MenuState.Open;
-                this.menuAreaModel.isVisible = true;
+                // this.menuAreaModel.isVisible = true;
                 this.menuUpdatedTimeStamp = Date.now();
             }
 
@@ -594,7 +673,7 @@ export class PieMenuElement extends SceneElement {
             if (this.radiusMultiplier < 0.31) {
                 this.radiusMultiplier = 0.3;
                 this.menuState = MenuState.Closed;
-                this.menuAreaModel.isVisible = false;
+                // this.menuAreaModel.isVisible = false;
             }
 
             this.positionMenuItems();
