@@ -1,6 +1,6 @@
 import * as bjs from 'babylonjs';
 import { Scene } from './Scene';
-import { pngTwentyColorPalette  } from "./Assets";
+import { pngTwentyColorPalette } from "../Assets/AssetManager";
 import { GLSGColor } from './Enums';
 
 export class SolidParticleMaterial extends bjs.PBRMaterial

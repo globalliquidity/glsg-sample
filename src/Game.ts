@@ -25,7 +25,7 @@ export default class Game
         // Create Mesh Asset Manager
         // console.log(AssetManager.Instance.addMeshTask);
 
-        //this.customizedLoading();
+        this.customizedLoading();
     
 
         switch (path) {

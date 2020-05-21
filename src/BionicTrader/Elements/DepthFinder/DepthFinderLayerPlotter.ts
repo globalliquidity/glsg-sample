@@ -1,6 +1,6 @@
 import * as bjs from 'babylonjs';
 import { BaseTexture, Nullable } from 'babylonjs';
-import { pngTwentyColorPalette } from "../../../../global/Assets";
+import { pngTwentyColorPalette } from "../../../Assets/AssetManager";
 import { GLSGColor } from '../../../Enums';
 import { VectorFieldLayerType } from '../../../SceneGraph/Enums';
 import { Scene } from "../../../SceneGraph/Scene";

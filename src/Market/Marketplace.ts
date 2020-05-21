@@ -1,6 +1,5 @@
 import { IExchange, IExchangeAsset, IMarketplace, ITradingPair, IExchangeInfo } from "../BionicTrader/BionicTraderInterfaces";
 import { Exchange } from "./Exchange";
-import BionicTraderComponent from "../../pages/BionicTrader.vue";
 import { ExchangeInfo } from "./ExchangeInfo";
 import Logger from "../Utils/Logger";
 
@@ -9,7 +8,7 @@ export class Marketplace implements IMarketplace
     public exchanges : Array<IExchange> = new Array<Exchange>();
     public currentExchange : ExchangeInfo;
 
-    constructor( public name : string, component : BionicTraderComponent )
+    constructor( public name : string)
     {
         this.create();
 

@@ -1,4 +1,3 @@
-import { mp3Uptick } from "../global/Assets";
 
 export enum MarketSide
 {

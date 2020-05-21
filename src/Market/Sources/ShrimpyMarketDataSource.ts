@@ -1,11 +1,11 @@
 import * as currency from "currency.js";
-import { shrimpyHeaderGenerator } from "../../../Code/BionicTrader/Utils";
 import { MarketSide, OrderSide, OrderState } from "../../Enums";
 import Logger from '../../Utils/Logger';
 import { CandleStick } from "../CandleStick";
 import { ExchangeOrder } from "../ExchangeOrder";
 import { MarketDataSample } from "../MarketDataSample";
 import { MarketDataSource } from "../MarketDataSource";
+import { shrimpyHeaderGenerator } from "../../BionicTrader/Utils";
 
 export class ShrimpyMarketDataSource extends MarketDataSource {
     private feedWebSocket: WebSocket;

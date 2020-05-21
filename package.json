@@ -49,6 +49,7 @@
     "dashjs": "^3.0.3",
     "file-loader": "^4.2.0",
     "lightweight-charts": "^2.0.0",
+    "moment": "^2.24.0",
     "normalize.css": "^8.0.1",
     "oimo": "^1.0.9",
     "queue-typescript": "^1.0.1",

@@ -1,7 +1,6 @@
 import * as bjs from 'babylonjs';
 import { Scene } from "../../../SceneGraph/Scene";
 import { GLSGColor } from "../../../Enums";
-import { pngTwentyColorPalette } from "../../../../global/Assets";
 import Logger from '../../../Utils/Logger';
 import { VectorField } from '../../../SceneGraph/VectorField';
 import { SolidParticleMaterial } from '../../../SceneGraph/SolidParticleMaterial';
@@ -78,8 +77,8 @@ export class OrderBookHistogram extends VectorField
         this.mesh.material = this.material;
 
         this.material.albedoColor = bjs.Color3.White();
-        var texture = new bjs.Texture(pngTwentyColorPalette, this.scene.bjsScene);
-        this.material.albedoTexture = texture;
+        //var texture = new bjs.Texture(pngTwentyColorPalette, this.scene.bjsScene);
+        //this.material.albedoTexture = texture;
         this.material.reflectionTexture =  this.scene.hdrTexture as bjs.Nullable<BaseTexture>;
         this.material.roughness = 0.05;
         this.material.metallic = 0.65;
@@ -97,9 +96,6 @@ export class OrderBookHistogram extends VectorField
             //this.sps.mesh.material.needDepthPrePass = true;
         }
 
-           // this.sps.mesh.material.sideOrientation = bjs.Mesh.FRONTSIDE;
-
-        //this.spsHolder.parent = this;
         this.setParticlesCountPerFrame  = Math.floor(this.sps.nbParticles / this.setParticlesDuration);
     }
 

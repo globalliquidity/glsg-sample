@@ -1,6 +1,6 @@
 import * as bjs from 'babylonjs';
 import { Scene } from "../../../SceneGraph/Scene";
-import { pngTwentyColorPalette } from "../../../../global/Assets";
+import { pngTwentyColorPalette } from "../../../Assets/AssetManager";
 import Logger from '../../../Utils/Logger';
 import { SolidParticleMaterial } from '../../../SceneGraph/SolidParticleMaterial';
 import { DepthFinderPresenter } from './DepthFinderPresenter';

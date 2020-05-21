@@ -10,11 +10,13 @@
     // "noImplicitUseStrict":false,
     "types": [
       "babylonjs",
+      "babylonjs-gui",
       "babylonjs-loaders",
-      "dev-glsg",
+      "currency.js",
       "lightweight-charts",
+      "node",
       "node",
       "jquery"
     ]
   }
-}
+}y

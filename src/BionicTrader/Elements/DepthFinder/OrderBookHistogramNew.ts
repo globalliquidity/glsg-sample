@@ -1,16 +1,11 @@
 import * as bjs from 'babylonjs';
 import { BaseTexture } from 'babylonjs';
-import { pngTwentyColorPalette } from "../../../../global/Assets";
-import { GLSGColor, MarketSide } from '../../../Enums';
-import { VectorFieldLayerType } from '../../../SceneGraph/Enums';
+import { MarketSide } from '../../../Enums';
+import { AssetManager } from '../../../SceneGraph/AssetManager';
 import { Scene } from "../../../SceneGraph/Scene";
 import { SceneElement } from '../../../SceneGraph/SceneElement';
 import { SolidParticleMaterial } from '../../../SceneGraph/SolidParticleMaterial';
-import { VectorFieldCell } from '../../../SceneGraph/VectorFieldCell';
-import { VectorFieldLayer } from '../../../SceneGraph/VectorFieldLayer';
 import { DepthFinderPresenter } from './DepthFinderPresenter';
-import { DepthFinderRow } from './DepthFinderRow';
-import { AssetManager } from '../../../SceneGraph/AssetManager';
 
 /**
  * HistogramBar has a collection of Block Mesh Instances.

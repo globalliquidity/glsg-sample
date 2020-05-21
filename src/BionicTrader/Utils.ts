@@ -1,6 +1,6 @@
 
 import { WaterMaterial } from 'babylonjs-materials';
-import { pngWaterbump, pngGlNormal } from '../../global/Assets';
+import { pngWaterbump, pngGlNormal } from '../Assets/AssetManager';
 import * as bjs from 'babylonjs';
 import * as crypto from "crypto";
 

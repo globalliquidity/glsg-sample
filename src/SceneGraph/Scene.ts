@@ -3,7 +3,7 @@ import { SceneElement } from './SceneElement';
 import { IScene, ISceneElement, ISceneDataSource, ISceneDataSink } from './SceneGraphInterfaces';
 import Logger from '../Utils/Logger';
 import { generateSkybox, generateEmptySkybox } from './Utils';
-import { ddsGc256SpecularHDR } from './Assets';
+import { ddsGc256SpecularHDR } from '../Assets/AssetManager';
 
 import { AssetManager } from './AssetManager';
 import {LoadAssetHandler} from './Procs';

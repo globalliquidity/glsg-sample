@@ -1,6 +1,6 @@
 
 import * as bjs from 'babylonjs';
-import { BionicTraderScene } from "../Scenes/DepthFinder/BionicTraderScene";
+import { BionicTraderScene } from "../Scenes/BionicTrader/BionicTraderScene";
 import { SolidParticleSystemElement } from '../../SceneGraph/SolidParticleSystemElement';
 import { SolidParticleMaterial } from '../../SceneGraph/SolidParticleMaterial';
 

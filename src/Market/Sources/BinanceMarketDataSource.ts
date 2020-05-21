@@ -6,8 +6,8 @@ import Logger from '../../Utils/Logger';
 import { MarketDataSampler } from "../MarketDataSampler";
 import { MarketDataSample } from "../MarketDataSample";
 import { CandleStick } from "../CandleStick";
-import { shrimpyHeaderGenerator } from "../../../Code/BionicTrader/Utils";
 import * as currency from 'currency.js';
+import { shrimpyHeaderGenerator } from "../../BionicTrader/Utils";
 
 export class BinanceMarketDataSource extends MarketDataSource
 {

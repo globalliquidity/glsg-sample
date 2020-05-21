@@ -1,7 +1,7 @@
 import * as bjs from 'babylonjs';
 import { Scene } from "../../../SceneGraph/Scene";
 import { GLSGColor } from "../../../Enums";
-import { pngTwentyColorPalette } from "../../../../global/Assets";
+import { pngTwentyColorPalette } from "../../../Assets/AssetManager";
 import Logger from '../../../Utils/Logger';
 import { VectorField } from '../../../SceneGraph/VectorField';
 import { SolidParticleMaterial } from '../../../SceneGraph/SolidParticleMaterial';
