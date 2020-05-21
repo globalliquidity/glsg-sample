@@ -102,7 +102,7 @@ export class DepthFinderElement extends SceneElement
 
         if (this.simpleCube)
         {
-            
+            /*
             this.histogram = new OrderBookHistogramNew("Order Book Histogram",
             0,
             0,
@@ -118,6 +118,7 @@ export class DepthFinderElement extends SceneElement
 
             this.addChild(this.histogram);
             //this.histogram.parent = this.histogramRig;
+            */
                       
             this.orderBook = new OrderBookVectorField("Order Book Vector Field",
             0,

@@ -15,7 +15,7 @@ export class Experience implements IExperience
     public loadFirstSceneAssetCallback: Function;
 
     public assetsPath = [
-        {type: 'mesh', name:'Font_Conthrax_New', url: '/', fileName: 'Font_Conthrax_New.babylon'}
+        {type: 'mesh', name:'Font_Conthrax_New', url: './src/SceneGraph/Assets/models/', fileName: 'Font_Conthrax_New.babylon'}
     ];
 
     constructor(public title: string, public canvas: HTMLCanvasElement) {
@@ -25,7 +25,7 @@ export class Experience implements IExperience
     {
         // this.onLoad();
         this.loadAssets((tasks) => {
-            this.loadExperienceAssetCallback(1);
+            //this.loadExperienceAssetCallback(1);
             this.onLoad();
         });
     }

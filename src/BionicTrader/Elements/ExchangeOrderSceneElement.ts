@@ -1,7 +1,7 @@
 import { ExchangeOrder } from '../../Market/ExchangeOrder';
 import { MarketDataSampler } from '../../Market/MarketDataSampler';
-import { BionicTraderScene } from '../Scenes/BionicTrader/BionicTraderScene';
 import { SceneElement } from '../../SceneGraph/SceneElement';
+import { BionicTraderScene } from '../Scenes/BionicTraderScene/BionicTraderScene';
 
 export class ExchangeOrderSceneElement extends SceneElement
 {

@@ -1,10 +1,11 @@
+import { BionicTraderExperience } from './BionicTrader/BionicTraderExperience';
 import * as bjs from 'babylonjs';
 import { Experience } from "./SceneGraph/Experience";
 import { SceneManager } from "./SceneGraph/SceneManager";
 import { StandardScene } from "./SceneGraph/StandardScene";
 import { ViewportPosition } from "./Enums";
 import { AssetManager } from "./SceneGraph/AssetManager";
-import { SimpleExperience } from "./BionicTrader/Scenes/SimpleScene/SimpleExperience";
+
 
 
 type LoadAssetHandler = (arg1: bjs.AbstractAssetTask[]) => void;
@@ -33,7 +34,7 @@ export default class Game
                 // Handler for root route
                 break;
             case '/SimpleScene':
-                this.experience = new SimpleExperience('SimpleScene', this.canvas,true);
+                this.experience = new BionicTraderExperience('Bionic Trader Experience', this.canvas,true);
                 this.experience.load();
                 break;
             default:
