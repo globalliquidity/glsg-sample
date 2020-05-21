@@ -1,18 +1,11 @@
-import { SimpleExperience } from "./SimpleScene";
-import { DataDrivenScene } from "./DataDrivenScene";
 import * as bjs from 'babylonjs';
-import { SceneManager, Scene } from "./glsg";
-import { ViewportPosition } from "./glsg/lib/Enums";
-import SimpleSceneConstants from './SimpleScene/constants';
-import DataDrivenSceneConstants from './DataDrivenScene/constants';
-import PieMenuSceneConstants from './PieMenuScene/constants';
-import { Experience } from "./glsg/lib/Experience";
-import { PieMenuExperience } from "./PieMenuScene";
-import { PieMenuScene } from "./PieMenuScene/Scenes/PieMenuScene";
-import GLSGConstants from './glsg/constants';
+import { Experience } from "./SceneGraph/Experience";
+import { SceneManager } from "./SceneGraph/SceneManager";
+import { StandardScene } from "./SceneGraph/StandardScene";
+import { ViewportPosition } from "./Enums";
+import { AssetManager } from "./SceneGraph/AssetManager";
+import { SimpleExperience } from "./BionicTrader/Scenes/SimpleScene/SimpleExperience";
 
-import { AssetManager } from "./glsg/lib/AssetManager";
-import { StandardScene } from "./glsg/lib/StandardScene";
 
 type LoadAssetHandler = (arg1: bjs.AbstractAssetTask[]) => void;
 
@@ -32,38 +25,20 @@ export default class Game
         // Create Mesh Asset Manager
         // console.log(AssetManager.Instance.addMeshTask);
 
-        this.customizedLoading();
-        this.initAssetManager((tasks) => {
-            //AssetManager.Instance.meshesMap.set("fontModel", tasks[0].loadedMeshes); 
-
-            switch (path) {
-                case '/':
-                    // Handler for root route
-                    break;
-                case '/SimpleScene':
-                    this.experience = new SimpleExperience('SimpleScene', this.canvas,true);
-                    this.experience.load();
-                    break;
-                case '/DataDrivenScene':
-                    //this.scene = new DataDrivenScene('DataDrivenScene', this.canvas, "datadrivenDDS1");
-                    //SceneManager.Instance.LoadScene(this.scene, this.canvas, ViewportPosition.Full);
-                    break;
-                case '/PieMenuScene':
-                    this.experience = new PieMenuExperience('PieMenuScene', this.canvas);
-                    this.experience.load();
-                    // this.experience.load();
-                    // this.experience.load();
-                    // this.experience.load();
+        //this.customizedLoading();
     
-                    this.experience.scenes.forEach((scene, index) => {
-                        const pieMenuScene = scene as PieMenuScene;
-                        // pieMenuScene.menuPositionType = index;
-                    });
-                    break;
-                default:
-                    break;
-            }
-        });
+
+        switch (path) {
+            case '/':
+                // Handler for root route
+                break;
+            case '/SimpleScene':
+                this.experience = new SimpleExperience('SimpleScene', this.canvas,true);
+                this.experience.load();
+                break;
+            default:
+                break;
+        }
         
         
         // Listen for browser/canvas resize events
@@ -72,43 +47,7 @@ export default class Game
         });
     }
 
-    public initAssetManager(finishHandler: LoadAssetHandler)
-    {
-        let emptyScene: StandardScene = new StandardScene('emptyScene', this.canvas, null);
 
-        SceneManager.Instance.LoadScene(emptyScene, this.canvas, ViewportPosition.Full);
-
-        AssetManager.Instance.init(emptyScene);
-        
-        AssetManager.Instance.addCubeTextureTask("datadrivenDDS1", DataDrivenSceneConstants.rootURL + DataDrivenSceneConstants.ddsGc256SpecularHDR ,null, null);
-        AssetManager.Instance.addCubeTextureTask("simpleDDS1", SimpleSceneConstants.rootURL + SimpleSceneConstants.ddsGc256SpecularHDR ,null, null);
-        AssetManager.Instance.addCubeTextureTask("veniceDDS", SimpleSceneConstants.rootURL + SimpleSceneConstants.veniceDDS ,null, null);
-        
-        //AssetManager.Instance.addTextureTask("veniceHDR", SimpleSceneConstants.rootURL + SimpleSceneConstants.veniceHDR ,null, null);
-
-        
-        AssetManager.Instance.addMeshTask("fontModel", "", GLSGConstants.rootURL, GLSGConstants.FontModel,null, null);
-        // AssetManager.Instance.addMeshTask("SimpleCube", "", "", "SimpleCube.babylon",null, null);
-        AssetManager.Instance.addMeshTask("discModel", "", PieMenuSceneConstants.rootURL, PieMenuSceneConstants.discModel,null, null);
-        //AssetManager.Instance.addMeshTask("carModel", "", SimpleSceneConstants.rootURL, SimpleSceneConstants.carModel,null, null);
-        AssetManager.Instance.addTextureTask("cloudTexture", SimpleSceneConstants.rootURL + SimpleSceneConstants.cloudTexture, null, null);
-        AssetManager.Instance.addTextureTask("linoleumAlbedo", SimpleSceneConstants.rootURL + SimpleSceneConstants.linoleumAlbedoTexture, null, null);
-        AssetManager.Instance.addTextureTask("linoleumNormal", SimpleSceneConstants.rootURL + SimpleSceneConstants.linoleumNormalTexture, null, null);
-        AssetManager.Instance.addTextureTask("linoleumORM", SimpleSceneConstants.rootURL + SimpleSceneConstants.linoleumORMTexture, null, null);
-
-        AssetManager.Instance.addTextureTask("lavaAlbedo", SimpleSceneConstants.rootURL + SimpleSceneConstants.lavaAlbedoTexture, null, null);
-        AssetManager.Instance.addTextureTask("lavaNormal", SimpleSceneConstants.rootURL + SimpleSceneConstants.lavaNormalTexture, null, null);
-        AssetManager.Instance.addTextureTask("lavaARM", SimpleSceneConstants.rootURL + SimpleSceneConstants.lavaARMTexture, null, null);
-        AssetManager.Instance.addTextureTask("lavaEmissive", SimpleSceneConstants.rootURL + SimpleSceneConstants.lavaEmissiveTexture, null, null);
-        AssetManager.Instance.addTextureTask("colorChecker", SimpleSceneConstants.rootURL + SimpleSceneConstants.colorcheckerTexture, null, null);
-
-
-        AssetManager.Instance.addTextureTask("ceramicTileAlbedo", SimpleSceneConstants.rootURL + SimpleSceneConstants.ceramicTileAlbedoTexture, null, null);
-        AssetManager.Instance.addTextureTask("ceramicTileNormal", SimpleSceneConstants.rootURL + SimpleSceneConstants.ceramicTileNormalTexture, null, null);
-        AssetManager.Instance.addTextureTask("ceramicTileARM", SimpleSceneConstants.rootURL + SimpleSceneConstants.ceramicTileARMTexture, null, null);
-
-        AssetManager.Instance.loadWithHandler(finishHandler);
-    }
 
     public customizedLoading()
     {
